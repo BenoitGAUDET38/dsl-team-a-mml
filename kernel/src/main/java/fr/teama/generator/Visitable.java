@@ -2,6 +2,6 @@ package fr.teama.generator;
 
 public interface Visitable {
 
-	public void accept(Visitor visitor);
+	void accept(Visitor visitor);
 
 }
