@@ -13,6 +13,8 @@ public class App implements Visitable {
 
 	List<Track> tracks;
 
+	int tempo = 80;
+
 	public String getName() {
 		return name;
 	}
@@ -27,6 +29,14 @@ public class App implements Visitable {
 
 	public void setTracks(List<Track> tracks) {
 		this.tracks = tracks;
+	}
+
+	public int getTempo() {
+		return tempo;
+	}
+
+	public void setTempo(int tempo) {
+		this.tempo = tempo;
 	}
 
 	@Override

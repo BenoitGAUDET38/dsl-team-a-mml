@@ -9,6 +9,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         App app = new App();
+        app.setTempo(100);
         app.setName("titanic_piano_simple_lent");
         List<Track> tracks = new ArrayList<>();
         app.setTracks(tracks);

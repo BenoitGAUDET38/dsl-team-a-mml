@@ -16,7 +16,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 		try {
 			Sequencer sequencer = MidiSystem.getSequencer();
 			sequencer.open();
-			sequencer.setTempoInBPM(240);
+			sequencer.setTempoInBPM(app.getTempo());
 
 			sequence = new Sequence(Sequence.PPQ, 4);
 			app.getTracks().forEach(track -> track.accept(this));
