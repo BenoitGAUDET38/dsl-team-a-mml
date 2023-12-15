@@ -1,10 +1,7 @@
 package fr.teama;
 
 import fr.teama.generator.ToWiring;
-import fr.teama.structural.InstrumentEnum;
-import fr.teama.structural.Note;
-import fr.teama.structural.NoteEnum;
-import fr.teama.structural.Track;
+import fr.teama.structural.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +13,7 @@ public class Main {
         List<Track> tracks = new ArrayList<>();
         app.setTracks(tracks);
 
-        Track track = new Track();
-        track.setInstrument(InstrumentEnum.DRUM);
+        TrackPiano track = new TrackPiano();
         tracks.add(track);
 
         List<Note> notes = new ArrayList<>();
@@ -76,12 +72,12 @@ public class Main {
         notes.add(new Note(NoteEnum.D, 2));
         notes.add(new Note(NoteEnum.E, 2));
 
-        track = new Track();
-        track.setInstrument(InstrumentEnum.PIANO);
-        tracks.add(track);
+//        track = new Track();
+//        track.setInstrument(InstrumentEnum.PIANO);
+//        tracks.add(track);
 
         notes = new ArrayList<>();
-        track.setNotes(notes);
+//        track.setNotes(notes);
 
         notes.add(new Note(NoteEnum.F, 8));
         notes.add(new Note(NoteEnum.F, 8));

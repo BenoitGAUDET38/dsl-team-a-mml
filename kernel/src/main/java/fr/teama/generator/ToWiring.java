@@ -1,12 +1,8 @@
 package fr.teama.generator;
 
 import fr.teama.App;
-import fr.teama.structural.Note;
-import fr.teama.structural.Track;
-
+import fr.teama.structural.*;
 import javax.sound.midi.*;
-import java.io.File;
-import java.io.IOException;
 
 public class ToWiring extends Visitor<StringBuffer> {
 	Sequence sequence;
@@ -18,22 +14,51 @@ public class ToWiring extends Visitor<StringBuffer> {
 	@Override
 	public void visit(App app) {
 		try {
-			sequence = new Sequence(Sequence.PPQ, 3);
+			Sequencer sequencer = MidiSystem.getSequencer();
+			sequencer.open();
+			sequencer.setTempoInBPM(240);
+
+			sequence = new Sequence(Sequence.PPQ, 4);
 			app.getTracks().forEach(track -> track.accept(this));
-			File midiFile = new File(outputFolderPath + app.getName() + ".mid");
-			MidiSystem.write(sequence, 1, midiFile);
-		} catch (InvalidMidiDataException | IOException e) {
-			System.out.println("Error while writing midi file");
+
+			sequencer.setSequence(sequence);
+			sequencer.start();
+
+			while (sequencer.isRunning()) {
+				Thread.sleep(10);
+			}
+			sequencer.stop();
+			sequencer.close();
+		} catch (InvalidMidiDataException | MidiUnavailableException | InterruptedException e) {
 			throw new RuntimeException(e);
 		}
+
+
+//		try {
+//			sequence = new Sequence(Sequence.PPQ, 4);
+//			app.getTracks().forEach(track -> track.accept(this));
+//			File midiFile = new File(outputFolderPath + app.getName() + ".mid");
+//			MidiSystem.write(sequence, 1, midiFile);
+//		} catch (InvalidMidiDataException | IOException e) {
+//			System.out.println("Error while writing midi file");
+//			throw new RuntimeException(e);
+//		}
     }
 
 	@Override
-	public void visit(Track track) {
+	public void visit(TrackPiano trackPiano) {
 		lastTick = 0;
 		lastTrack = sequence.createTrack();
-		currentInstrumentChannelNumber = track.getInstrument().getInstrumentChannelNumber();
-		track.getNotes().forEach(note -> note.accept(this));
+		currentInstrumentChannelNumber = trackPiano.getInstrument().getInstrumentChannelNumber();
+		trackPiano.getNotes().forEach(note -> note.accept(this));
+	}
+
+	@Override
+	public void visit(TrackDrum trackDrum) {
+		lastTick = 0;
+		lastTrack = sequence.createTrack();
+		currentInstrumentChannelNumber = trackDrum.getInstrument().getInstrumentChannelNumber();
+		trackDrum.getDrumNotes().forEach(note -> note.accept(this));
 	}
 
 	@Override
@@ -59,5 +84,10 @@ public class ToWiring extends Visitor<StringBuffer> {
 		} catch (InvalidMidiDataException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public void visit(NoteDrum noteDrum) {
+
 	}
 }

@@ -12,8 +12,8 @@ public enum NoteEnum {
     G(67),
     G_SHARP(68),
     A(69),
-    A_SHARP(70),
-    B(71);
+    A_SHARP(70);
+
 
     private final int noteNumber;
 

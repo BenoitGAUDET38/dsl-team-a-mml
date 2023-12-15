@@ -11,8 +11,10 @@ public class Example {
 
             MidiChannel[] channels = synth.getChannels();
             Soundbank bank = synth.getDefaultSoundbank();
+            System.out.println("Bank: " + bank.getResources().toString());
             synth.loadAllInstruments(bank);
             Instrument[] instruments = synth.getLoadedInstruments();
+            System.out.println("Instruments: " + instruments.toString());
             Instrument flute = null;
             for (int i=0; i < instruments.length; i++)
             {
@@ -21,7 +23,7 @@ public class Example {
                     flute = instruments[i];
                 }
             }
-            Patch flutePatch = flute.getPatch();
+//            Patch flutePatch = flute.getPatch();
 
             // Obtenez une instance du séquenceur
             Sequencer sequencer = MidiSystem.getSequencer();
