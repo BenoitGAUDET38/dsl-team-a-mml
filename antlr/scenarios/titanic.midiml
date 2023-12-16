@@ -1,0 +1,15 @@
+### Basic scenario
+## titanic
+
+application titanic
+
+# Declaring bricks
+instrument PIANO
+tempo 100bpm
+rythme 4/4
+
+{
+    DO:N RE:N MI:N FA:N
+    SOL:N LA:N SI:N
+    SI:C LA:C SOL:C FA:C MI:C RE:C DO:C
+}

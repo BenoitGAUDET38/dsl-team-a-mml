@@ -4,7 +4,7 @@ import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
 
 public class Note implements Visitable {
-    private NoteEnum note;
+    private NoteNumber note;
     private int tick;
     private NoteDurationEnum duration;
 
@@ -16,7 +16,7 @@ public class Note implements Visitable {
         this.tick = tick;
     }
 
-    public NoteEnum getNote() {
+    public NoteNumber getNote() {
         return note;
     }
 
@@ -37,6 +37,7 @@ public class Note implements Visitable {
     }
 
     public void setDuration(NoteDurationEnum duration) {
+        this.tick += duration.getDuration();
         this.duration = duration;
     }
 

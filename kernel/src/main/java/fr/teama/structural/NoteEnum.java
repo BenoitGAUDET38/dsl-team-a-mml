@@ -1,18 +1,21 @@
 package fr.teama.structural;
 
-public enum NoteEnum {
+public enum NoteEnum implements NoteNumber{
     // Music note with associated number
-    C(60),
-    C_SHARP(61),
-    D(62),
-    D_SHARP(63),
-    E(64),
-    F(65),
-    F_SHARP(66),
-    G(67),
-    G_SHARP(68),
-    A(69),
-    A_SHARP(70);
+    DO(60),
+    DO_D(61),
+    RE(62),
+    RE_D(63),
+    MI(64),
+    FA(65),
+    FA_D(66),
+    SOL(67),
+    SOL_D(68),
+    LA(69),
+    LA_D(70),
+    SI(71);
+
+
 
 
     private final int noteNumber;

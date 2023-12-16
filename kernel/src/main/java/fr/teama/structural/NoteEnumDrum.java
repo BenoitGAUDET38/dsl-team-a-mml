@@ -1,6 +1,6 @@
 package fr.teama.structural;
 
-public enum NoteEnumDrum {
+public enum NoteEnumDrum implements NoteNumber{
     B(71),
     BD(36),
     SD(38),

@@ -2,6 +2,8 @@ package fr.teama.generator;
 
 import fr.teama.App;
 import fr.teama.structural.*;
+import fr.teama.structural.Track;
+
 import javax.sound.midi.*;
 
 public class ToWiring extends Visitor<StringBuffer> {
@@ -16,9 +18,10 @@ public class ToWiring extends Visitor<StringBuffer> {
 		try {
 			Sequencer sequencer = MidiSystem.getSequencer();
 			sequencer.open();
-			sequencer.setTempoInBPM(app.getTempo());
+			Beat beat= app.getBeat();
+			sequencer.setTempoInBPM(beat.getTempo());
 
-			sequence = new Sequence(Sequence.PPQ, 4);
+			sequence = new Sequence(Sequence.PPQ, beat.getResolution());
 			app.getTracks().forEach(track -> track.accept(this));
 
 			sequencer.setSequence(sequence);
@@ -46,19 +49,11 @@ public class ToWiring extends Visitor<StringBuffer> {
     }
 
 	@Override
-	public void visit(TrackPiano trackPiano) {
+	public void visit(Track track) {
 		lastTick = 0;
 		lastTrack = sequence.createTrack();
-		currentInstrumentChannelNumber = trackPiano.getInstrument().getInstrumentChannelNumber();
-		trackPiano.getNotes().forEach(note -> note.accept(this));
-	}
-
-	@Override
-	public void visit(TrackDrum trackDrum) {
-		lastTick = 0;
-		lastTrack = sequence.createTrack();
-		currentInstrumentChannelNumber = trackDrum.getInstrument().getInstrumentChannelNumber();
-		trackDrum.getDrumNotes().forEach(note -> note.accept(this));
+		currentInstrumentChannelNumber = track.getInstrument().getInstrumentChannelNumber();
+		track.getNotes().forEach(note -> note.accept(this));
 	}
 
 	@Override
@@ -86,8 +81,4 @@ public class ToWiring extends Visitor<StringBuffer> {
 		}
 	}
 
-	@Override
-	public void visit(NoteDrum noteDrum) {
-
-	}
 }

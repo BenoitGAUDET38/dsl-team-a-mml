@@ -1,13 +1,13 @@
 package fr.teama.structural;
 
 public enum NoteDurationEnum {
-    SEMIBREVE_DOT(12),
-    SEMIBREVE(8),
-    MINIM_DOT(6),
-    MINIM(4),
-    CROTCHET_DOT(3),
-    CROTCHET(2),
-    QUAVER(1);
+    BL_P(12),
+    BL(8),
+    N_P(6),
+    N(4),
+    C_P(3),
+    C(2),
+    D_C(1);
 
     private int duration;
 

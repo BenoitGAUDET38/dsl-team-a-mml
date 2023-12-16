@@ -2,9 +2,9 @@ package fr.teama;
 
 import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
+import fr.teama.structural.Beat;
 import fr.teama.structural.Track;
 
-import javax.sound.midi.Sequence;
 import java.util.List;
 
 public class App implements Visitable {
@@ -13,7 +13,15 @@ public class App implements Visitable {
 
 	List<Track> tracks;
 
-	int tempo = 80;
+	Beat beat;
+
+	public Beat getBeat() {
+		return beat;
+	}
+
+	public void setBeat(Beat beat) {
+		this.beat = beat;
+	}
 
 	public String getName() {
 		return name;
@@ -29,14 +37,6 @@ public class App implements Visitable {
 
 	public void setTracks(List<Track> tracks) {
 		this.tracks = tracks;
-	}
-
-	public int getTempo() {
-		return tempo;
-	}
-
-	public void setTempo(int tempo) {
-		this.tempo = tempo;
 	}
 
 	@Override
