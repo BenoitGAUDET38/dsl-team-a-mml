@@ -2,7 +2,6 @@ package fr.teama;
 
 import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
-import fr.teama.structural.Beat;
 import fr.teama.structural.Track;
 
 import java.util.List;
@@ -13,14 +12,18 @@ public class App implements Visitable, NamedElement {
 
 	List<Track> tracks;
 
-	Beat beat;
+	private int tempo;
 
-	public Beat getBeat() {
-		return beat;
+	private int resolution;
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setBeat(Beat beat) {
-		this.beat = beat;
+	@Override
+	public String getName() {
+		return null;
 	}
 
 	public List<Track> getTracks() {
@@ -31,6 +34,22 @@ public class App implements Visitable, NamedElement {
 		this.tracks = tracks;
 	}
 
+	public int getTempo() {
+		return tempo;
+	}
+
+	public void setTempo(int tempo) {
+		this.tempo = tempo;
+	}
+
+	public int getResolution() {
+		return resolution;
+	}
+
+	public void setResolution(int resolution) {
+		this.resolution = resolution;
+	}
+
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
@@ -39,19 +58,10 @@ public class App implements Visitable, NamedElement {
 	@Override
 	public String toString() {
 		return "App{" +
-				"\nname='" + name + '\'' +
+				"name='" + name + '\'' +
 				"\ntracks=" + tracks +
-				"\nbeat=" + beat +
-				"\n}";
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
+				"\ntempo=" + tempo +
+				"\nresolution=" + resolution +
+				'}';
 	}
 }

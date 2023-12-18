@@ -10,10 +10,8 @@ public class Main {
 
     public static void titanic() {
         App app = new App();
-        Beat beat = new Beat();
-        beat.setTempo(100);
-        beat.setResolution(4);
-        app.setBeat(beat);
+        app.setTempo(100);
+        app.setResolution(4);
         app.setName("titanic_piano_simple_lent");
         List<Track> tracks = new ArrayList<>();
         app.setTracks(tracks);
@@ -26,66 +24,56 @@ public class Main {
 
         // Partition de test du Titanic
         // Ligne 1
-        notes.add(new Note(NoteEnum.FA, 3));
-        notes.add(new Note(NoteEnum.FA, 1));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.MI, 2));
-        notes.add(new Note(NoteEnum.FA, 4));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.MI, 2));
-        notes.add(new Note(NoteEnum.FA, 4));
-        notes.add(new Note(NoteEnum.SOL, 2));
-        notes.add(new Note(NoteEnum.LA, 4));
-        notes.add(new Note(NoteEnum.SOL, 4));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N_P));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.C));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
+        notes.add(new Note(NoteEnum.SOL, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.LA, NoteDurationEnum.BL));
+        notes.add(new Note(NoteEnum.SOL, NoteDurationEnum.BL));
 
         // Ligne 2
-        notes.add(new Note(NoteEnum.FA, 3));
-        notes.add(new Note(NoteEnum.FA, 1));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.MI, 2));
-        notes.add(new Note(NoteEnum.FA, 4));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.DO, 8));
-        notes.add(new Note(null, 8));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N_P));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.C));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.DO, NoteDurationEnum.R));
+        notes.add(new Note(null, NoteDurationEnum.BL));
 
         // Ligne 3
-        notes.add(new Note(NoteEnum.FA, 3));
-        notes.add(new Note(NoteEnum.FA, 1));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.MI, 2));
-        notes.add(new Note(NoteEnum.FA, 4));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.MI, 2));
-        notes.add(new Note(NoteEnum.FA, 4));
-        notes.add(new Note(NoteEnum.SOL, 2));
-        notes.add(new Note(NoteEnum.LA, 4));
-        notes.add(new Note(NoteEnum.SOL, 4));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N_P));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.C));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
+        notes.add(new Note(NoteEnum.SOL, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.LA, NoteDurationEnum.BL));
+        notes.add(new Note(NoteEnum.SOL, NoteDurationEnum.BL));
 
         // Ligne 4
-        notes.add(new Note(NoteEnum.FA, 3));
-        notes.add(new Note(NoteEnum.FA, 1));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.MI, 2));
-        notes.add(new Note(NoteEnum.FA, 4));
-        notes.add(new Note(NoteEnum.FA, 2));
-        notes.add(new Note(NoteEnum.DO, 8));
-        notes.add(new Note(null, 4));
-        notes.add(new Note(NoteEnum.RE, 2));
-        notes.add(new Note(NoteEnum.MI, 2));
-
-
-        notes = new ArrayList<>();
-
-        notes.add(new Note(NoteEnum.FA, 8));
-        notes.add(new Note(NoteEnum.FA, 8));
-        notes.add(new Note(NoteEnum.FA, 8));
-        notes.add(new Note(NoteEnum.FA, 8));
-        notes.add(new Note(NoteEnum.FA, 8));
-        notes.add(new Note(NoteEnum.FA, 8));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N_P));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.C));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
+        notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.DO, NoteDurationEnum.R));
+        notes.add(new Note(null, NoteDurationEnum.BL));
+        notes.add(new Note(NoteEnum.RE, NoteDurationEnum.N));
+        notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
 
         System.out.println(app.getTracks());
 
@@ -94,10 +82,8 @@ public class Main {
 
     public static void basic() {
         App app = new App();
-        Beat beat = new Beat();
-        beat.setTempo(100);
-        beat.setResolution(4);
-        app.setBeat(beat);
+        app.setTempo(100);
+        app.setResolution(4);
         app.setName("titanic_piano_simple_lent");
         List<Track> tracks = new ArrayList<>();
         app.setTracks(tracks);
@@ -137,13 +123,9 @@ public class Main {
         notes.add(note);
 
         app.accept(new ToWiring());
-
     }
 
-
-
-
     public static void main(String[] args) {
-        basic();
+        titanic();
     }
 }

@@ -17,7 +17,6 @@ public class ModelBuilder extends MidimlBaseListener {
     private boolean built = false;
     private String instrument;
 
-    private Beat beat = new Beat();
 
     public App retrieve() {
         if (built) { return theApp; }
@@ -50,7 +49,6 @@ public class ModelBuilder extends MidimlBaseListener {
         List<Track> tracks= new ArrayList<>();
         tracks.add(this.track);
         this.theApp.setTracks(tracks);
-        this.theApp.setBeat(this.beat);
         this.built = true;
     }
 
@@ -69,13 +67,13 @@ public class ModelBuilder extends MidimlBaseListener {
 
     @Override
     public void enterGlobalTempo(MidimlParser.GlobalTempoContext ctx) {
-        this.beat.setTempo(Integer.parseInt(ctx.tempo.getText()));
+        this.theApp.setTempo(Integer.parseInt(ctx.tempo.getText()));
     }
 
     @Override
     public void enterGlobalRythme(MidimlParser.GlobalRythmeContext ctx) {
         int resolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
-        this.beat.setResolution(resolution);
+        this.theApp.setResolution(resolution);
     }
 
     @Override
@@ -89,7 +87,6 @@ public class ModelBuilder extends MidimlBaseListener {
             this.notes.add(note);
             System.out.println(note.getNote());
             System.out.println(note.getDuration());
-            System.out.println(note.getTick());
             noteChaineContext = noteChaineContext.noteChaine();
         }
     }
