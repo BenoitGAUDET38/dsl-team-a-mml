@@ -19,7 +19,7 @@ public class Note implements Visitable {
         return note;
     }
 
-    public void setNote(NoteEnum note) {
+    public void setNote(NoteNumber note) {
         this.note = note;
     }
 

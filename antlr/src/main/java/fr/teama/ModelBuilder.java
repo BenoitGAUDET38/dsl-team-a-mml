@@ -82,7 +82,11 @@ public class ModelBuilder extends MidimlBaseListener {
         MidimlParser.NoteChaineContext noteChaineContext = ctx.noteChaine();
         while (noteChaineContext != null){
             Note note = new Note();
-            note.setNote(NoteEnum.valueOf(noteChaineContext.note.getText()));
+            if (this.instrument.equals("BATTERIE")){
+                note.setNote(NoteEnumDrum.valueOf(noteChaineContext.note.getText()));
+            } else {
+                note.setNote(NoteEnum.valueOf(noteChaineContext.note.getText()));
+            }
             note.setDuration(NoteDurationEnum.valueOf(noteChaineContext.duree.getText()));
             this.notes.add(note);
             System.out.println(note.getNote());
