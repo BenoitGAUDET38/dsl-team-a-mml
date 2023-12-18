@@ -29,4 +29,12 @@ public class Beat {
     public void setResolution(int resolution) {
         this.resolution = resolution;
     }
+
+    @Override
+    public String toString() {
+        return "Beat{" +
+                "tempo=" + tempo +
+                ", resolution=" + resolution +
+                '}';
+    }
 }

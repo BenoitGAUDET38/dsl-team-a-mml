@@ -16,12 +16,11 @@ import java.nio.file.Paths;
 public class Main {
 
     public static void main (String[] args) throws Exception {
-        System.out.println("\n\nRunning the ANTLR compiler for ArduinoML");
+        System.out.println("\n\nRunning the ANTLR compiler for MidiML");
 
         CharStream stream = getCharStream(args);
         App theApp = buildModel(stream);
         exportToCode(theApp);
-
     }
 
     private static CharStream getCharStream(String[] args) throws IOException {
