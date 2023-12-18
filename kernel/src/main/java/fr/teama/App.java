@@ -6,25 +6,13 @@ import fr.teama.structural.Track;
 
 import java.util.List;
 
-public class App implements Visitable, NamedElement {
-
-	private String name;
+public class App extends NamedElement implements Visitable  {
 
 	List<Track> tracks;
 
 	private int tempo;
 
 	private int resolution;
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return null;
-	}
 
 	public List<Track> getTracks() {
 		return tracks;
