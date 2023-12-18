@@ -7,7 +7,7 @@ import fr.teama.structural.Track;
 
 import java.util.List;
 
-public class App implements Visitable {
+public class App implements Visitable, NamedElement {
 
 	private String name;
 
@@ -21,14 +21,6 @@ public class App implements Visitable {
 
 	public void setBeat(Beat beat) {
 		this.beat = beat;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public List<Track> getTracks() {
@@ -48,6 +40,18 @@ public class App implements Visitable {
 	public String toString() {
 		return "App{" +
 				"\nname='" + name + '\'' +
+				"\ntracks=" + tracks +
+				"\nbeat=" + beat +
 				"\n}";
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 }
