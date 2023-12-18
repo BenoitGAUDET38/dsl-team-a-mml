@@ -11,7 +11,6 @@ public class Track implements Visitable {
 
     public Track() {
         super();
-        this.setInstrument(InstrumentEnum.PIANO);
     }
 
     public List<Note> getNotes() {
