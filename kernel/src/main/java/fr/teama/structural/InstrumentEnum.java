@@ -2,7 +2,7 @@ package fr.teama.structural;
 
 public enum InstrumentEnum {
     PIANO(0),
-    DRUM(9);
+    BATTERIE(9);
 
     private final int instrumentChannelNumber;
 

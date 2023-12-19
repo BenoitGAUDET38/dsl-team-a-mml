@@ -1,0 +1,11 @@
+application billiejean
+
+instrument BATTERIE
+tempo 100bpm
+rythme 4/4
+
+{
+    B:N BD:BL SD:C
+    CH:N OH:C CC:BL
+    RC:N
+}

@@ -1,6 +1,7 @@
 package fr.teama.structural;
 
 public enum NoteDurationEnum {
+    R(16),
     BL_P(12),
     BL(8),
     N_P(6),

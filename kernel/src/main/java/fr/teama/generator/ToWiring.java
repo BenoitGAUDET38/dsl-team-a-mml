@@ -18,10 +18,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 		try {
 			Sequencer sequencer = MidiSystem.getSequencer();
 			sequencer.open();
-			Beat beat= app.getBeat();
-			sequencer.setTempoInBPM(beat.getTempo());
+			sequencer.setTempoInBPM(app.getTempo());
 
-			sequence = new Sequence(Sequence.PPQ, beat.getResolution());
+			sequence = new Sequence(Sequence.PPQ, app.getResolution());
 			app.getTracks().forEach(track -> track.accept(this));
 
 			sequencer.setSequence(sequence);
@@ -79,7 +78,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 		try {
 			// in case we want a silence
 			if (note.getNote() == null) {
-				lastTick += note.getTick() + 1;
+				lastTick += note.getDuration().getDuration() + 1;
 				return;
 			}
 
@@ -90,10 +89,10 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 			ShortMessage noteOff = new ShortMessage();
 			noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getNote().getNoteNumber(), 100);
-			MidiEvent noteOffEvent = new MidiEvent(noteOff, lastTick + note.getTick());
+			MidiEvent noteOffEvent = new MidiEvent(noteOff, lastTick + note.getDuration().getDuration());
 			lastTrack.add(noteOffEvent);
 
-			lastTick += note.getTick() + 1;
+			lastTick += note.getDuration().getDuration() + 1;
 		} catch (InvalidMidiDataException e) {
 			throw new RuntimeException(e);
 		}

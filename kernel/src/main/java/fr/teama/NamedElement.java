@@ -1,8 +1,14 @@
 package fr.teama;
 
-public interface NamedElement {
+public abstract class NamedElement {
 
-    public void setName(String name);
-    public String getName();
+    String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return name;
+    }
 
 }
