@@ -16,8 +16,8 @@ bricks          :   (instrument|globalTempo|globalRythme)+;
 
 states          :   partition+;
     partition   :   '{'  (globalTempo|globalRythme|mesure)+  '}';
-    mesure      :   noteCh=noteChaine;
-    noteChaine  :   note=(PIANONOTE|BATTERIENOTE) ':' duree=DUREE prochaineNote=noteChaine? ;
+    mesure      :   '|' noteCh=noteChaine;
+    noteChaine  :   note=(PIANONOTE|BATTERIENOTE) ':' duree=DUREE prochaineNote=noteChaine?;
 
 
 /*****************

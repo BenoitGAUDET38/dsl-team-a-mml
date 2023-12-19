@@ -29,7 +29,7 @@ public class ModelBuilder extends MidimlBaseListener {
 
 
     private Track track;
-    private List<Note> notes  = new ArrayList<>();
+    private List<Bar> bars;
 
 
 
@@ -41,12 +41,13 @@ public class ModelBuilder extends MidimlBaseListener {
     public void enterRoot(MidimlParser.RootContext ctx) {
         built = false;
         theApp = new App();
-        this.track=new Track();
+        track = new Track();
+        bars = new ArrayList<>();
+        track.setBars(bars);
     }
 
     @Override public void exitRoot(MidimlParser.RootContext ctx) {
-        this.track.setNotes(this.notes);
-        List<Track> tracks= new ArrayList<>();
+        List<Track> tracks = new ArrayList<>();
         tracks.add(this.track);
         this.theApp.setTracks(tracks);
         this.built = true;
@@ -79,6 +80,10 @@ public class ModelBuilder extends MidimlBaseListener {
     @Override
     public void enterMesure(MidimlParser.MesureContext ctx) {
         //if track instanceof TrackPiano handle it like piano with note if it is drum handle it like drum with drumnote
+        Bar bar = new Bar();
+        bars.add(bar);
+        List<Note> notes = new ArrayList<>();
+        bar.setNotes(notes);
         MidimlParser.NoteChaineContext noteChaineContext = ctx.noteChaine();
         while (noteChaineContext != null){
             Note note = new Note();
@@ -88,7 +93,7 @@ public class ModelBuilder extends MidimlBaseListener {
                 note.setNote(NoteEnum.valueOf(noteChaineContext.note.getText()));
             }
             note.setDuration(NoteDurationEnum.valueOf(noteChaineContext.duree.getText()));
-            this.notes.add(note);
+            notes.add(note);
             System.out.println(note.getNote());
             System.out.println(note.getDuration());
             noteChaineContext = noteChaineContext.noteChaine();
