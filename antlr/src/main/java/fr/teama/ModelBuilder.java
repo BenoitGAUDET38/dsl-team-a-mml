@@ -6,6 +6,7 @@ import fr.teama.grammar.MidimlParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ModelBuilder extends MidimlBaseListener {
 
@@ -30,6 +31,7 @@ public class ModelBuilder extends MidimlBaseListener {
 
     private Track track;
     private List<Bar> bars;
+    private Optional<Integer> newTempo = Optional.empty();
 
 
 
@@ -41,15 +43,17 @@ public class ModelBuilder extends MidimlBaseListener {
     public void enterRoot(MidimlParser.RootContext ctx) {
         built = false;
         theApp = new App();
+
+        List<Track> tracks = new ArrayList<>();
+        theApp.setTracks(tracks);
         track = new Track();
+        tracks.add(track);
+
         bars = new ArrayList<>();
         track.setBars(bars);
     }
 
     @Override public void exitRoot(MidimlParser.RootContext ctx) {
-        List<Track> tracks = new ArrayList<>();
-        tracks.add(this.track);
-        this.theApp.setTracks(tracks);
         this.built = true;
     }
 
@@ -67,7 +71,7 @@ public class ModelBuilder extends MidimlBaseListener {
 
 
     @Override
-    public void enterGlobalTempo(MidimlParser.GlobalTempoContext ctx) {
+    public void enterInitialTempo(MidimlParser.InitialTempoContext ctx) {
         this.theApp.setTempo(Integer.parseInt(ctx.tempo.getText()));
     }
 
@@ -78,10 +82,20 @@ public class ModelBuilder extends MidimlBaseListener {
     }
 
     @Override
+    public void enterChangeTempo(MidimlParser.ChangeTempoContext ctx) {
+        newTempo = Optional.of(Integer.parseInt(ctx.tempo.getText()));
+    }
+
+    @Override
     public void enterMesure(MidimlParser.MesureContext ctx) {
         //if track instanceof TrackPiano handle it like piano with note if it is drum handle it like drum with drumnote
         Bar bar = new Bar();
         bars.add(bar);
+        // Only set the tempo if it was changed in this bar
+        if (newTempo.isPresent()) {
+            bar.setTempo(newTempo.get());
+            newTempo = Optional.empty();
+        }
         List<Note> notes = new ArrayList<>();
         bar.setNotes(notes);
         MidimlParser.NoteChaineContext noteChaineContext = ctx.noteChaine();
