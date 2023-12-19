@@ -6,16 +6,10 @@ import fr.teama.generator.Visitor;
 import java.util.List;
 
 public class Track implements Visitable {
-    List<Note> notes;
+
     private InstrumentEnum instrument;
 
-    public Track() {
-        super();
-    }
-
-    public List<Note> getNotes() {
-        return notes;
-    }
+    private List<Bar> bars;
 
     public InstrumentEnum getInstrument() {
         return instrument;
@@ -25,8 +19,12 @@ public class Track implements Visitable {
         this.instrument = instrument;
     }
 
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
+    public List<Bar> getBars() {
+        return bars;
+    }
+
+    public void setBars(List<Bar> bars) {
+        this.bars = bars;
     }
 
     @Override
@@ -37,7 +35,7 @@ public class Track implements Visitable {
     @Override
     public String toString() {
         return "Track{" +
-                "notes number=" + notes.size() +
+                "bars=" + bars +
                 ", instrument=" + instrument +
                 '}';
     }

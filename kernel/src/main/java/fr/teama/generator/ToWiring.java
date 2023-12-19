@@ -1,6 +1,8 @@
 package fr.teama.generator;
 
 import fr.teama.App;
+import fr.teama.behaviour.TempoEvent;
+import fr.teama.exceptions.InconsistentBarException;
 import fr.teama.structural.*;
 import fr.teama.structural.Track;
 
@@ -9,7 +11,7 @@ import javax.sound.midi.*;
 public class ToWiring extends Visitor<StringBuffer> {
 	Sequence sequence;
 	javax.sound.midi.Track lastTrack;
-	int lastTick = 0;
+	int lastTick = 1;
 	int currentInstrumentChannelNumber = 0;
 	String outputFolderPath = "output-midi/";
 
@@ -47,30 +49,31 @@ public class ToWiring extends Visitor<StringBuffer> {
 //		}
     }
 
-	public MetaMessage tempoMessage() {
-		int bpm = 120;
-		int MICROSECONDS_PER_MINUTE = 60000000;
-		int microSecPerBeat = MICROSECONDS_PER_MINUTE / bpm;
-		byte TEMPO_MIDI_SUBTYPE = 0x51;
-		MetaMessage tempoMessage = null;
-		try {
-			tempoMessage = new MetaMessage(TEMPO_MIDI_SUBTYPE, new byte[] {
-					(byte) ((microSecPerBeat >>> 16) & 0xFF),
-					(byte) ((microSecPerBeat >>> 8 ) & 0xFF),
-					(byte) ((microSecPerBeat       ) & 0xFF)
-			}, 3);
-		} catch (InvalidMidiDataException ignored) {
-			/* Will never happen as the message type is a defined constant */
-		}
-		return tempoMessage;
-	}
+
 
 	@Override
 	public void visit(Track track) {
-		lastTick = 0;
+		lastTick = 1;
 		lastTrack = sequence.createTrack();
 		currentInstrumentChannelNumber = track.getInstrument().getInstrumentChannelNumber();
-		track.getNotes().forEach(note -> note.accept(this));
+		track.getBars().forEach(bar -> {
+			try {
+				bar.accept(this);
+			} catch (InconsistentBarException e) {
+				throw new RuntimeException(e);
+			}
+		});
+	}
+
+	@Override
+	public void visit(Bar bar) throws InconsistentBarException {
+		if (bar.getTempo() > 0) {
+			lastTrack.add(TempoEvent.createTempoEvent(bar.getTempo(), lastTick));
+		}
+		if (!checkBarTotalDuration(bar)) {
+			throw new InconsistentBarException("Bar notes different from bar resolution : " + bar.toString());
+		}
+		bar.getNotes().forEach(note -> note.accept(this));
 	}
 
 	@Override
@@ -96,6 +99,14 @@ public class ToWiring extends Visitor<StringBuffer> {
 		} catch (InvalidMidiDataException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private boolean checkBarTotalDuration(Bar bar) {
+		int totalDuration = 0;
+		for (Note note : bar.getNotes()) {
+			totalDuration += note.getDuration().getDuration();
+		}
+		return totalDuration / bar.getResolution() == 4;
 	}
 
 }
