@@ -48,6 +48,24 @@ public class ToWiring extends Visitor<StringBuffer> {
 //		}
     }
 
+	public MetaMessage tempoMessage() {
+		int bpm = 120;
+		int MICROSECONDS_PER_MINUTE = 60000000;
+		int microSecPerBeat = MICROSECONDS_PER_MINUTE / bpm;
+		byte TEMPO_MIDI_SUBTYPE = 0x51;
+		MetaMessage tempoMessage = null;
+		try {
+			tempoMessage = new MetaMessage(TEMPO_MIDI_SUBTYPE, new byte[] {
+					(byte) ((microSecPerBeat >>> 16) & 0xFF),
+					(byte) ((microSecPerBeat >>> 8 ) & 0xFF),
+					(byte) ((microSecPerBeat       ) & 0xFF)
+			}, 3);
+		} catch (InvalidMidiDataException ignored) {
+			/* Will never happen as the message type is a defined constant */
+		}
+		return tempoMessage;
+	}
+
 	@Override
 	public void visit(Track track) {
 		lastTick = 0;
