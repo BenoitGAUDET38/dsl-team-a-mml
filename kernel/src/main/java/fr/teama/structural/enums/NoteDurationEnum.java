@@ -1,4 +1,4 @@
-package fr.teama.structural;
+package fr.teama.structural.enums;
 
 public enum NoteDurationEnum {
     BL_P(12),

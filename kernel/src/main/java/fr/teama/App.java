@@ -2,8 +2,8 @@ package fr.teama;
 
 import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
-import fr.teama.structural.Beat;
-import fr.teama.structural.Track;
+import fr.teama.structural.interfaces.NamedElement;
+import fr.teama.structural.interfaces.Track;
 
 import java.util.List;
 
@@ -12,16 +12,6 @@ public class App implements Visitable, NamedElement {
 	private String name;
 
 	List<Track> tracks;
-
-	Beat beat;
-
-	public Beat getBeat() {
-		return beat;
-	}
-
-	public void setBeat(Beat beat) {
-		this.beat = beat;
-	}
 
 	public List<Track> getTracks() {
 		return tracks;
@@ -37,15 +27,6 @@ public class App implements Visitable, NamedElement {
 	}
 
 	@Override
-	public String toString() {
-		return "App{" +
-				"\nname='" + name + '\'' +
-				"\ntracks=" + tracks +
-				"\nbeat=" + beat +
-				"\n}";
-	}
-
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -53,5 +34,13 @@ public class App implements Visitable, NamedElement {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public String toString() {
+		return "App{" +
+				"\nname='" + name + '\'' +
+				"\ntracks=" + tracks +
+				"\n}";
 	}
 }

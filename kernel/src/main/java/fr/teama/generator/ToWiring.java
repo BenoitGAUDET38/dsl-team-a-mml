@@ -1,10 +1,11 @@
 package fr.teama.generator;
 
 import fr.teama.App;
-import fr.teama.structural.*;
-import fr.teama.structural.Track;
+import fr.teama.structural.interfaces.Note;
+import fr.teama.structural.interfaces.Track;
 
 import javax.sound.midi.*;
+import java.util.List;
 
 public class ToWiring extends Visitor<StringBuffer> {
 	Sequence sequence;
@@ -18,20 +19,25 @@ public class ToWiring extends Visitor<StringBuffer> {
 		try {
 			Sequencer sequencer = MidiSystem.getSequencer();
 			sequencer.open();
-			Beat beat= app.getBeat();
-			sequencer.setTempoInBPM(beat.getTempo());
+			List<Track> tracks = app.getTracks();
 
-			sequence = new Sequence(Sequence.PPQ, beat.getResolution());
-			app.getTracks().forEach(track -> track.accept(this));
+			if (!tracks.isEmpty()) {
+				Track firstTrack = tracks.get(0);
 
-			sequencer.setSequence(sequence);
-			sequencer.start();
+				sequencer.setTempoInBPM(firstTrack.getMeasure().getTempo());
 
-			while (sequencer.isRunning()) {
-				Thread.sleep(10);
+				sequence = new Sequence(Sequence.PPQ, firstTrack.getMeasure().getResolution());
+				tracks.forEach(track -> track.accept(this));
+
+				sequencer.setSequence(sequence);
+				sequencer.start();
+
+				while (sequencer.isRunning()) {
+					Thread.sleep(10);
+				}
+				sequencer.stop();
+				sequencer.close();
 			}
-			sequencer.stop();
-			sequencer.close();
 		} catch (InvalidMidiDataException | MidiUnavailableException | InterruptedException e) {
 			throw new RuntimeException(e);
 		}
@@ -53,29 +59,29 @@ public class ToWiring extends Visitor<StringBuffer> {
 		lastTick = 0;
 		lastTrack = sequence.createTrack();
 		currentInstrumentChannelNumber = track.getInstrument().getInstrumentChannelNumber();
-		track.getNotes().forEach(note -> note.accept(this));
+		track.getMeasure().getNotes().forEach(note -> note.accept(this));
 	}
 
 	@Override
 	public void visit(Note note) {
 		try {
 			// in case we want a silence
-			if (note.getNote() == null) {
-				lastTick += note.getTick() + 1;
+			if (note.getNoteDurationEnum() == null) {
+				lastTick += note.getNoteDurationEnum().getDuration() + 1;
 				return;
 			}
 
 			ShortMessage noteOn = new ShortMessage();
-			noteOn.setMessage(ShortMessage.NOTE_ON, currentInstrumentChannelNumber, note.getNote().getNoteNumber(), 100);
+			noteOn.setMessage(ShortMessage.NOTE_ON, currentInstrumentChannelNumber, note.getNoteDurationEnum().getDuration(), 100);
 			MidiEvent noteOnEvent = new MidiEvent(noteOn, lastTick);
 			lastTrack.add(noteOnEvent);
 
 			ShortMessage noteOff = new ShortMessage();
-			noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getNote().getNoteNumber(), 100);
-			MidiEvent noteOffEvent = new MidiEvent(noteOff, lastTick + note.getTick());
+			noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getNoteDurationEnum().getDuration(), 100);
+			MidiEvent noteOffEvent = new MidiEvent(noteOff, lastTick + note.getNoteDurationEnum().getDuration());
 			lastTrack.add(noteOffEvent);
 
-			lastTick += note.getTick() + 1;
+			lastTick += note.getNoteDurationEnum().getDuration() + 1;
 		} catch (InvalidMidiDataException e) {
 			throw new RuntimeException(e);
 		}

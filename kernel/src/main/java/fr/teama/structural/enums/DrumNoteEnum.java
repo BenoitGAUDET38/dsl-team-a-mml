@@ -1,6 +1,8 @@
-package fr.teama.structural;
+package fr.teama.structural.enums;
 
-public enum NoteEnumDrum implements NoteNumber{
+import fr.teama.structural.interfaces.NoteNumber;
+
+public enum DrumNoteEnum implements NoteNumber {
     B(71),
     BD(36),
     SD(38),
@@ -11,7 +13,7 @@ public enum NoteEnumDrum implements NoteNumber{
 
     private final int noteNumber;
 
-    NoteEnumDrum(int noteNumber) {
+    DrumNoteEnum(int noteNumber) {
         this.noteNumber = noteNumber;
     }
 

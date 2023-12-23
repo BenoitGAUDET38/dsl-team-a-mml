@@ -1,6 +1,8 @@
-package fr.teama.structural;
+package fr.teama.structural.enums;
 
-public enum NoteEnum implements NoteNumber{
+import fr.teama.structural.interfaces.NoteNumber;
+
+public enum ClassicNoteEnum implements NoteNumber {
     // Music note with associated number
     DO(60),
     DO_D(61),
@@ -20,7 +22,7 @@ public enum NoteEnum implements NoteNumber{
 
     private final int noteNumber;
 
-    NoteEnum(int noteNumber) {
+    ClassicNoteEnum(int noteNumber) {
         this.noteNumber = noteNumber;
     }
 
