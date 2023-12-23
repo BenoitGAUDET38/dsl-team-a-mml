@@ -15,8 +15,9 @@ bricks          :   (instrument|initialTempo|globalRythme)+;
     globalRythme:   'rythme' rythme=RYTHME;
 
 states          :   partition+;
-    partition   :   '{'  (changeTempo|globalRythme|mesure)+  '}';
+    partition   :   '{'  (changeTempo|changeRythme|mesure)+  '}';
     changeTempo :   tempo=TEMPO 'bpm';
+    changeRythme:   rythme=RYTHME;
     mesure      :   '|' noteCh=noteChaine;
     noteChaine  :   note=(PIANONOTE|BATTERIENOTE) ':' duree=DUREE prochaineNote=noteChaine?;
 

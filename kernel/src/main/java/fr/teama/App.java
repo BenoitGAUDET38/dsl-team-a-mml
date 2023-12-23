@@ -10,9 +10,13 @@ public class App extends NamedElement implements Visitable  {
 
 	List<Track> tracks;
 
-	private int tempo;
+	private int tempo = 120;
 
-	private int resolution;
+	private int resolution = 4;
+
+	public App() {
+		super();
+	}
 
 	public List<Track> getTracks() {
 		return tracks;

@@ -31,7 +31,8 @@ public class ModelBuilder extends MidimlBaseListener {
 
     private Track track;
     private List<Bar> bars;
-    private Optional<Integer> newTempo = Optional.empty();
+    private int currentTempo = 120;
+    private int currentResolution = 4;
 
 
 
@@ -72,32 +73,31 @@ public class ModelBuilder extends MidimlBaseListener {
 
     @Override
     public void enterInitialTempo(MidimlParser.InitialTempoContext ctx) {
-        this.theApp.setTempo(Integer.parseInt(ctx.tempo.getText()));
+        currentTempo = Integer.parseInt(ctx.tempo.getText());
     }
 
     @Override
     public void enterGlobalRythme(MidimlParser.GlobalRythmeContext ctx) {
-        int resolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
-        this.theApp.setResolution(resolution);
+        currentResolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
     }
 
     @Override
     public void enterChangeTempo(MidimlParser.ChangeTempoContext ctx) {
-        newTempo = Optional.of(Integer.parseInt(ctx.tempo.getText()));
+        currentTempo = Integer.parseInt(ctx.tempo.getText());
+    }
+
+    @Override
+    public void enterChangeRythme(MidimlParser.ChangeRythmeContext ctx) {
+        currentResolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
     }
 
     @Override
     public void enterMesure(MidimlParser.MesureContext ctx) {
         //if track instanceof TrackPiano handle it like piano with note if it is drum handle it like drum with drumnote
-        Bar bar = new Bar();
-        bars.add(bar);
-        // Only set the tempo if it was changed in this bar
-        if (newTempo.isPresent()) {
-            bar.setTempo(newTempo.get());
-            newTempo = Optional.empty();
-        }
         List<Note> notes = new ArrayList<>();
-        bar.setNotes(notes);
+        Bar bar = new Bar(currentTempo, currentResolution, notes);
+        bars.add(bar);
+
         MidimlParser.NoteChaineContext noteChaineContext = ctx.noteChaine();
         while (noteChaineContext != null){
             Note note = new Note();
@@ -108,10 +108,9 @@ public class ModelBuilder extends MidimlBaseListener {
             }
             note.setDuration(NoteDurationEnum.valueOf(noteChaineContext.duree.getText()));
             notes.add(note);
-            System.out.println(note.getNote());
-            System.out.println(note.getDuration());
             noteChaineContext = noteChaineContext.noteChaine();
         }
+        System.out.println(bar);
     }
 
 

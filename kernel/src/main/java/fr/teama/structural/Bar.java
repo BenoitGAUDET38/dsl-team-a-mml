@@ -11,9 +11,10 @@ public class Bar implements Visitable {
     private int resolution;
     List<Note> notes;
 
-    public Bar() {
-        // default value
-        resolution = 4;
+    public Bar(int tempo, int resolution, List<Note> notes) {
+        this.tempo = tempo;
+        this.resolution = resolution;
+        this.notes = notes;
     }
 
     public int getTempo() {

@@ -23,11 +23,9 @@ public class Main {
         List<Bar> bars = new ArrayList<>();
         track.setBars(bars);
 
-        Bar bar = new Bar();
-        bars.add(bar);
-
         List<Note> notes = new ArrayList<>();
-        bar.setNotes(notes);
+        Bar bar = new Bar(120, 4, notes);
+        bars.add(bar);
 
         // Partition de test du Titanic
         // Ligne 1
@@ -36,122 +34,108 @@ public class Main {
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
 
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
 
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
         notes.add(new Note(NoteEnum.SOL, NoteDurationEnum.N));
 
-        bar = new Bar();
-        bars.add(bar);
+
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.LA, NoteDurationEnum.BL));
         notes.add(new Note(NoteEnum.SOL, NoteDurationEnum.BL));
 
         // Ligne 2
-        bar = new Bar();
-        bars.add(bar);
-        bar.setTempo(500); // go faster
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(500, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N_P));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.C));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
 
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
 
-        bar = new Bar();
         bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.DO, NoteDurationEnum.R));
 
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(null, NoteDurationEnum.R));
 
         // Ligne 3
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N_P));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.C));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
 
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
 
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
         notes.add(new Note(NoteEnum.SOL, NoteDurationEnum.N));
 
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.LA, NoteDurationEnum.BL));
         notes.add(new Note(NoteEnum.SOL, NoteDurationEnum.BL));
 
         // Ligne 4
-        bar = new Bar();
-        bars.add(bar);
         bar.setTempo(120); // back to normal
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N_P));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.C));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
 
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.BL));
         notes.add(new Note(NoteEnum.FA, NoteDurationEnum.N));
 
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(NoteEnum.DO, NoteDurationEnum.R));
 
-        bar = new Bar();
-        bars.add(bar);
         notes = new ArrayList<>();
-        bar.setNotes(notes);
+        bar = new Bar(120, 4, notes);
+        bars.add(bar);
         notes.add(new Note(null, NoteDurationEnum.BL));
         notes.add(new Note(NoteEnum.RE, NoteDurationEnum.N));
         notes.add(new Note(NoteEnum.MI, NoteDurationEnum.N));
@@ -191,12 +175,9 @@ public class Main {
         List<Bar> bars = new ArrayList<>();
         track.setBars(bars);
 
-        Bar bar = new Bar();
-        bars.add(bar);
-        bar.setTempo(120);
-
         List<Note> notes = new ArrayList<>();
-        bar.setNotes(notes);
+        Bar bar = new Bar(120, 4, notes);
+        bars.add(bar);
 
         Note note = new Note();
         note.setNote(NoteEnum.DO);
