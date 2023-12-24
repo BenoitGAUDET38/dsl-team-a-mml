@@ -1,8 +1,14 @@
 package fr.teama;
 
-import fr.teama.structural.*;
 import fr.teama.grammar.*;
 import fr.teama.grammar.MidimlParser;
+import fr.teama.structural.abstracts.Bar;
+import fr.teama.structural.abstracts.Instrument;
+import fr.teama.structural.abstracts.Note;
+import fr.teama.structural.abstracts.Track;
+import fr.teama.structural.classic.ClassicTrack;
+import fr.teama.structural.classic.instruments.Piano;
+import fr.teama.structural.drum.DrumTrack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +53,6 @@ public class ModelBuilder extends MidimlBaseListener {
 
         List<Track> tracks = new ArrayList<>();
         theApp.setTracks(tracks);
-        track = new Track();
         tracks.add(track);
 
         bars = new ArrayList<>();
@@ -67,7 +72,14 @@ public class ModelBuilder extends MidimlBaseListener {
     @Override
     public void enterInstrument(MidimlParser.InstrumentContext ctx) {
         this.instrument = ctx.name.getText();
-        track.setInstrument(InstrumentEnum.valueOf(this.instrument));
+        switch (instrument) {
+            case "BATTERIE":
+                break;
+            default:
+                // Bizarre ici non ?
+                track = new ClassicTrack();
+                track.setInstrument(new Piano());
+        }
     }
 
 
