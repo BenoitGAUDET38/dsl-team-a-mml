@@ -7,6 +7,5 @@ public class Piano extends ClassicInstrument {
 
     public Piano() {
         this.instrumentChannelNumber = 0;
-        // 9 for the drum
     }
 }
