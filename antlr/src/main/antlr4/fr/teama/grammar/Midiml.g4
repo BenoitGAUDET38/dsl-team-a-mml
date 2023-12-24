@@ -9,15 +9,17 @@ root            :   declaration bricks states EOF;
 
 declaration     :   'application' name=TITLE;
 
-bricks          :   (instrument|globalTempo|globalRythme)+;
+bricks          :   (instrument|initialTempo|globalRythme)+;
     instrument  :   'instrument' name=INSTRUMENT;
-    globalTempo :   'tempo' tempo=TEMPO 'bpm';
+    initialTempo :   'tempo' tempo=TEMPO 'bpm';
     globalRythme:   'rythme' rythme=RYTHME;
 
 states          :   partition+;
-    partition   :   '{'  (globalTempo|globalRythme|mesure)+  '}';
-    mesure      :   noteCh=noteChaine;
-    noteChaine  :   note=(PIANONOTE|BATTERIENOTE) ':' duree=DUREE prochaineNote=noteChaine? ;
+    partition   :   '{'  (changeTempo|changeRythme|mesure)+  '}';
+    changeTempo :   tempo=TEMPO 'bpm';
+    changeRythme:   rythme=RYTHME;
+    mesure      :   '|' noteCh=noteChaine;
+    noteChaine  :   note=(PIANONOTE|BATTERIENOTE) ':' duree=DUREE prochaineNote=noteChaine?;
 
 
 /*****************

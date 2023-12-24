@@ -1,90 +1,157 @@
 package fr.teama.generator;
 
 import fr.teama.App;
-import fr.teama.structural.interfaces.Note;
-import fr.teama.structural.interfaces.Track;
+import fr.teama.structural.abstracts.Bar;
+import fr.teama.structural.abstracts.Note;
+import fr.teama.structural.abstracts.Track;
+import fr.teama.behaviour.TempoEvent;
+import fr.teama.exceptions.InconsistentBarException;
+import fr.teama.structural.classic.ClassicNote;
 
 import javax.sound.midi.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 
 public class ToWiring extends Visitor<StringBuffer> {
-	Sequence sequence;
-	javax.sound.midi.Track lastTrack;
-	int lastTick = 0;
-	int currentInstrumentChannelNumber = 0;
-	String outputFolderPath = "output-midi/";
+    Sequence sequence;
+    javax.sound.midi.Track currentTrack;
+    Bar currentBar;
+    int currentTick = 1;
+    int currentInstrumentChannelNumber = 0;
+    int globalResolution = 0;
+    int currentResolution = 4;
+    int currentTempo = 120;
 
-	@Override
-	public void visit(App app) {
-		try {
-			Sequencer sequencer = MidiSystem.getSequencer();
-			sequencer.open();
-			List<Track> tracks = app.getTracks();
+    @Override
+    public void visit(App app) {
+        try {
+            Sequencer sequencer = MidiSystem.getSequencer();
+            sequencer.open();
 
-			if (!tracks.isEmpty()) {
-				Track firstTrack = tracks.get(0);
+            List<Track> tracks = app.getTracks();
 
-				sequencer.setTempoInBPM(firstTrack.getMeasure().getTempo());
+            if (tracks.isEmpty()) {
+                throw new IllegalStateException("No track in the app");
+            }
 
-				sequence = new Sequence(Sequence.PPQ, firstTrack.getMeasure().getResolution());
-				tracks.forEach(track -> track.accept(this));
+            if (tracks.get(0).getBars().isEmpty()) {
+                throw new IllegalStateException("No bar in the first track");
+            }
 
-				sequencer.setSequence(sequence);
-				sequencer.start();
-
-				while (sequencer.isRunning()) {
-					Thread.sleep(10);
-				}
-				sequencer.stop();
-				sequencer.close();
-			}
-		} catch (InvalidMidiDataException | MidiUnavailableException | InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+            sequencer.setTempoInBPM(tracks.get(0).getBars().get(0).getTempo());
 
 
-//		try {
-//			sequence = new Sequence(Sequence.PPQ, 4);
-//			app.getTracks().forEach(track -> track.accept(this));
-//			File midiFile = new File(outputFolderPath + app.getName() + ".mid");
-//			MidiSystem.write(sequence, 1, midiFile);
-//		} catch (InvalidMidiDataException | IOException e) {
-//			System.out.println("Error while writing midi file");
-//			throw new RuntimeException(e);
-//		}
+            // Resolution management
+            currentResolution = tracks.get(0).getBars().get(0).getResolution();
+            Set<Integer> resolutions = new HashSet<>();
+//			resolutions.add(app.getResolution());
+            app.getTracks().forEach(track -> track.getBars().forEach(bar -> resolutions.add(bar.getResolution())));
+            for (int r : resolutions) {
+                if (globalResolution == 0) {
+                    globalResolution = r;
+                } else {
+                    globalResolution *= r;
+                }
+            }
+
+            sequence = new Sequence(Sequence.PPQ, globalResolution);
+            app.getTracks().forEach(track -> track.accept(this));
+
+            sequencer.setSequence(sequence);
+            sequencer.start();
+
+            while (sequencer.isRunning()) {
+                Thread.sleep(10);
+
+                sequencer.stop();
+                sequencer.close();
+            }
+        } catch (InvalidMidiDataException | MidiUnavailableException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-	@Override
-	public void visit(Track track) {
-		lastTick = 0;
-		lastTrack = sequence.createTrack();
-		currentInstrumentChannelNumber = track.getInstrument().getInstrumentChannelNumber();
-		track.getMeasure().getNotes().forEach(note -> note.accept(this));
-	}
 
-	@Override
-	public void visit(Note note) {
-		try {
-			// in case we want a silence
-			if (note.getNoteDurationEnum() == null) {
-				lastTick += note.getNoteDurationEnum().getDuration() + 1;
-				return;
-			}
+    @Override
+    public void visit(Track track) {
+        currentTick = 1;
+        currentTrack = sequence.createTrack();
+        currentInstrumentChannelNumber = track.getInstrument().getInstrumentChannelNumber();
+        track.getBars().forEach(bar -> {
+            try {
+                bar.accept(this);
+            } catch (InconsistentBarException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
-			ShortMessage noteOn = new ShortMessage();
-			noteOn.setMessage(ShortMessage.NOTE_ON, currentInstrumentChannelNumber, note.getNoteDurationEnum().getDuration(), 100);
-			MidiEvent noteOnEvent = new MidiEvent(noteOn, lastTick);
-			lastTrack.add(noteOnEvent);
+    @Override
+    public void visit(Bar bar) throws InconsistentBarException {
+        // Check if the tempo has changed
+        if (bar.getTempo() != currentTempo) {
+            currentTrack.add(TempoEvent.createTempoEvent(bar.getTempo(), currentTick));
+            currentTempo = bar.getTempo();
+        }
 
-			ShortMessage noteOff = new ShortMessage();
-			noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getNoteDurationEnum().getDuration(), 100);
-			MidiEvent noteOffEvent = new MidiEvent(noteOff, lastTick + note.getNoteDurationEnum().getDuration());
-			lastTrack.add(noteOffEvent);
+        // Check if the resolution has changed
+        if (bar.getResolution() != currentResolution) {
+            currentResolution = bar.getResolution();
+        }
 
-			lastTick += note.getNoteDurationEnum().getDuration() + 1;
-		} catch (InvalidMidiDataException e) {
-			throw new RuntimeException(e);
-		}
-	}
+        if (!checkBarTotalDuration(bar)) {
+            throw new InconsistentBarException("Bar notes different from bar resolution : " + bar);
+        }
+
+        currentBar = bar;
+        bar.getNotes().forEach(note -> note.accept(this));
+    }
+
+    @Override
+    public void visit(Note note) {
+        if (note instanceof ClassicNote) {
+            visit((ClassicNote) note);
+        } else {
+            throw new IllegalStateException("Note type not supported : " + note.getClass());
+        }
+    }
+
+    @Override
+    public void visit(ClassicNote note) {
+        try {
+            int tickMultiplier = globalResolution / currentBar.getResolution();
+
+            // in case we want a silence
+            if (note.getClassicNoteEnum() == null) {
+                currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier) + 1;
+                return;
+            }
+
+            ShortMessage noteOn = new ShortMessage();
+            noteOn.setMessage(ShortMessage.NOTE_ON, currentInstrumentChannelNumber, note.getClassicNoteEnum().getNoteNumber(), 100);
+            MidiEvent noteOnEvent = new MidiEvent(noteOn, currentTick);
+            currentTrack.add(noteOnEvent);
+
+            currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
+
+            ShortMessage noteOff = new ShortMessage();
+            noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getClassicNoteEnum().getNoteNumber(), 100);
+            MidiEvent noteOffEvent = new MidiEvent(noteOff, currentTick + ((long) note.getNoteDurationEnum().getDuration() * tickMultiplier));
+            currentTrack.add(noteOffEvent);
+
+            currentTick += 1;
+        } catch (InvalidMidiDataException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean checkBarTotalDuration(Bar bar) {
+        float totalDuration = 0;
+        for (Note note : bar.getNotes()) {
+            totalDuration += note.getNoteDurationEnum().getDuration();
+        }
+        return totalDuration / 4 == bar.getResolution();
+    }
 
 }

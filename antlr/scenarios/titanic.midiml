@@ -9,7 +9,11 @@ tempo 100bpm
 rythme 4/4
 
 {
-    DO:N RE:N MI:N FA:N
-    SOL:N LA:N SI:N
-    SI:C LA:C SOL:C FA:C MI:C RE:C DO:C
+    | DO:N RE:N MI:N FA:N | SOL:N LA:N SI:N DO:N  | DO:C SI:C LA:C SOL:C FA:C MI:C RE:C DO:C
+    500 bpm
+    | DO:N RE:N MI:N FA:N | SOL:N LA:N SI:N DO:N  | DO:C SI:C LA:C SOL:C FA:C MI:C RE:C DO:C
+    1000 bpm
+    | DO:N RE:N MI:N FA:N | SOL:N LA:N SI:N DO:N  | DO:C SI:C LA:C SOL:C FA:C MI:C RE:C DO:C
+    3/4 240 bpm
+    | DO:N RE:N MI:N | FA:N SOL:N LA:N | SI:N DO:N RE:N | MI:N FA:N SOL:N | LA:N SI:N DO:N | RE:N MI:N FA:N | SOL:N LA:N SI:N | DO:N RE:N MI:N
 }

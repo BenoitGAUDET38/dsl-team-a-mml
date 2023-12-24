@@ -1,16 +1,9 @@
 package fr.teama.structural.classic;
 
-import fr.teama.structural.interfaces.Instrument;
+import fr.teama.structural.abstracts.Instrument;
 
-public class ClassicInstrument implements Instrument {
-    int instrumentChannelNumber;
-
+public class ClassicInstrument extends Instrument {
     public ClassicInstrument() {
-
-    }
-
-    @Override
-    public int getInstrumentChannelNumber() {
-        return instrumentChannelNumber;
+        super();
     }
 }

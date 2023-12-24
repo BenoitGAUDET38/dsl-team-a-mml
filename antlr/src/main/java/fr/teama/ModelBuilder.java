@@ -6,6 +6,7 @@ import fr.teama.grammar.MidimlParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ModelBuilder extends MidimlBaseListener {
 
@@ -17,7 +18,6 @@ public class ModelBuilder extends MidimlBaseListener {
     private boolean built = false;
     private String instrument;
 
-    private Beat beat = new Beat();
 
     public App retrieve() {
         if (built) { return theApp; }
@@ -30,7 +30,9 @@ public class ModelBuilder extends MidimlBaseListener {
 
 
     private Track track;
-    private List<Note> notes  = new ArrayList<>();
+    private List<Bar> bars;
+    private int currentTempo = 120;
+    private int currentResolution = 4;
 
 
 
@@ -42,15 +44,17 @@ public class ModelBuilder extends MidimlBaseListener {
     public void enterRoot(MidimlParser.RootContext ctx) {
         built = false;
         theApp = new App();
-        this.track=new Track();
+
+        List<Track> tracks = new ArrayList<>();
+        theApp.setTracks(tracks);
+        track = new Track();
+        tracks.add(track);
+
+        bars = new ArrayList<>();
+        track.setBars(bars);
     }
 
     @Override public void exitRoot(MidimlParser.RootContext ctx) {
-        this.track.setNotes(this.notes);
-        List<Track> tracks= new ArrayList<>();
-        tracks.add(this.track);
-        this.theApp.setTracks(tracks);
-        this.theApp.setBeat(this.beat);
         this.built = true;
     }
 
@@ -68,19 +72,32 @@ public class ModelBuilder extends MidimlBaseListener {
 
 
     @Override
-    public void enterGlobalTempo(MidimlParser.GlobalTempoContext ctx) {
-        this.beat.setTempo(Integer.parseInt(ctx.tempo.getText()));
+    public void enterInitialTempo(MidimlParser.InitialTempoContext ctx) {
+        currentTempo = Integer.parseInt(ctx.tempo.getText());
     }
 
     @Override
     public void enterGlobalRythme(MidimlParser.GlobalRythmeContext ctx) {
-        int resolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
-        this.beat.setResolution(resolution);
+        currentResolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
+    }
+
+    @Override
+    public void enterChangeTempo(MidimlParser.ChangeTempoContext ctx) {
+        currentTempo = Integer.parseInt(ctx.tempo.getText());
+    }
+
+    @Override
+    public void enterChangeRythme(MidimlParser.ChangeRythmeContext ctx) {
+        currentResolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
     }
 
     @Override
     public void enterMesure(MidimlParser.MesureContext ctx) {
         //if track instanceof TrackPiano handle it like piano with note if it is drum handle it like drum with drumnote
+        List<Note> notes = new ArrayList<>();
+        Bar bar = new Bar(currentTempo, currentResolution, notes);
+        bars.add(bar);
+
         MidimlParser.NoteChaineContext noteChaineContext = ctx.noteChaine();
         while (noteChaineContext != null){
             Note note = new Note();
@@ -90,12 +107,10 @@ public class ModelBuilder extends MidimlBaseListener {
                 note.setNote(NoteEnum.valueOf(noteChaineContext.note.getText()));
             }
             note.setDuration(NoteDurationEnum.valueOf(noteChaineContext.duree.getText()));
-            this.notes.add(note);
-            System.out.println(note.getNote());
-            System.out.println(note.getDuration());
-            System.out.println(note.getTick());
+            notes.add(note);
             noteChaineContext = noteChaineContext.noteChaine();
         }
+        System.out.println(bar);
     }
 
 

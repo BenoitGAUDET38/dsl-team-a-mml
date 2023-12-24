@@ -1,8 +1,11 @@
 package fr.teama.generator;
 
 import fr.teama.App;
-import fr.teama.structural.interfaces.Note;
-import fr.teama.structural.interfaces.Track;
+import fr.teama.structural.abstracts.Bar;
+import fr.teama.structural.abstracts.Note;
+import fr.teama.structural.abstracts.Track;
+import fr.teama.exceptions.InconsistentBarException;
+import fr.teama.structural.classic.ClassicNote;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,10 +13,10 @@ import java.util.Map;
 public abstract class Visitor<T> {
 
 	public abstract void visit(App app);
-
 	public abstract void visit(Track track);
-
+	public abstract void visit(Bar bar) throws InconsistentBarException;
 	public abstract void visit(Note note);
+	public abstract void visit(ClassicNote note);
 
 	/***********************
 	 ** Helper mechanisms **
@@ -26,6 +29,7 @@ public abstract class Visitor<T> {
 	public T getResult() {
 		return result;
 	}
+
 
 }
 

@@ -2,12 +2,12 @@ package fr.teama;
 
 import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
-import fr.teama.structural.interfaces.NamedElement;
-import fr.teama.structural.interfaces.Track;
+import fr.teama.structural.abstracts.NamedElement;
+import fr.teama.structural.abstracts.Track;
 
 import java.util.List;
 
-public class App implements Visitable, NamedElement {
+public class App extends NamedElement implements Visitable {
 
 	private String name;
 

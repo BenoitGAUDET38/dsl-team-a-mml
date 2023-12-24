@@ -14,7 +14,7 @@
 
 ## Running the example
 
-We consider here that the current directory is the `antlr` directory. 
+We consider here that the current directory is the `antlr` directory.
 
   1. Make sure the MidiML JVM kernel is installed in your local maven repository
     * `cd ../kernels; mvn clean install`
