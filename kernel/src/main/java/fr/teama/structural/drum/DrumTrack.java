@@ -1,4 +1,11 @@
 package fr.teama.structural.drum;
 
-public class DrumTrack {
+import fr.teama.generator.Visitable;
+import fr.teama.structural.abstracts.Track;
+
+public class DrumTrack extends Track implements Visitable {
+
+    public DrumTrack() {
+        super();
+    }
 }
