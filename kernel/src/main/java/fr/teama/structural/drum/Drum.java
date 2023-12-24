@@ -1,4 +1,12 @@
 package fr.teama.structural.drum;
 
-public class Drum {
+import fr.teama.structural.abstracts.Instrument;
+
+public class Drum extends Instrument {
+    int instrumentChannelNumber;
+
+    public Drum () {
+        super();
+        this.instrumentChannelNumber = 9;
+    }
 }
