@@ -7,6 +7,7 @@ import fr.teama.structural.abstracts.Track;
 import fr.teama.behaviour.TempoEvent;
 import fr.teama.exceptions.InconsistentBarException;
 import fr.teama.structural.classic.ClassicNote;
+import fr.teama.structural.drum.DrumNote;
 
 import javax.sound.midi.*;
 import java.util.HashSet;
@@ -112,6 +113,8 @@ public class ToWiring extends Visitor<StringBuffer> {
     public void visit(Note note) {
         if (note instanceof ClassicNote) {
             visit((ClassicNote) note);
+        } else if (note instanceof DrumNote) {
+            visit((DrumNote) note);
         } else {
             throw new IllegalStateException("Note type not supported : " + note.getClass());
         }
@@ -137,6 +140,35 @@ public class ToWiring extends Visitor<StringBuffer> {
 
             ShortMessage noteOff = new ShortMessage();
             noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getClassicNoteEnum().getNoteNumber(), 100);
+            MidiEvent noteOffEvent = new MidiEvent(noteOff, currentTick + ((long) note.getNoteDurationEnum().getDuration() * tickMultiplier));
+            currentTrack.add(noteOffEvent);
+
+            currentTick += 1;
+        } catch (InvalidMidiDataException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void visit(DrumNote note) {
+        try {
+            int tickMultiplier = globalResolution / currentBar.getResolution();
+
+            // in case we want a silence
+            if (note.getDrumNoteEnum() == null) {
+                currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier) + 1;
+                return;
+            }
+
+            ShortMessage noteOn = new ShortMessage();
+            noteOn.setMessage(ShortMessage.NOTE_ON, currentInstrumentChannelNumber, note.getDrumNoteEnum().getNoteNumber(), 100);
+            MidiEvent noteOnEvent = new MidiEvent(noteOn, currentTick);
+            currentTrack.add(noteOnEvent);
+
+            currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
+
+            ShortMessage noteOff = new ShortMessage();
+            noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getDrumNoteEnum().getNoteNumber(), 100);
             MidiEvent noteOffEvent = new MidiEvent(noteOff, currentTick + ((long) note.getNoteDurationEnum().getDuration() * tickMultiplier));
             currentTrack.add(noteOffEvent);
 
