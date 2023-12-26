@@ -2,13 +2,8 @@ package fr.teama;
 
 import fr.teama.grammar.*;
 import fr.teama.grammar.MidimlParser;
-import fr.teama.structural.abstracts.Bar;
-import fr.teama.structural.abstracts.Instrument;
-import fr.teama.structural.abstracts.Note;
-import fr.teama.structural.abstracts.Track;
-import fr.teama.structural.classic.ClassicTrack;
-import fr.teama.structural.classic.instruments.Piano;
-import fr.teama.structural.drum.DrumTrack;
+import fr.teama.structural.Bar;
+import fr.teama.structural.Track;
 
 import java.util.ArrayList;
 import java.util.List;

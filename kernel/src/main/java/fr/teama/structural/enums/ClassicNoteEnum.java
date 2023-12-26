@@ -1,7 +1,5 @@
 package fr.teama.structural.enums;
 
-import fr.teama.structural.classic.ClassicNote;
-
 public enum ClassicNoteEnum {
     // Music note with associated number
     DO(60),
@@ -15,7 +13,8 @@ public enum ClassicNoteEnum {
     SOL_D(68),
     LA(69),
     LA_D(70),
-    SI(71);
+    SI(71),
+    SILENCE(-1);
 
 
 

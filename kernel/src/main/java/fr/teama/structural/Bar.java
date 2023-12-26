@@ -1,19 +1,25 @@
-package fr.teama.structural.abstracts;
+package fr.teama.structural;
 
 import fr.teama.exceptions.InconsistentBarException;
+import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Bar {
+public class Bar implements Visitable {
     private int tempo;
     private int resolution;
     private List<Note> notes;
 
-    public Bar(int tempo, int resolution, List<Note> notes) {
+    public Bar(int tempo, int resolution) {
         this.tempo = tempo;
         this.resolution = resolution;
-        this.notes = notes;
+        this.notes = new ArrayList<>();
+    }
+
+    public void addNote (Note note) {
+        this.notes.add(note);
     }
 
     public int getTempo() {

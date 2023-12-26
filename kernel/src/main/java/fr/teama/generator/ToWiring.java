@@ -1,13 +1,11 @@
 package fr.teama.generator;
 
 import fr.teama.App;
-import fr.teama.structural.abstracts.Bar;
-import fr.teama.structural.abstracts.Note;
-import fr.teama.structural.abstracts.Track;
 import fr.teama.behaviour.TempoEvent;
 import fr.teama.exceptions.InconsistentBarException;
-import fr.teama.structural.classic.ClassicNote;
-import fr.teama.structural.drum.DrumNote;
+import fr.teama.structural.Bar;
+import fr.teama.structural.Note;
+import fr.teama.structural.Track;
 
 import javax.sound.midi.*;
 import java.util.HashSet;
@@ -19,7 +17,7 @@ public class ToWiring extends Visitor<StringBuffer> {
     javax.sound.midi.Track currentTrack;
     Bar currentBar;
     int currentTick = 1;
-    int currentInstrumentChannelNumber = 0;
+    int currentInstrumentChannelNumber;
     int globalResolution = 0;
     int currentResolution = 4;
     int currentTempo = 120;
@@ -27,6 +25,7 @@ public class ToWiring extends Visitor<StringBuffer> {
     @Override
     public void visit(App app) {
         try {
+            System.out.println("STARTING GENERATION");
             Sequencer sequencer = MidiSystem.getSequencer();
             sequencer.open();
 
@@ -40,13 +39,10 @@ public class ToWiring extends Visitor<StringBuffer> {
                 throw new IllegalStateException("No bar in the first track");
             }
 
-            sequencer.setTempoInBPM(tracks.get(0).getBars().get(0).getTempo());
-
+            sequencer.setTempoInBPM(currentTempo);
 
             // Resolution management
-            currentResolution = tracks.get(0).getBars().get(0).getResolution();
             Set<Integer> resolutions = new HashSet<>();
-//			resolutions.add(app.getResolution());
             app.getTracks().forEach(track -> track.getBars().forEach(bar -> resolutions.add(bar.getResolution())));
             for (int r : resolutions) {
                 if (globalResolution == 0) {
@@ -64,10 +60,10 @@ public class ToWiring extends Visitor<StringBuffer> {
 
             while (sequencer.isRunning()) {
                 Thread.sleep(10);
-
-                sequencer.stop();
-                sequencer.close();
             }
+
+            sequencer.stop();
+            sequencer.close();
         } catch (InvalidMidiDataException | MidiUnavailableException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -111,64 +107,24 @@ public class ToWiring extends Visitor<StringBuffer> {
 
     @Override
     public void visit(Note note) {
-        if (note instanceof ClassicNote) {
-            visit((ClassicNote) note);
-        } else if (note instanceof DrumNote) {
-            visit((DrumNote) note);
-        } else {
-            throw new IllegalStateException("Note type not supported : " + note.getClass());
-        }
-    }
-
-    @Override
-    public void visit(ClassicNote note) {
         try {
             int tickMultiplier = globalResolution / currentBar.getResolution();
 
-            // in case we want a silence
-            if (note.getClassicNoteEnum() == null) {
+            // Manage silence
+            if (note.getNoteNumber() == -1) {
                 currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier) + 1;
                 return;
             }
 
             ShortMessage noteOn = new ShortMessage();
-            noteOn.setMessage(ShortMessage.NOTE_ON, currentInstrumentChannelNumber, note.getClassicNoteEnum().getNoteNumber(), 100);
+            noteOn.setMessage(ShortMessage.NOTE_ON, currentInstrumentChannelNumber, note.getNoteNumber(), 60);
             MidiEvent noteOnEvent = new MidiEvent(noteOn, currentTick);
             currentTrack.add(noteOnEvent);
 
             currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
 
             ShortMessage noteOff = new ShortMessage();
-            noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getClassicNoteEnum().getNoteNumber(), 100);
-            MidiEvent noteOffEvent = new MidiEvent(noteOff, currentTick + ((long) note.getNoteDurationEnum().getDuration() * tickMultiplier));
-            currentTrack.add(noteOffEvent);
-
-            currentTick += 1;
-        } catch (InvalidMidiDataException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void visit(DrumNote note) {
-        try {
-            int tickMultiplier = globalResolution / currentBar.getResolution();
-
-            // in case we want a silence
-            if (note.getDrumNoteEnum() == null) {
-                currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier) + 1;
-                return;
-            }
-
-            ShortMessage noteOn = new ShortMessage();
-            noteOn.setMessage(ShortMessage.NOTE_ON, currentInstrumentChannelNumber, note.getDrumNoteEnum().getNoteNumber(), 100);
-            MidiEvent noteOnEvent = new MidiEvent(noteOn, currentTick);
-            currentTrack.add(noteOnEvent);
-
-            currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
-
-            ShortMessage noteOff = new ShortMessage();
-            noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getDrumNoteEnum().getNoteNumber(), 100);
+            noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getNoteNumber(), 60);
             MidiEvent noteOffEvent = new MidiEvent(noteOff, currentTick + ((long) note.getNoteDurationEnum().getDuration() * tickMultiplier));
             currentTrack.add(noteOffEvent);
 

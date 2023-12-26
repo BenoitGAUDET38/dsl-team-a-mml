@@ -1,18 +1,21 @@
-package fr.teama.structural.abstracts;
+package fr.teama.structural;
 
+import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
+import fr.teama.structural.enums.InstrumentEnum;
 
+import javax.sound.midi.Instrument;
 import java.util.List;
 
-public abstract class Track {
-    private Instrument instrument;
+public class Track implements Visitable {
+    private InstrumentEnum instrument;
     private List<Bar> bars;
 
-    public Instrument getInstrument() {
+    public InstrumentEnum getInstrument() {
         return instrument;
     }
 
-    public void setInstrument(Instrument instrument) {
+    public void setInstrument(InstrumentEnum instrument) {
         this.instrument = instrument;
     }
 

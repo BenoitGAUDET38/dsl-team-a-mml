@@ -2,8 +2,8 @@ package fr.teama;
 
 import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
-import fr.teama.structural.abstracts.NamedElement;
-import fr.teama.structural.abstracts.Track;
+import fr.teama.structural.NamedElement;
+import fr.teama.structural.Track;
 
 import java.util.List;
 
@@ -22,11 +22,6 @@ public class App extends NamedElement implements Visitable {
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
-	}
-
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -37,10 +32,15 @@ public class App extends NamedElement implements Visitable {
 	}
 
 	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
+
+	@Override
 	public String toString() {
 		return "App{" +
-				"\nname='" + name + '\'' +
-				"\ntracks=" + tracks +
-				"\n}";
+				"name='" + name + '\'' +
+				", tracks=" + tracks +
+				'}';
 	}
 }

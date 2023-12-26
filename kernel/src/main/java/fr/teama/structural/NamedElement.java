@@ -1,4 +1,4 @@
-package fr.teama.structural.abstracts;
+package fr.teama.structural;
 
 public abstract class NamedElement {
 

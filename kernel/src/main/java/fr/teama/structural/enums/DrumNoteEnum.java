@@ -7,7 +7,8 @@ public enum DrumNoteEnum {
     CH(42),
     OH(46),
     CC(49),
-    RC(51);
+    RC(51),
+    SILENCE(-1);
 
     private final int noteNumber;
 
