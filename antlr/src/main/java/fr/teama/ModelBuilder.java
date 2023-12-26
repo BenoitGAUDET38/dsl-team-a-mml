@@ -3,11 +3,15 @@ package fr.teama;
 import fr.teama.grammar.*;
 import fr.teama.grammar.MidimlParser;
 import fr.teama.structural.Bar;
+import fr.teama.structural.Note;
 import fr.teama.structural.Track;
+import fr.teama.structural.enums.ClassicNoteEnum;
+import fr.teama.structural.enums.DrumNoteEnum;
+import fr.teama.structural.enums.InstrumentEnum;
+import fr.teama.structural.enums.NoteDurationEnum;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class ModelBuilder extends MidimlBaseListener {
 
@@ -48,6 +52,7 @@ public class ModelBuilder extends MidimlBaseListener {
 
         List<Track> tracks = new ArrayList<>();
         theApp.setTracks(tracks);
+        track = new Track();
         tracks.add(track);
 
         bars = new ArrayList<>();
@@ -69,11 +74,13 @@ public class ModelBuilder extends MidimlBaseListener {
         this.instrument = ctx.name.getText();
         switch (instrument) {
             case "BATTERIE":
+                track.setInstrument(InstrumentEnum.DRUM);
+                break;
+            case "PIANO":
+                track.setInstrument(InstrumentEnum.PIANO);
                 break;
             default:
-                // Bizarre ici non ?
-                track = new ClassicTrack();
-                track.setInstrument(new Piano());
+                throw new RuntimeException("Instrument not supported");
         }
     }
 
@@ -101,20 +108,23 @@ public class ModelBuilder extends MidimlBaseListener {
     @Override
     public void enterMesure(MidimlParser.MesureContext ctx) {
         //if track instanceof TrackPiano handle it like piano with note if it is drum handle it like drum with drumnote
-        List<Note> notes = new ArrayList<>();
-        Bar bar = new Bar(currentTempo, currentResolution, notes);
+        Bar bar = new Bar(currentTempo, currentResolution);
         bars.add(bar);
 
         MidimlParser.NoteChaineContext noteChaineContext = ctx.noteChaine();
         while (noteChaineContext != null){
-            Note note = new Note();
-            if (this.instrument.equals("BATTERIE")){
-                note.setNote(NoteEnumDrum.valueOf(noteChaineContext.note.getText()));
-            } else {
-                note.setNote(NoteEnum.valueOf(noteChaineContext.note.getText()));
+            int noteNumber;
+            switch (instrument) {
+                case "BATTERIE":
+                    noteNumber = DrumNoteEnum.valueOf(noteChaineContext.note.getText()).getNoteNumber();
+                    break;
+                default:
+                    noteNumber = ClassicNoteEnum.valueOf(noteChaineContext.note.getText()).getNoteNumber();
+                    break;
             }
-            note.setDuration(NoteDurationEnum.valueOf(noteChaineContext.duree.getText()));
-            notes.add(note);
+            NoteDurationEnum noteDuration =  NoteDurationEnum.valueOf(noteChaineContext.duree.getText());
+            Note note = new Note(noteNumber, noteDuration);
+            bar.addNote(note);
             noteChaineContext = noteChaineContext.noteChaine();
         }
         System.out.println(bar);
