@@ -64,7 +64,7 @@ public class ModelBuilder extends MidimlBaseListener {
     }
 
     @Override
-    public void enterDeclaration(MidimlParser.DeclarationContext ctx) {
+    public void enterTitle(MidimlParser.TitleContext ctx) {
         theApp.setName(ctx.name.getText());
     }
 
