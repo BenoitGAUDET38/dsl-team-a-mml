@@ -156,16 +156,20 @@ public class ModelBuilder extends MidimlBaseListener {
         MidimlParser.NoteChaineContext noteChaineContext = ctx.noteChaine();
         while (noteChaineContext != null){
             int noteNumber;
+            int octaveToAdd = 0;
             switch (instrument) {
                 case "BATTERIE":
                     noteNumber = DrumNoteEnum.valueOf(noteChaineContext.note.getText()).getNoteNumber();
                     break;
                 default:
                     noteNumber = ClassicNoteEnum.valueOf(noteChaineContext.note.getText()).getNoteNumber();
+                    if (noteNumber != -1 && noteChaineContext.octave != null) {
+                        octaveToAdd = (Integer.parseInt(noteChaineContext.octave.getText()) - 3) * 12;
+                    }
                     break;
             }
             NoteDurationEnum noteDuration =  NoteDurationEnum.valueOf(noteChaineContext.duree.getText());
-            Note note = new Note(noteNumber, noteDuration);
+            Note note = new Note(noteNumber + octaveToAdd, noteDuration);
             bar.addNote(note);
             noteChaineContext = noteChaineContext.noteChaine();
         }

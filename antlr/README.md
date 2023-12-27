@@ -25,6 +25,7 @@ We consider here that the current directory is the `antlr` directory.
     * `mvn exec:java -Dexec.args="scenarios/outerwilds.midiml"`
     * `mvn exec:java -Dexec.args="scenarios/mix.midiml"`
     * `mvn exec:java -Dexec.args="scenarios/billie-jean-mj.midiml"`
+    * `mvn exec:java -Dexec.args="scenarios/titanic2.midiml"`
     
 ## Code Description
 

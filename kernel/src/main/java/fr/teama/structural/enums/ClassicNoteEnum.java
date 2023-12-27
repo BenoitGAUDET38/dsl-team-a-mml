@@ -2,7 +2,7 @@ package fr.teama.structural.enums;
 
 public enum ClassicNoteEnum {
     // Music note with associated number
-    DO(60),
+    DO(60), // middle C, do3 in French notation, C4 in American notation
     DO_D(61),
     RE(62),
     RE_D(63),
