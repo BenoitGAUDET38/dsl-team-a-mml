@@ -5,16 +5,16 @@ grammar Midiml;
  ** Parser rules **
  ******************/
 
-root            :   declaration bricks states EOF;
+root            :   title settings tracks EOF;
 
-declaration     :   'application' name=TITLE;
+title     :   'title' name=TITLE;
 
-bricks          :   (instrument|initialTempo|globalRythme)+;
+settings          :   (instrument|initialTempo|globalRythme)+;
     instrument  :   'instrument' name=INSTRUMENT;
     initialTempo :   'tempo' tempo=TEMPO 'bpm';
     globalRythme:   'rythme' rythme=RYTHME;
 
-states          :   partition+;
+tracks          :   partition+;
     partition   :   '{'  (changeTempo|changeRythme|mesure)+  '}';
     changeTempo :   tempo=TEMPO 'bpm';
     changeRythme:   rythme=RYTHME;
