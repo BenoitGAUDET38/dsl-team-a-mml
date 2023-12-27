@@ -22,6 +22,9 @@ We consider here that the current directory is the `antlr` directory.
     * `mvn clean package`
   3. Run the compiler using the `exec` plugin:
     * `mvn exec:java -Dexec.args="scenarios/titanic.midiml"`
+    * `mvn exec:java -Dexec.args="scenarios/outerwilds.midiml"`
+    * `mvn exec:java -Dexec.args="scenarios/mix.midiml"`
+    * `mvn exec:java -Dexec.args="scenarios/billie-jean-mj.midiml"`
     
 ## Code Description
 

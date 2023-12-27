@@ -79,6 +79,48 @@ public class ModelBuilder extends MidimlBaseListener {
             case "PIANO":
                 track.setInstrument(InstrumentEnum.PIANO);
                 break;
+            case "XYLOPHONE":
+                track.setInstrument(InstrumentEnum.XYLOPHONE);
+                break;
+            case "ACCORDEON":
+                track.setInstrument(InstrumentEnum.ACCORDION);
+                break;
+            case "HARMONICA":
+                track.setInstrument(InstrumentEnum.HARMONICA);
+                break;
+            case "GUITARE":
+                track.setInstrument(InstrumentEnum.GUITAR);
+                break;
+            case "CONTREBASSE":
+                track.setInstrument(InstrumentEnum.BASS);
+                break;
+            case "VIOLON":
+                track.setInstrument(InstrumentEnum.VIOLIN);
+                break;
+            case "TROMPETTE":
+                track.setInstrument(InstrumentEnum.TRUMPET);
+                break;
+            case "TROMBONE":
+                track.setInstrument(InstrumentEnum.TROMBONE);
+                break;
+            case "ALTO":
+                track.setInstrument(InstrumentEnum.ALTO_SAX);
+                break;
+            case "CLARINETTE":
+                track.setInstrument(InstrumentEnum.CLARINET);
+                break;
+            case "FLUTE":
+                track.setInstrument(InstrumentEnum.FLUTE);
+                break;
+            case "WHISTLE":
+                track.setInstrument(InstrumentEnum.WHISTLE);
+                break;
+            case "OCARINA":
+                track.setInstrument(InstrumentEnum.OCARINA);
+                break;
+            case "BANJO":
+                track.setInstrument(InstrumentEnum.BANJO);
+                break;
             default:
                 throw new RuntimeException("Instrument not supported");
         }
