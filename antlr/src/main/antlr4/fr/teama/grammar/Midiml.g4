@@ -7,7 +7,7 @@ grammar Midiml;
 
 root            :   title settings tracks EOF;
 
-title     :   'title' name=TITLE;
+title     :   'titre :' name=TITLE;
 
 settings          :   (instrument|initialTempo|globalRythme)+;
     instrument  :   'instrument' name=INSTRUMENT;
@@ -15,10 +15,10 @@ settings          :   (instrument|initialTempo|globalRythme)+;
     globalRythme:   'rythme' rythme=RYTHME;
 
 tracks          :   partition+;
-    partition   :   '{'  (changeTempo|changeRythme|mesure)+  '}';
+    partition   :   '{'  (changeTempo|changeRythme|bar)+  '}';
     changeTempo :   tempo=TEMPO 'bpm';
     changeRythme:   rythme=RYTHME;
-    mesure      :   '|' noteCh=noteChaine;
+    bar      :   '|' noteCh=noteChaine;
     noteChaine  :   note=(PIANONOTE|BATTERIENOTE) ':' duree=DUREE prochaineNote=noteChaine?;
 
 

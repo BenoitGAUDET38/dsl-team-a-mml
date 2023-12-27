@@ -106,7 +106,7 @@ public class ModelBuilder extends MidimlBaseListener {
     }
 
     @Override
-    public void enterMesure(MidimlParser.MesureContext ctx) {
+    public void enterBar(MidimlParser.BarContext ctx) {
         //if track instanceof TrackPiano handle it like piano with note if it is drum handle it like drum with drumnote
         Bar bar = new Bar(currentTempo, currentResolution);
         bars.add(bar);
