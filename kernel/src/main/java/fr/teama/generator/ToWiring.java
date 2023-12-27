@@ -98,7 +98,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         if (!checkBarTotalDuration(bar)) {
-            throw new InconsistentBarException("Bar notes different from bar resolution : " + bar);
+            throw new InconsistentBarException("Bar notes different from bar resolution : " + bar.toString());
         }
 
         currentBar = bar;
