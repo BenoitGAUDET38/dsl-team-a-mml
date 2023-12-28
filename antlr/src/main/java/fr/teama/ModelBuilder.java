@@ -1,5 +1,6 @@
 package fr.teama;
 
+import fr.teama.exceptions.InvalidTickException;
 import fr.teama.grammar.*;
 import fr.teama.grammar.MidimlParser;
 import fr.teama.structural.Bar;
@@ -171,7 +172,18 @@ public class ModelBuilder extends MidimlBaseListener {
                     break;
             }
             NoteDurationEnum noteDuration =  NoteDurationEnum.valueOf(noteChaineContext.duree.getText());
-            Note note = new Note(noteNumber + octaveToAdd, noteDuration);
+            Note note;
+            if (noteChaineContext.timing !=null){
+                double timing = Double.parseDouble(noteChaineContext.timing.getText());
+                try {
+                    note = new Note (noteNumber + octaveToAdd, noteDuration, timing);
+                } catch (InvalidTickException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else {
+                note = new Note (noteNumber + octaveToAdd, noteDuration);
+            }
             bar.addNote(note);
             noteChaineContext = noteChaineContext.noteChaine();
         }
