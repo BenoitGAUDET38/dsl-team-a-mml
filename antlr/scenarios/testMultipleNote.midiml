@@ -4,10 +4,10 @@
 titre titanic
 
 # Declaring settings
-instrument PIANO
 tempo 100bpm
 rythme 4/4
 
+instrument PIANO
 {
     | DO4:N RE:N MI:N FA:N MI:N:0.0 FA:N:1.0 SOL:N:2.0 LA:N:3.0| DO4:N RE:N MI:N FA:N MI:N:0.0 FA:N:1.0 SOL:N:2.0 LA:N:3.0| DO4:N RE:N MI:N FA:N MI:N:0.0 FA:N:1.0 SOL:N:2.0 LA:N:3.0
-    }
+}

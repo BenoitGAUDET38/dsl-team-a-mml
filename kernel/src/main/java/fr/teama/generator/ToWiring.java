@@ -155,7 +155,6 @@ public class ToWiring extends Visitor<StringBuffer> {
             }
             else{
                 if (note.getNoteNumber() == -1) {
-                    System.out.println("SILENCE");
                     currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier) + 1;
                     return;
                 }
