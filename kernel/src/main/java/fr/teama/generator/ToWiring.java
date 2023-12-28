@@ -17,6 +17,8 @@ public class ToWiring extends Visitor<StringBuffer> {
     javax.sound.midi.Track currentTrack;
     Bar currentBar;
     int currentTick = 1;
+
+    int currentBarTick=0;
     int currentChannelNumber;
     int currentClassicChannelNumber = 0;
     int currentDrumChannelNumber = 9;
@@ -143,35 +145,52 @@ public class ToWiring extends Visitor<StringBuffer> {
     public void visit(Note note) {
         try {
             int tickMultiplier = globalResolution / currentBar.getResolution();
+            int tick;
 
-            // Manage silence
-            if (note.getNoteNumber() == -1) {
-                currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier) + 1;
-                return;
+            if (note.getTick().isPresent()){
+                tick = note.getTick().get() + currentBarTick + 1;
+            }
+            else{
+                if (note.getNoteNumber() == -1) {
+                    System.out.println("SILENCE");
+                    currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier) + 1;
+                    return;
+                }
+                tick=currentTick;
+                currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
+
             }
 
+
             ShortMessage noteOn = new ShortMessage();
+            System.out.println("CURRENT BAR TICK : "+currentBarTick);
+            System.out.println("CURRENT TICK : "+currentTick);
+            System.out.println(tick);
+            System.out.println(note.getNoteDurationEnum());
             noteOn.setMessage(ShortMessage.NOTE_ON, currentChannelNumber, note.getNoteNumber(), 60);
-            MidiEvent noteOnEvent = new MidiEvent(noteOn, currentTick);
+            MidiEvent noteOnEvent = new MidiEvent(noteOn, tick);
             currentTrack.add(noteOnEvent);
 
-            currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
+            tick += note.getNoteDurationEnum().getDuration() * tickMultiplier-1;
+            System.out.println(tick);
 
             ShortMessage noteOff = new ShortMessage();
             noteOff.setMessage(ShortMessage.NOTE_OFF, currentChannelNumber, note.getNoteNumber(), 60);
-            MidiEvent noteOffEvent = new MidiEvent(noteOff, currentTick + ((long) note.getNoteDurationEnum().getDuration() * tickMultiplier));
+            MidiEvent noteOffEvent = new MidiEvent(noteOff, tick);
             currentTrack.add(noteOffEvent);
-
-            currentTick += 1;
         } catch (InvalidMidiDataException e) {
             throw new RuntimeException(e);
         }
     }
 
     private boolean checkBarTotalDuration(Bar bar) {
+        if (currentTick!=1){
+            currentBarTick+=bar.getResolution()*4 ;
+        }
         float totalDuration = 0;
         for (Note note : bar.getNotes()) {
-            totalDuration += note.getNoteDurationEnum().getDuration();
+            if (note.getTick().isEmpty())
+                totalDuration += note.getNoteDurationEnum().getDuration();
         }
         return totalDuration / 4 == bar.getResolution();
     }
