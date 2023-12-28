@@ -39,8 +39,8 @@ public class App extends NamedElement implements Visitable {
 	@Override
 	public String toString() {
 		return "App{" +
-				"name='" + name + '\'' +
-				", tracks=" + tracks +
+				"\nname='" + name + '\'' +
+				"\ntracks=" + tracks +
 				'}';
 	}
 }

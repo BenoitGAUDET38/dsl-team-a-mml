@@ -1,13 +1,13 @@
 ### Basic scenario
 ## Titanic2
 
-titre titanicTwo
+titre titanictwo
 
 # Declaring settings
-instrument PIANO
 tempo 100bpm
 rythme 4/4
 
+instrument PIANO
 {
     | DO-2:N RE-2:N MI-2:N FA-2:N | SOL-2:N LA-2:N SI-2:N DO-1:N
     | DO-1:N RE-1:N MI-1:N FA-1:N | SOL-1:N LA-1:N SI-1:N DO1:N

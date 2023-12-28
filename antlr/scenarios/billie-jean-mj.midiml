@@ -1,9 +1,9 @@
 titre billiejean
 
-instrument BATTERIE
 tempo 100bpm
 rythme 4/4
 
+instrument BATTERIE
 {
     | B:N BD:BL SD:C SD:C
     | CH:N OH:C CC:BL OH:C

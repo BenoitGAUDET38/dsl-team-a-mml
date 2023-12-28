@@ -10,11 +10,12 @@ root            :   title settings tracks EOF;
 title     :   'titre' name=TITLE;
 
 settings          :   (instrument|initialTempo|globalRythme)+;
-    instrument  :   'instrument' name=INSTRUMENT;
     initialTempo :   'tempo' tempo=TEMPO 'bpm';
     globalRythme:   'rythme' rythme=RYTHME;
 
-tracks          :   partition+;
+tracks          :   instrument+;
+    instrument  :   'instrument' name=INSTRUMENT volume? partition;
+    volume      :   'volume' volumeVal=TEMPO;
     partition   :   '{'  (changeTempo|changeRythme|bar)+  '}';
     changeTempo :   tempo=TEMPO 'bpm';
     changeRythme:   rythme=RYTHME;
@@ -30,7 +31,7 @@ INSTRUMENT      :   'BATTERIE' | 'PIANO' | 'XYLOPHONE' | 'ACCORDEON' | 'HARMONIC
 PIANONOTE       :   SILENCE | 'DO' | 'DO_D'| 'RE' | 'RE_D' | 'MI' | 'FA' | 'FA_D' | 'SOL' | 'SOL_D' | 'LA' | 'LA_D' | 'SI';
 OCTAVE          :   '-2' | '-1' | '1' | '2' | '3' | '4' | '5' | '6' | '7';
 BATTERIENOTE    :   SILENCE | 'B' | 'BD' | 'SD' | 'CH' | 'OH' | 'CC' | 'RC';
-DUREE           :   'N' | 'BL' | 'C' | 'D_C' | 'N_P' | 'BL_P' | 'C_P';
+DUREE           :   'N' | 'BL' | 'C' | 'D_C' | 'N_P' | 'BL_P' | 'C_P' | 'R';
 SILENCE         :   'SILENCE';
 RYTHME          :   '3/4' | '4/4';
 TEMPO           :   NUMBER;

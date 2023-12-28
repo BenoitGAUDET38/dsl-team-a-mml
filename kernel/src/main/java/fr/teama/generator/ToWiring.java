@@ -25,6 +25,8 @@ public class ToWiring extends Visitor<StringBuffer> {
     int currentResolution = 4;
     int currentTempo = 120;
 
+    int currentVolume = 60;
+
     @Override
     public void visit(App app) {
         try {
@@ -78,6 +80,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         currentTick = 1;
         currentTrack = sequence.createTrack();
         currentInstrumentNumber = track.getInstrument().getInstrumentNumber();
+        currentVolume = track.getVolume();
 
         if (currentInstrumentNumber != -1 && currentClassicChannelNumber > 15) {
             throw new IllegalStateException("Too many tracks with classic instruments (max 14)");
@@ -87,6 +90,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         if (currentInstrumentNumber != -1) {
+            currentChannelNumber = currentClassicChannelNumber;
             ShortMessage instrumentChange = new ShortMessage();
             try {
                 // .setMessage(ShortMessage.PROGRAM_CHANGE, channelToChange, instrumentNumber, idk so 0);
@@ -96,7 +100,6 @@ public class ToWiring extends Visitor<StringBuffer> {
             } catch (InvalidMidiDataException e) {
                 throw new RuntimeException(e);
             }
-            currentChannelNumber = currentClassicChannelNumber;
         } else {
             currentChannelNumber = currentDrumChannelNumber;
         }
@@ -132,7 +135,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         if (!checkBarTotalDuration(bar)) {
-            throw new InconsistentBarException("Bar notes different from bar resolution : " + bar.toString());
+            throw new InconsistentBarException("Bar notes different from bar resolution : " + bar);
         }
 
         currentBar = bar;
@@ -151,14 +154,14 @@ public class ToWiring extends Visitor<StringBuffer> {
             }
 
             ShortMessage noteOn = new ShortMessage();
-            noteOn.setMessage(ShortMessage.NOTE_ON, currentChannelNumber, note.getNoteNumber(), 60);
+            noteOn.setMessage(ShortMessage.NOTE_ON, currentChannelNumber, note.getNoteNumber(), currentVolume);
             MidiEvent noteOnEvent = new MidiEvent(noteOn, currentTick);
             currentTrack.add(noteOnEvent);
 
             currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
 
             ShortMessage noteOff = new ShortMessage();
-            noteOff.setMessage(ShortMessage.NOTE_OFF, currentChannelNumber, note.getNoteNumber(), 60);
+            noteOff.setMessage(ShortMessage.NOTE_OFF, currentChannelNumber, note.getNoteNumber(), currentVolume);
             MidiEvent noteOffEvent = new MidiEvent(noteOff, currentTick + ((long) note.getNoteDurationEnum().getDuration() * tickMultiplier));
             currentTrack.add(noteOffEvent);
 

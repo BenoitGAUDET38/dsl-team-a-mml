@@ -34,7 +34,7 @@ public class ModelBuilder extends MidimlBaseListener {
      *******************/
 
 
-    private Track track;
+    private List<Track> tracks;
     private List<Bar> bars;
     private int currentTempo = 120;
     private int currentResolution = 4;
@@ -49,17 +49,11 @@ public class ModelBuilder extends MidimlBaseListener {
     public void enterRoot(MidimlParser.RootContext ctx) {
         built = false;
         theApp = new App();
-
-        List<Track> tracks = new ArrayList<>();
-        theApp.setTracks(tracks);
-        track = new Track();
-        tracks.add(track);
-
-        bars = new ArrayList<>();
-        track.setBars(bars);
+        tracks = new ArrayList<>();
     }
 
     @Override public void exitRoot(MidimlParser.RootContext ctx) {
+        theApp.setTracks(tracks);
         this.built = true;
     }
 
@@ -68,10 +62,23 @@ public class ModelBuilder extends MidimlBaseListener {
         theApp.setName(ctx.name.getText());
     }
 
+    @Override
+    public void enterInitialTempo(MidimlParser.InitialTempoContext ctx) {
+        currentTempo = Integer.parseInt(ctx.tempo.getText());
+    }
+
+    @Override
+    public void enterGlobalRythme(MidimlParser.GlobalRythmeContext ctx) {
+        currentResolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
+    }
 
     @Override
     public void enterInstrument(MidimlParser.InstrumentContext ctx) {
         this.instrument = ctx.name.getText();
+        Track track = new Track();
+        tracks.add(track);
+        bars = new ArrayList<>();
+        track.setBars(bars);
         switch (instrument) {
             case "BATTERIE":
                 track.setInstrument(InstrumentEnum.DRUM);
@@ -124,17 +131,12 @@ public class ModelBuilder extends MidimlBaseListener {
             default:
                 throw new RuntimeException("Instrument not supported");
         }
-    }
-
-
-    @Override
-    public void enterInitialTempo(MidimlParser.InitialTempoContext ctx) {
-        currentTempo = Integer.parseInt(ctx.tempo.getText());
+        System.out.println(track.getInstrument());
     }
 
     @Override
-    public void enterGlobalRythme(MidimlParser.GlobalRythmeContext ctx) {
-        currentResolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
+    public void enterVolume(MidimlParser.VolumeContext ctx) {
+        tracks.get(tracks.size() - 1).setVolume(Integer.parseInt(ctx.volumeVal.getText()));
     }
 
     @Override
