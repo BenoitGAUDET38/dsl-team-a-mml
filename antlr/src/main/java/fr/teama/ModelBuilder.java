@@ -1,5 +1,6 @@
 package fr.teama;
 
+import fr.teama.exceptions.InvalidTickException;
 import fr.teama.grammar.*;
 import fr.teama.grammar.MidimlParser;
 import fr.teama.structural.Bar;
@@ -34,7 +35,7 @@ public class ModelBuilder extends MidimlBaseListener {
      *******************/
 
 
-    private Track track;
+    private List<Track> tracks;
     private List<Bar> bars;
     private int currentTempo = 120;
     private int currentResolution = 4;
@@ -49,41 +50,18 @@ public class ModelBuilder extends MidimlBaseListener {
     public void enterRoot(MidimlParser.RootContext ctx) {
         built = false;
         theApp = new App();
-
-        List<Track> tracks = new ArrayList<>();
-        theApp.setTracks(tracks);
-        track = new Track();
-        tracks.add(track);
-
-        bars = new ArrayList<>();
-        track.setBars(bars);
+        tracks = new ArrayList<>();
     }
 
     @Override public void exitRoot(MidimlParser.RootContext ctx) {
+        theApp.setTracks(tracks);
         this.built = true;
     }
 
     @Override
-    public void enterDeclaration(MidimlParser.DeclarationContext ctx) {
+    public void enterTitle(MidimlParser.TitleContext ctx) {
         theApp.setName(ctx.name.getText());
     }
-
-
-    @Override
-    public void enterInstrument(MidimlParser.InstrumentContext ctx) {
-        this.instrument = ctx.name.getText();
-        switch (instrument) {
-            case "BATTERIE":
-                track.setInstrument(InstrumentEnum.DRUM);
-                break;
-            case "PIANO":
-                track.setInstrument(InstrumentEnum.PIANO);
-                break;
-            default:
-                throw new RuntimeException("Instrument not supported");
-        }
-    }
-
 
     @Override
     public void enterInitialTempo(MidimlParser.InitialTempoContext ctx) {
@@ -93,6 +71,73 @@ public class ModelBuilder extends MidimlBaseListener {
     @Override
     public void enterGlobalRythme(MidimlParser.GlobalRythmeContext ctx) {
         currentResolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
+    }
+
+    @Override
+    public void enterInstrument(MidimlParser.InstrumentContext ctx) {
+        this.instrument = ctx.name.getText();
+        Track track = new Track();
+        tracks.add(track);
+        bars = new ArrayList<>();
+        track.setBars(bars);
+        switch (instrument) {
+            case "BATTERIE":
+                track.setInstrument(InstrumentEnum.DRUM);
+                break;
+            case "PIANO":
+                track.setInstrument(InstrumentEnum.PIANO);
+                break;
+            case "XYLOPHONE":
+                track.setInstrument(InstrumentEnum.XYLOPHONE);
+                break;
+            case "ACCORDEON":
+                track.setInstrument(InstrumentEnum.ACCORDION);
+                break;
+            case "HARMONICA":
+                track.setInstrument(InstrumentEnum.HARMONICA);
+                break;
+            case "GUITARE":
+                track.setInstrument(InstrumentEnum.GUITAR);
+                break;
+            case "CONTREBASSE":
+                track.setInstrument(InstrumentEnum.BASS);
+                break;
+            case "VIOLON":
+                track.setInstrument(InstrumentEnum.VIOLIN);
+                break;
+            case "TROMPETTE":
+                track.setInstrument(InstrumentEnum.TRUMPET);
+                break;
+            case "TROMBONE":
+                track.setInstrument(InstrumentEnum.TROMBONE);
+                break;
+            case "ALTO":
+                track.setInstrument(InstrumentEnum.ALTO_SAX);
+                break;
+            case "CLARINETTE":
+                track.setInstrument(InstrumentEnum.CLARINET);
+                break;
+            case "FLUTE":
+                track.setInstrument(InstrumentEnum.FLUTE);
+                break;
+            case "WHISTLE":
+                track.setInstrument(InstrumentEnum.WHISTLE);
+                break;
+            case "OCARINA":
+                track.setInstrument(InstrumentEnum.OCARINA);
+                break;
+            case "BANJO":
+                track.setInstrument(InstrumentEnum.BANJO);
+                break;
+            default:
+                throw new RuntimeException("Instrument not supported");
+        }
+        System.out.println(track.getInstrument());
+    }
+
+    @Override
+    public void enterVolume(MidimlParser.VolumeContext ctx) {
+        tracks.get(tracks.size() - 1).setVolume(Integer.parseInt(ctx.volumeVal.getText()));
     }
 
     @Override
@@ -106,7 +151,7 @@ public class ModelBuilder extends MidimlBaseListener {
     }
 
     @Override
-    public void enterMesure(MidimlParser.MesureContext ctx) {
+    public void enterBar(MidimlParser.BarContext ctx) {
         //if track instanceof TrackPiano handle it like piano with note if it is drum handle it like drum with drumnote
         Bar bar = new Bar(currentTempo, currentResolution);
         bars.add(bar);
@@ -114,16 +159,31 @@ public class ModelBuilder extends MidimlBaseListener {
         MidimlParser.NoteChaineContext noteChaineContext = ctx.noteChaine();
         while (noteChaineContext != null){
             int noteNumber;
+            int octaveToAdd = 0;
             switch (instrument) {
                 case "BATTERIE":
                     noteNumber = DrumNoteEnum.valueOf(noteChaineContext.note.getText()).getNoteNumber();
                     break;
                 default:
                     noteNumber = ClassicNoteEnum.valueOf(noteChaineContext.note.getText()).getNoteNumber();
+                    if (noteNumber != -1 && noteChaineContext.octave != null) {
+                        octaveToAdd = (Integer.parseInt(noteChaineContext.octave.getText()) - 3) * 12;
+                    }
                     break;
             }
             NoteDurationEnum noteDuration =  NoteDurationEnum.valueOf(noteChaineContext.duree.getText());
-            Note note = new Note(noteNumber, noteDuration);
+            Note note;
+            if (noteChaineContext.timing !=null){
+                double timing = Double.parseDouble(noteChaineContext.timing.getText());
+                try {
+                    note = new Note (noteNumber + octaveToAdd, noteDuration, timing);
+                } catch (InvalidTickException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else {
+                note = new Note (noteNumber + octaveToAdd, noteDuration);
+            }
             bar.addNote(note);
             noteChaineContext = noteChaineContext.noteChaine();
         }

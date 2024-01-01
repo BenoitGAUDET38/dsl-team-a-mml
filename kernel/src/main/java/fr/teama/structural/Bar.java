@@ -49,4 +49,13 @@ public class Bar implements Visitable {
     public void accept(Visitor visitor) throws InconsistentBarException {
         visitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return "Bar{" +
+                "tempo=" + tempo +
+                ", resolution=" + resolution +
+                ", notes=" + notes +
+                '}';
+    }
 }
