@@ -9,6 +9,14 @@
   "categories": [
     "Other"
   ],
+  "contributes": {
+    "languages": [{
+      "id": "midiml",
+      "aliases": ["midiml", "midiml"],
+      "extensions": [".midiml"],
+      "configuration": "./language-configuration.json"
+    }]
+  },
   "activationEvents": ["*"],
   "main": "./out/extension.js",
   "scripts": {

@@ -21,6 +21,10 @@ This extension contributes the following settings:
 - `myExtension.enable`: Enable/disable this extension.
 - `myExtension.thing`: Set to `blah` to do something.
 
+## Build extension
+
+`vsce package`
+
 ## Known Issues
 
 If there are any known issues with your extension, mention them here. This can help users and prevent the creation of duplicate issues.
