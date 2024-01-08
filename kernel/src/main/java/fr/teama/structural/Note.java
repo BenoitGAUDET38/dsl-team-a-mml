@@ -6,7 +6,7 @@ import fr.teama.structural.enums.ClassicNoteEnum;
 import fr.teama.structural.enums.DrumNoteEnum;
 import fr.teama.structural.enums.NoteDurationEnum;
 
-public class Note implements Visitable {
+public class Note implements Visitable, Cloneable {
 
     NoteDurationEnum noteDurationEnum;
     int noteNumber;
@@ -34,6 +34,11 @@ public class Note implements Visitable {
 
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     @Override
