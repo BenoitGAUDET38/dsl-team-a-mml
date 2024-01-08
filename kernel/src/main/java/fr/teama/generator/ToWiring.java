@@ -106,6 +106,8 @@ public class ToWiring extends Visitor<StringBuffer> {
             currentChannelNumber = currentDrumChannelNumber;
         }
 
+        System.out.println("Track " + track.getInstrument() + " on channel " + currentChannelNumber);
+
         track.getBars().forEach(bar -> {
             try {
                 bar.accept(this);
