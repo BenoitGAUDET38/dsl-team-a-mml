@@ -20,12 +20,12 @@ export function activate(context: vscode.ExtensionContext) {
 		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
 
 			// a completion item that inserts its text as snippet
-			const rythmeOptions = ['3/4', '4/4', '6/8'];
+			const rythmeOptions = ['3/4', '4/4', '6/8', '7/8'];
 			const tempoOptions = ['80 bpm', '100 bpm', '120 bpm'];
-			const instrumentOptions = ['PIANO', 'GUITAR'];
+			const instrumentOptions = ['PIANO', 'BATTERIE', 'XYLOPHONE', 'ACCORDEON', 'HARMONICA', 'GUITARE', 'CONTREBASSE', 'VIOLON', 'TROMPETTE', 'TROMBONE', 'ALTO', 'CLARINETTE', 'FLUTE', 'WHISTLE', 'OCARINA', 'BANJO'];
 
             // Snippet that will be inserted
-			const snippetContent = `titre default-title\n\n# Declaring settings\ntempo \${1|${tempoOptions.join(',')}\|}rythme \${2|${rythmeOptions.join(',')}\|}\n\ninstrument \${3|${instrumentOptions.join(',')}\|}\n{\n    \n}\n`;
+			const snippetContent = `titre default-title\n\n# Declaring settings\ntempo \${1|${tempoOptions.join(',')}\|} rythme \${2|${rythmeOptions.join(',')}\|}\n\ninstrument \${3|${instrumentOptions.join(',')}\|}\n{\n    \n}\n`;
 
 			const snippetCompletion = new vscode.CompletionItem('Template Midiml');
 			snippetCompletion.insertText = new vscode.SnippetString(snippetContent);
