@@ -20,7 +20,7 @@ tracks          :   instrument+;
     changeTempo :   tempo=TEMPO 'bpm';
     changeRythme:   rythme=RYTHME;
     bar         :   '|' noteCh=noteChaine;
-    noteChaine  :   note=(PIANONOTE|BATTERIENOTE) octave=OCTAVE? ':' duree=DUREE (':' timing=TIMING)? prochaineNote=noteChaine?;
+    noteChaine  :   note=(PIANONOTE|BATTERIENOTE) octave=OCTAVE? (':' duree=DUREE)? (':' timing=TIMING)? prochaineNote=noteChaine?;
 
 
 /*****************

@@ -52,7 +52,6 @@ public class ModelBuilder extends MidimlBaseListener {
         theApp = new App();
         tracks = new ArrayList<>();
     }
-
     @Override public void exitRoot(MidimlParser.RootContext ctx) {
         theApp.setTracks(tracks);
         this.built = true;
@@ -171,7 +170,14 @@ public class ModelBuilder extends MidimlBaseListener {
                     }
                     break;
             }
-            NoteDurationEnum noteDuration =  NoteDurationEnum.valueOf(noteChaineContext.duree.getText());
+            // Default value with NOIRE
+            NoteDurationEnum noteDuration;
+            if (noteChaineContext.duree == null) {
+                noteDuration = NoteDurationEnum.N;
+            } else {
+                noteDuration =  NoteDurationEnum.valueOf(noteChaineContext.duree.getText());
+            }
+
             Note note;
             if (noteChaineContext.timing !=null){
                 double timing = Double.parseDouble(noteChaineContext.timing.getText());
