@@ -87,8 +87,8 @@ public class ToWiring extends Visitor<StringBuffer> {
         if (currentInstrumentNumber != -1 && currentClassicChannelNumber > 15) {
             throw new IllegalStateException("Too many tracks with classic instruments (max 14)");
         }
-        if (currentInstrumentNumber == -1 && currentDrumChannelNumber > 10) {
-            throw new IllegalStateException("Too many tracks with drum instruments (max 2)");
+        if (currentInstrumentNumber == -1 && currentDrumChannelNumber > 9) {
+            throw new IllegalStateException("Too many tracks with drum instruments (max 1)");
         }
 
         if (currentInstrumentNumber != -1) {
@@ -116,7 +116,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         if (currentInstrumentNumber != -1) {
             currentClassicChannelNumber++;
             if (currentClassicChannelNumber == 9) {
-                currentClassicChannelNumber = 11;
+                currentClassicChannelNumber = 10;
             }
         } else {
             currentDrumChannelNumber++;

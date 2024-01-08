@@ -9,7 +9,7 @@ public class SynthTest {
             int sound = 65;
             Synthesizer synthesizer = MidiSystem.getSynthesizer();
             synthesizer.open();
-            MidiChannel channel = synthesizer.getChannels()[9];  // drums channel.
+            MidiChannel channel = synthesizer.getChannels()[10];  // drums channel.
             for (int i = 0; i < 10; i++) {
                 Thread.sleep(100);
                 channel.noteOn(sound + i, maxVolume);

@@ -7,20 +7,20 @@ grammar Midiml;
 
 root            :   title settings tracks EOF;
 
-title     :   'titre' name=TITLE;
+title     :   'titre' name=TITRE;
 
 settings          :   (instrument|initialTempo|globalRythme)+;
-    initialTempo :   'tempo' tempo=TEMPO 'bpm';
+    initialTempo :   'tempo' tempo=INT 'bpm';
     globalRythme:   'rythme' rythme=RYTHME;
 
 tracks          :   instrument+;
     instrument  :   'instrument' name=INSTRUMENT volume? partition;
-    volume      :   'volume' volumeVal=TEMPO;
+    volume      :   'volume' volumeVal=INT;
     partition   :   '{'  (changeTempo|changeRythme|bar)+  '}';
-    changeTempo :   tempo=TEMPO 'bpm';
+    changeTempo :   tempo=INT 'bpm';
     changeRythme:   rythme=RYTHME;
     bar         :   '|' noteCh=noteChaine;
-    noteChaine  :   note=(PIANONOTE|BATTERIENOTE) octave=OCTAVE? (':' duree=DUREE)? (':' timing=TIMING)? prochaineNote=noteChaine?;
+    noteChaine  :   note=(CLASSIQUENOTE|BATTERIENOTE) octave=OCTAVE? (':' duree=DUREE)? (':' timing=FLOAT)? prochaineNote=noteChaine?;
 
 
 /*****************
@@ -28,16 +28,15 @@ tracks          :   instrument+;
  *****************/
 
 INSTRUMENT      :   'BATTERIE' | 'PIANO' | 'XYLOPHONE' | 'ACCORDEON' | 'HARMONICA' | 'GUITARE' | 'CONTREBASSE' | 'VIOLON' | 'TROMPETTE' | 'TROMBONE' | 'ALTO' | 'CLARINETTE' | 'FLUTE' | 'WHISTLE' | 'OCARINA' | 'BANJO';
-PIANONOTE       :   SILENCE | 'DO' | 'DO_D'| 'RE' | 'RE_D' | 'MI' | 'FA' | 'FA_D' | 'SOL' | 'SOL_D' | 'LA' | 'LA_D' | 'SI';
+CLASSIQUENOTE   :   SILENCE | 'DO' | 'DO_D'| 'RE' | 'RE_D' | 'MI' | 'FA' | 'FA_D' | 'SOL' | 'SOL_D' | 'LA' | 'LA_D' | 'SI';
 OCTAVE          :   '-2' | '-1' | '1' | '2' | '3' | '4' | '5' | '6' | '7';
-TIMING          :   FLOAT;
-BATTERIENOTE    :   SILENCE | 'B' | 'BD' | 'SD' | 'CH' | 'OH' | 'CC' | 'RC';
+BATTERIENOTE    :   SILENCE | 'BD' | 'SD' | 'CH' | 'PH' | 'OH' | 'CC' | 'RC' | 'MA';
 DUREE           :   'N' | 'BL' | 'C' | 'D_C' | 'N_P' | 'BL_P' | 'C_P' | 'R';
 SILENCE         :   'SILENCE';
 RYTHME          :   '3/4' | '4/4';
-TEMPO           :   NUMBER;
-TITLE           :   (LOWERCASE)+;
-
+INT             :   NUMBER;
+TITRE           :   (LOWERCASE)+;
+FLOAT               : '0'..'9'+ '.' ('0'|'25'|'5'|'75');
 
 
 /*************
@@ -46,7 +45,6 @@ TITLE           :   (LOWERCASE)+;
 
 fragment LOWERCASE  : [a-z];                                 // abstract rule, does not really exists
 fragment UPPERCASE  : [A-Z];
-FLOAT               : '0'..'9'+ '.' ('0'|'25'|'5'|'75');
 ZERO                : '0';
 NUMBER              : [1-9]([0-9])+;
 NEWLINE             : ('\r'? '\n' | '\r')+      -> skip;

@@ -180,7 +180,9 @@ public class ModelBuilder extends MidimlBaseListener {
 
             Note note;
             if (noteChaineContext.timing !=null){
-                double timing = Double.parseDouble(noteChaineContext.timing.getText());
+                String timingChaine = noteChaineContext.timing.getText();
+                // Parse the timing (int or double) to double
+                double timing = Double.parseDouble(timingChaine);
                 try {
                     note = new Note (noteNumber + octaveToAdd, noteDuration, timing);
                 } catch (InvalidTickException e) {
