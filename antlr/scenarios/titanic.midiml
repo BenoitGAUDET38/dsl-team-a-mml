@@ -5,7 +5,7 @@ titre titanic
 
 # Declaring settings
 tempo 100bpm
-rythme 4/4
+rythme 6/4
 
 instrument PIANO
 {
