@@ -7,6 +7,8 @@ titre loveisall
 tempo 110bpm
 rythme 4/4
 
+# TODO: A faire quand il y aura la répétition/modification de mesure
+
 instrument BATTERIE
 {
     | SILENCE:BL SILENCE:N SD | OH OH OH OH | OH OH OH OH | SD:C SD:C SD:C SD:C SD:C SD:C SD:C SD:C OH:0.0 | SD SD
