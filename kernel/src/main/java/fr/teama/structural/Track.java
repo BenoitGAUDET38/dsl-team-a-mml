@@ -4,7 +4,6 @@ import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
 import fr.teama.structural.enums.InstrumentEnum;
 
-import javax.sound.midi.Instrument;
 import java.util.List;
 
 public class Track implements Visitable {

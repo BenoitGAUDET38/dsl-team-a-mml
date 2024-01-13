@@ -8,41 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Bar implements Visitable, Cloneable {
-    private Optional<String> name;
-    private int tempo;
-    private int resolution;
-    private List<Note> notes;
+public class Bar implements Visitable {
+    public Optional<String> name;
 
-    public Bar(int tempo, int resolution) {
+    public Bar() {
         this.name = Optional.of("noName");
-        this.tempo = tempo;
-        this.resolution = resolution;
-        this.notes = new ArrayList<>();
-    }
-
-    public void addNote(Note note) {
-        this.notes.add(note);
-    }
-
-    public void addNote(int position, Note note) {
-        this.notes.add(position, note);
-    }
-
-    public void modifyNote(int position, Note note) {
-        this.notes.remove(position);
-        this.notes.add(position, note);
-    }
-
-    public void removeNote(int start, Optional<Integer> end) {
-        if (end.isEmpty()) {
-            this.notes.remove(start);
-        } else {
-            for (int i = end.get(); i >= start; i--) {
-                this.notes.remove(i);
-            }            
-        }
-        
     }
 
     public Optional<String> getName() {
@@ -53,57 +23,51 @@ public class Bar implements Visitable, Cloneable {
         this.name = Optional.of(name);
     }
 
+    public void addNote(Note note) {
+    }
+
+    public void addNote(int position, Note note) {
+    }
+
+    public void modifyNote(int position, Note note) {
+    }
+
+    public void removeNote(int start, Optional<Integer> end) {
+    }
+
     public int getTempo() {
-        return tempo;
+        return 0;
     }
 
     public void setTempo(int tempo) {
-        this.tempo = tempo;
     }
 
     public int getResolution() {
-        return resolution;
+        return 0;
     }
 
-    void setResolution(int resolution) {
-        this.resolution = resolution;
+    public void setResolution(int resolution) {
     }
 
     public List<Note> getNotes() {
-        return notes;
+        return new ArrayList<>();
     }
 
-    void setNotes(List<Note> notes) {
-        this.notes = notes;
+    public void setNotes(List<Note> notes) {
     }
 
     public void accept(Visitor visitor) throws InconsistentBarException {
-        visitor.visit(this);
-    }
-
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        Bar clonedObject = (Bar) super.clone();
-
-        // Clone the optional name field
-        clonedObject.name = this.name.isPresent() ? Optional.of(new String(this.name.get())) : Optional.empty();
-
-        // Clone the list of notes
-        clonedObject.notes = new ArrayList<>();
-        for (Note note : this.notes) {
-            clonedObject.notes.add((Note) note.clone());
-        }
-
-        return clonedObject;
     }
 
     @Override
     public String toString() {
         return "Bar{" +
                 "name=" + name.get() +
-                ", tempo=" + tempo +
-                ", resolution=" + resolution +
-                ", notes=" + notes +
                 '}';
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return null;
     }
 }
