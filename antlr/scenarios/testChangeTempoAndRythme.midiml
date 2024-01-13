@@ -1,0 +1,20 @@
+### Test scenario
+## Change the tempo and the rythme
+
+titre testtempoandryhtme
+
+# Declaring settings
+tempo 100bpm
+rythme 6/4
+
+instrument PIANO
+{
+    | DO RE MI FA | SOL LA SI DO4  | DO4:C SI:C LA:C SOL:C FA:C MI:C RE:C DO:C
+    500 bpm
+    | DO RE MI FA | SOL LA SI DO4  | DO4:C SI:C LA:C SOL:C FA:C MI:C RE:C DO:C
+    1000 bpm
+    | DO RE MI FA | SOL LA SI DO4  | DO4:C SI:C LA:C SOL:C FA:C MI:C RE:C DO:C
+    3/4 240 bpm
+    | DO RE MI | FA SOL LA | SI DO RE | MI FA SOL | LA SI DO | RE MI FA | SOL LA SI | DO RE MI
+    | SILENCE SILENCE DO | SILENCE SILENCE SILENCE | SILENCE SILENCE DO
+}

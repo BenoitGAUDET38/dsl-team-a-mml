@@ -17,15 +17,21 @@ public class ToWiring extends Visitor<StringBuffer> {
     javax.sound.midi.Track currentTrack;
     Bar currentBar;
     int currentTick = 1;
-    int currentInstrumentChannelNumber;
+
+    int currentBarTick=0;
+    int currentChannelNumber;
+    int currentClassicChannelNumber = 0;
+    int currentDrumChannelNumber = 9;
+    int currentInstrumentNumber = 0;
     int globalResolution = 0;
     int currentResolution = 4;
     int currentTempo = 120;
 
+    int currentVolume = 60;
+
     @Override
     public void visit(App app) {
         try {
-            System.out.println("STARTING GENERATION");
             Sequencer sequencer = MidiSystem.getSequencer();
             sequencer.open();
 
@@ -72,9 +78,36 @@ public class ToWiring extends Visitor<StringBuffer> {
 
     @Override
     public void visit(Track track) {
+
         currentTick = 1;
         currentTrack = sequence.createTrack();
-        currentInstrumentChannelNumber = track.getInstrument().getInstrumentChannelNumber();
+        currentInstrumentNumber = track.getInstrument().getInstrumentNumber();
+        currentVolume = track.getVolume();
+
+        if (currentInstrumentNumber != -1 && currentClassicChannelNumber > 15) {
+            throw new IllegalStateException("Too many tracks with classic instruments (max 14)");
+        }
+        if (currentInstrumentNumber == -1 && currentDrumChannelNumber > 9) {
+            throw new IllegalStateException("Too many tracks with drum instruments (max 1)");
+        }
+
+        if (currentInstrumentNumber != -1) {
+            currentChannelNumber = currentClassicChannelNumber;
+            ShortMessage instrumentChange = new ShortMessage();
+            try {
+                // .setMessage(ShortMessage.PROGRAM_CHANGE, channelToChange, instrumentNumber, idk so 0);
+                instrumentChange.setMessage(ShortMessage.PROGRAM_CHANGE, currentChannelNumber, currentInstrumentNumber, 0);
+                MidiEvent instrumentChangeEvent = new MidiEvent(instrumentChange, currentTick);
+                currentTrack.add(instrumentChangeEvent);
+            } catch (InvalidMidiDataException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            currentChannelNumber = currentDrumChannelNumber;
+        }
+
+        System.out.println("Track " + track.getInstrument() + " on channel " + currentChannelNumber);
+
         track.getBars().forEach(bar -> {
             try {
                 bar.accept(this);
@@ -82,6 +115,14 @@ public class ToWiring extends Visitor<StringBuffer> {
                 throw new RuntimeException(e);
             }
         });
+        if (currentInstrumentNumber != -1) {
+            currentClassicChannelNumber++;
+            if (currentClassicChannelNumber == 9) {
+                currentClassicChannelNumber = 10;
+            }
+        } else {
+            currentDrumChannelNumber++;
+        }
     }
 
     @Override
@@ -98,7 +139,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         if (!checkBarTotalDuration(bar)) {
-            throw new InconsistentBarException("Bar notes different from bar resolution : " + bar.toString());
+            throw new InconsistentBarException("Bar notes different from bar resolution : " + bar);
         }
 
         currentBar = bar;
@@ -109,35 +150,45 @@ public class ToWiring extends Visitor<StringBuffer> {
     public void visit(Note note) {
         try {
             int tickMultiplier = globalResolution / currentBar.getResolution();
+            int tick;
 
-            // Manage silence
-            if (note.getNoteNumber() == -1) {
-                currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier) + 1;
-                return;
+            if (note.getTick().isPresent()){
+                tick = note.getTick().get() + currentBarTick + 1;
+            }
+            else{
+                if (note.getNoteNumber() == -1) {
+                    currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier) + 1;
+                    return;
+                }
+                tick=currentTick;
+                currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
+
             }
 
             ShortMessage noteOn = new ShortMessage();
-            noteOn.setMessage(ShortMessage.NOTE_ON, currentInstrumentChannelNumber, note.getNoteNumber(), 60);
-            MidiEvent noteOnEvent = new MidiEvent(noteOn, currentTick);
+            noteOn.setMessage(ShortMessage.NOTE_ON, currentChannelNumber, note.getNoteNumber(), currentVolume);
+            MidiEvent noteOnEvent = new MidiEvent(noteOn, tick);
             currentTrack.add(noteOnEvent);
 
-            currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
+            tick += note.getNoteDurationEnum().getDuration() * tickMultiplier-1;
 
             ShortMessage noteOff = new ShortMessage();
-            noteOff.setMessage(ShortMessage.NOTE_OFF, currentInstrumentChannelNumber, note.getNoteNumber(), 60);
-            MidiEvent noteOffEvent = new MidiEvent(noteOff, currentTick + ((long) note.getNoteDurationEnum().getDuration() * tickMultiplier));
+            noteOff.setMessage(ShortMessage.NOTE_OFF, currentChannelNumber, note.getNoteNumber(), currentVolume);
+            MidiEvent noteOffEvent = new MidiEvent(noteOff, tick);
             currentTrack.add(noteOffEvent);
-
-            currentTick += 1;
         } catch (InvalidMidiDataException e) {
             throw new RuntimeException(e);
         }
     }
 
     private boolean checkBarTotalDuration(Bar bar) {
+        if (currentTick!=1){
+            currentBarTick+=bar.getResolution()*4 ;
+        }
         float totalDuration = 0;
         for (Note note : bar.getNotes()) {
-            totalDuration += note.getNoteDurationEnum().getDuration();
+            if (note.getTick().isEmpty())
+                totalDuration += note.getNoteDurationEnum().getDuration();
         }
         return totalDuration / 4 == bar.getResolution();
     }

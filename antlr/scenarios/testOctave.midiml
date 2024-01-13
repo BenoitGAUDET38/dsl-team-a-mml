@@ -1,0 +1,21 @@
+### Test scenario
+## Octave
+
+titre testoctave
+
+# Declaring settings
+tempo 100bpm
+rythme 4/4
+
+instrument PIANO
+{
+    | DO-2:N RE-2:N MI-2:N FA-2:N | SOL-2:N LA-2:N SI-2:N DO-1:N
+    | DO-1:N RE-1:N MI-1:N FA-1:N | SOL-1:N LA-1:N SI-1:N DO1:N
+    | DO1:N RE1:N MI1:N FA1:N | SOL1:N LA1:N SI1:N DO2:N
+    | DO2:N RE2:N MI2:N FA2:N | SOL2:N LA2:N SI2:N DO3:N
+    | DO3:N RE3:N MI3:N FA3:N | SOL:N LA:N SI:N DO4:N
+    | DO4:N RE4:N MI4:N FA4:N | SOL4:N LA4:N SI4:N DO5:N
+    | DO5:N RE5:N MI5:N FA5:N | SOL5:N LA5:N SI5:N DO6:N
+    | DO6:N RE6:N MI6:N FA6:N | SOL6:N LA6:N SI6:N DO7:N
+    | DO7:N RE7:N MI7:N FA7:N | SOL7:N LA7:N SI7:N SILENCE7:N
+}

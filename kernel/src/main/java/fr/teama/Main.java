@@ -1,5 +1,6 @@
 package fr.teama;
 
+import fr.teama.exceptions.InvalidTickException;
 import fr.teama.generator.ToWiring;
 import fr.teama.structural.Bar;
 import fr.teama.structural.Note;
@@ -12,6 +13,84 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+
+
+    public static void simpleTest() throws InvalidTickException {
+        App app = new App();
+        app.setName("test_track");
+
+        List<Track> tracks = new ArrayList<>();
+        Track track = new Track();
+        List<Bar> bars = new ArrayList<>();
+
+        track.setInstrument(InstrumentEnum.PIANO);
+        track.setBars(bars);
+        tracks.add(track);
+        app.setTracks(tracks);
+
+        Bar bar = new Bar(120, 4);
+        bars.add(bar);
+
+        // Partition de test du Titanic
+        // Ligne 1
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N_P));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.C));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
+
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N_P, 0));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.C, 1.5));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3));
+
+        bar = new Bar(120, 4);
+        bars.add(bar);
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N_P));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.C));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
+
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N_P, 0));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.C, 1.5));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3));
+
+        bar = new Bar(120, 4);
+        bars.add(bar);
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N_P));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.C));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
+
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N_P, 0));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.C, 1.5));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3));
+        bar = new Bar(120, 4);
+        bars.add(bar);
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N_P));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.C));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
+
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N_P, 0));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.C, 1.5));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3));
+        bar = new Bar(120, 4);
+        bars.add(bar);
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N_P));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.C));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
+
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N_P, 0));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.C, 1.5));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3));
+
+        app.accept(new ToWiring());
+    }
 
     public static void titanic() {
         App app = new App();
@@ -213,8 +292,8 @@ public class Main {
     }
 
     }*/
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidTickException {
 //        basic();
-        titanic();
+        simpleTest();
     }
 }

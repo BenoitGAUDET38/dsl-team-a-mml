@@ -21,7 +21,14 @@ We consider here that the current directory is the `antlr` directory.
   2. Then, compile the ANTLR code
     * `mvn clean package`
   3. Run the compiler using the `exec` plugin:
-    * `mvn exec:java -Dexec.args="scenarios/titanic.midiml"`
+     * Basic scenarios:
+       * `mvn exec:java -Dexec.args="scenarios/billieJean.midiml"`
+       * `mvn exec:java -Dexec.args="scenarios/loveIsAll.midiml"`
+     * Test scenarios:
+       * `mvn exec:java -Dexec.args="scenarios/testChangeTempoAndRythme.midiml"`
+       * `mvn exec:java -Dexec.args="scenarios/testMultipleNotes.midiml"`
+       * `mvn exec:java -Dexec.args="scenarios/testMultipleInstruments.midiml"`
+       * `mvn exec:java -Dexec.args="scenarios/testOctave.midiml"`
     
 ## Code Description
 

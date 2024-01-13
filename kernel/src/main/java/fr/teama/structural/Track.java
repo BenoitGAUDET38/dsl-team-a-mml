@@ -10,6 +10,8 @@ public class Track implements Visitable {
     private InstrumentEnum instrument;
     private List<Bar> bars;
 
+    private int volume = 60;
+
     public InstrumentEnum getInstrument() {
         return instrument;
     }
@@ -26,15 +28,24 @@ public class Track implements Visitable {
         this.bars = bars;
     }
 
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
     @Override
     public String toString() {
-        return "Track{" +
-                "bars=" + bars +
-                ", instrument=" + instrument +
+        return "\nTrack{" +
+                "\ninstrument=" + instrument +
+                "\nvolume=" + volume +
+                "\nbars=" + bars +
                 '}';
     }
 
