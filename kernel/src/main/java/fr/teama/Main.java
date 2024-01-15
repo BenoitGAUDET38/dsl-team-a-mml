@@ -6,7 +6,9 @@ import fr.teama.structural.*;
 import fr.teama.structural.enums.ClassicNoteEnum;
 import fr.teama.structural.enums.InstrumentEnum;
 import fr.teama.structural.enums.NoteDurationEnum;
+import fr.teama.structural.manipulations.AddManipulation;
 import fr.teama.structural.manipulations.DeleteManipulation;
+import fr.teama.structural.manipulations.NoteDurationManipulation;
 import fr.teama.structural.manipulations.NoteNumberManipulation;
 
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class Main {
 
         // Partition de test du Titanic
         // Ligne 1
-        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N_P));
+        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N_P, "fa0"));
         bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.C));
         bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N, "fa1"));
         bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N, "fa2"));
@@ -48,11 +50,17 @@ public class Main {
 
         List<Manipulation> manipulations = new ArrayList<>();
         manipulations.add(new NoteNumberManipulation("fa1", ClassicNoteEnum.DO.getNoteNumber()));
+        manipulations.add(new NoteDurationManipulation("fa0", NoteDurationEnum.R));
         ReusedBar reusedBar = new ReusedBar(1, bar, manipulations);
         bars.add(reusedBar);
 
         manipulations = new ArrayList<>();
-        manipulations.add(new DeleteManipulation("fa2"));
+        manipulations.add(new DeleteManipulation("fa0"));
+        reusedBar = new ReusedBar(1, reusedBar, manipulations);
+        bars.add(reusedBar);
+
+        manipulations = new ArrayList<>();
+        manipulations.add(new AddManipulation(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.BL, 1.0));
         reusedBar = new ReusedBar(1, reusedBar, manipulations);
         bars.add(reusedBar);
 
