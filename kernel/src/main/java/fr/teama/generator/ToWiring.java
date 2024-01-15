@@ -3,6 +3,7 @@ package fr.teama.generator;
 import fr.teama.App;
 import fr.teama.behaviour.TempoEvent;
 import fr.teama.exceptions.InconsistentBarException;
+import fr.teama.exceptions.InvalidOctaveExtension;
 import fr.teama.exceptions.NoRootNormalBarFoundException;
 import fr.teama.structural.*;
 import fr.teama.structural.Track;
@@ -212,18 +213,29 @@ public class ToWiring extends Visitor<StringBuffer> {
                 currentTick += note.getNoteDuration().getDuration() * tickMultiplier;
             }
 
+            // Apply octave to note number
+            int noteNumber;
+            if (note.getOctave() > 7 || note.getOctave() < -2 || note.getOctave() == 0) {
+                throw new InvalidOctaveExtension("Invalid octave extension : " + note.getOctave());
+            } else if (note.getOctave() > 0) {
+                noteNumber = note.getNoteNumber().getNoteNumber() + (note.getOctave() - 3) * 12;
+            } else {
+                noteNumber = note.getNoteNumber().getNoteNumber() + (note.getOctave() - 2) * 12;
+            }
+            System.out.println("Note number : " + noteNumber + " " + note);
+
             ShortMessage noteOn = new ShortMessage();
-            noteOn.setMessage(ShortMessage.NOTE_ON, currentChannelNumber, note.getNoteNumber().getNoteNumber(), currentVolume);
+            noteOn.setMessage(ShortMessage.NOTE_ON, currentChannelNumber, noteNumber, currentVolume);
             MidiEvent noteOnEvent = new MidiEvent(noteOn, tick);
             currentTrack.add(noteOnEvent);
 
             tick += note.getNoteDuration().getDuration() * tickMultiplier-1;
 
             ShortMessage noteOff = new ShortMessage();
-            noteOff.setMessage(ShortMessage.NOTE_OFF, currentChannelNumber, note.getNoteNumber().getNoteNumber(), currentVolume);
+            noteOff.setMessage(ShortMessage.NOTE_OFF, currentChannelNumber, noteNumber, currentVolume);
             MidiEvent noteOffEvent = new MidiEvent(noteOff, tick);
             currentTrack.add(noteOffEvent);
-        } catch (InvalidMidiDataException e) {
+        } catch (InvalidMidiDataException | InvalidOctaveExtension e) {
             throw new RuntimeException(e);
         }
     }

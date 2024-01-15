@@ -4,7 +4,7 @@
 titre multiplenotes
 
 # Declaring settings
-tempo 100bpm
+tempo 100 bpm
 rythme 4/4
 
 instrument PIANO

@@ -5,7 +5,7 @@ titre testtempoandryhtme
 
 # Declaring settings
 tempo 100bpm
-rythme 6/4
+rythme 4/4
 
 instrument PIANO
 {

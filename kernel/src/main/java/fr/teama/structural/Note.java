@@ -11,6 +11,7 @@ public class Note extends NamedElement implements Visitable, Cloneable {
 
     NoteDurationEnum noteDuration;
     NoteNumber noteNumber;
+    int octave = 3;
 
     Optional<Integer> tick = Optional.empty();
 
@@ -19,9 +20,22 @@ public class Note extends NamedElement implements Visitable, Cloneable {
         this.noteDuration = noteDuration;
     }
 
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int octave) {
+        this.noteNumber = noteNumber;
+        this.noteDuration = noteDuration;
+        this.octave = octave;
+    }
+
     public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, String name) {
         this.noteNumber = noteNumber;
         this.noteDuration = noteDuration;
+        setName(name);
+    }
+
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int octave, String name) {
+        this.noteNumber = noteNumber;
+        this.noteDuration = noteDuration;
+        this.octave = octave;
         setName(name);
     }
 
@@ -33,10 +47,36 @@ public class Note extends NamedElement implements Visitable, Cloneable {
         else
             throw new InvalidTickException("Invalid tick for note");
     }
-    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int timing) throws InvalidTickException {
+
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, Double timing, int octave) throws InvalidTickException {
         this.noteDuration = noteDuration;
         this.noteNumber = noteNumber;
-        this.tick = Optional.of(timing*4);
+        if ((timing*4) % 1 == 0)
+            this.tick = Optional.of((int) (timing*4));
+        else
+            throw new InvalidTickException("Invalid tick for note");
+        this.octave = octave;
+    }
+
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, Double timing, String name) throws InvalidTickException {
+        this.noteDuration = noteDuration;
+        this.noteNumber = noteNumber;
+        if ((timing*4) % 1 == 0)
+            this.tick = Optional.of((int) (timing*4));
+        else
+            throw new InvalidTickException("Invalid tick for note");
+        setName(name);
+    }
+
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, Double timing, int octave, String name) throws InvalidTickException {
+        this.noteDuration = noteDuration;
+        this.noteNumber = noteNumber;
+        if ((timing*4) % 1 == 0)
+            this.tick = Optional.of((int) (timing*4));
+        else
+            throw new InvalidTickException("Invalid tick for note");
+        this.octave = octave;
+        setName(name);
     }
 
     public NoteDurationEnum getNoteDuration() {
@@ -67,6 +107,14 @@ public class Note extends NamedElement implements Visitable, Cloneable {
         this.tick = tick;
     }
 
+    public int getOctave() {
+        return octave;
+    }
+
+    public void setOctave(int octave) {
+        this.octave = octave;
+    }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -78,6 +126,7 @@ public class Note extends NamedElement implements Visitable, Cloneable {
                 "noteNumber=" + noteNumber +
                 ", duration=" + noteDuration +
                 ", tick=" + tick +
+                ", octave=" + octave +
                 '}';
     }
 }
