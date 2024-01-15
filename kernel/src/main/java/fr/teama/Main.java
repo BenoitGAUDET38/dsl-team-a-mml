@@ -36,10 +36,10 @@ public class Main {
 
         // Partition de test du Titanic
         // Ligne 1
-        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N_P));
-        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.C));
-        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N, "fa1"));
-        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N, "fa2"));
+        bar.addNote(new Note(ClassicNoteEnum.FA, NoteDurationEnum.N_P));
+        bar.addNote(new Note(ClassicNoteEnum.FA, NoteDurationEnum.C));
+        bar.addNote(new Note(ClassicNoteEnum.FA, NoteDurationEnum.N, "fa1"));
+        bar.addNote(new Note(ClassicNoteEnum.FA, NoteDurationEnum.N, "fa2"));
 
 //        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N_P, 0));
 //        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.C, 1.5));
@@ -47,7 +47,8 @@ public class Main {
 //        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3));
 
         List<Manipulation> manipulations = new ArrayList<>();
-        manipulations.add(new NoteNumberManipulation("fa1", ClassicNoteEnum.DO.getNoteNumber()));
+        manipulations.add(new NoteNumberManipulation("fa1", ClassicNoteEnum.DO
+        ));
         ReusedBar reusedBar = new ReusedBar(1, bar, manipulations);
         bars.add(reusedBar);
 

@@ -3,58 +3,55 @@ package fr.teama.structural;
 import fr.teama.exceptions.InvalidTickException;
 import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
-import fr.teama.structural.enums.ClassicNoteEnum;
-import fr.teama.structural.enums.DrumNoteEnum;
 import fr.teama.structural.enums.NoteDurationEnum;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public class Note extends NamedElement implements Visitable, Cloneable {
 
-    NoteDurationEnum noteDurationEnum;
-    int noteNumber;
+    NoteDurationEnum noteDuration;
+    NoteNumber noteNumber;
 
     Optional<Integer> tick = Optional.empty();
 
-    public Note(int noteNumber, NoteDurationEnum noteDurationEnum) {
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration) {
         this.noteNumber = noteNumber;
-        this.noteDurationEnum = noteDurationEnum;
+        this.noteDuration = noteDuration;
     }
 
-    public Note(int noteNumber, NoteDurationEnum noteDurationEnum, String name) {
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, String name) {
         this.noteNumber = noteNumber;
-        this.noteDurationEnum = noteDurationEnum;
+        this.noteDuration = noteDuration;
         setName(name);
     }
 
-    public Note(int noteNumber, NoteDurationEnum noteDurationEnum, Double timing) throws InvalidTickException {
-        this.noteDurationEnum = noteDurationEnum;
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, Double timing) throws InvalidTickException {
+        this.noteDuration = noteDuration;
         this.noteNumber = noteNumber;
         if ((timing*4) % 1 == 0)
             this.tick = Optional.of((int) (timing*4));
         else
             throw new InvalidTickException("Invalid tick for note");
     }
-    public Note(int noteNumber, NoteDurationEnum noteDurationEnum, int timing) throws InvalidTickException {
-        this.noteDurationEnum = noteDurationEnum;
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int timing) throws InvalidTickException {
+        this.noteDuration = noteDuration;
         this.noteNumber = noteNumber;
         this.tick = Optional.of(timing*4);
     }
 
-    public NoteDurationEnum getNoteDurationEnum() {
-        return this.noteDurationEnum;
+    public NoteDurationEnum getNoteDuration() {
+        return this.noteDuration;
     }
 
-    public void setNoteDurationEnum(NoteDurationEnum noteDurationEnum) {
-        this.noteDurationEnum = noteDurationEnum;
+    public void setNoteDuration(NoteDurationEnum noteDuration) {
+        this.noteDuration = noteDuration;
     }
 
-    public int getNoteNumber() {
+    public NoteNumber getNoteNumber() {
         return noteNumber;
     }
 
-    public void setNoteNumber(int noteNumber) {
+    public void setNoteNumber(NoteNumber noteNumber) {
         this.noteNumber = noteNumber;
     }
 
@@ -79,7 +76,7 @@ public class Note extends NamedElement implements Visitable, Cloneable {
     public String toString() {
         return "Note{" +
                 "noteNumber=" + noteNumber +
-                ", duration=" + noteDurationEnum +
+                ", duration=" + noteDuration +
                 ", tick=" + tick +
                 '}';
     }

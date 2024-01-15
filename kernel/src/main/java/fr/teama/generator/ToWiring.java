@@ -160,7 +160,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         for (Note note : notes) {
             if (note.getTick().isEmpty()) {
                 note.setTick(Optional.of(tick));
-                tick += note.getNoteDurationEnum().getDuration();
+                tick += note.getNoteDuration().getDuration();
             }
         }
         return notes;
@@ -198,29 +198,29 @@ public class ToWiring extends Visitor<StringBuffer> {
             int tick;
 
             if (note.getTick().isPresent()) {
-                if (note.getNoteNumber() == -1) {
+                if (note.getNoteNumber().getNoteNumber() == -1) {
                     return;
                 }
                 tick = currentBarTick + note.getTick().get() * tickMultiplier;
             }
             else {
-                if (note.getNoteNumber() == -1) {
-                    currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier);
+                if (note.getNoteNumber().getNoteNumber() == -1) {
+                    currentTick += (note.getNoteDuration().getDuration() * tickMultiplier);
                     return;
                 }
                 tick=currentTick;
-                currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
+                currentTick += note.getNoteDuration().getDuration() * tickMultiplier;
             }
 
             ShortMessage noteOn = new ShortMessage();
-            noteOn.setMessage(ShortMessage.NOTE_ON, currentChannelNumber, note.getNoteNumber(), currentVolume);
+            noteOn.setMessage(ShortMessage.NOTE_ON, currentChannelNumber, note.getNoteNumber().getNoteNumber(), currentVolume);
             MidiEvent noteOnEvent = new MidiEvent(noteOn, tick);
             currentTrack.add(noteOnEvent);
 
-            tick += note.getNoteDurationEnum().getDuration() * tickMultiplier-1;
+            tick += note.getNoteDuration().getDuration() * tickMultiplier-1;
 
             ShortMessage noteOff = new ShortMessage();
-            noteOff.setMessage(ShortMessage.NOTE_OFF, currentChannelNumber, note.getNoteNumber(), currentVolume);
+            noteOff.setMessage(ShortMessage.NOTE_OFF, currentChannelNumber, note.getNoteNumber().getNoteNumber(), currentVolume);
             MidiEvent noteOffEvent = new MidiEvent(noteOff, tick);
             currentTrack.add(noteOffEvent);
         } catch (InvalidMidiDataException e) {
@@ -232,7 +232,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         float totalDuration = 0;
         for (Note note : normalBar.getNotes()) {
             if (note.getTick().isEmpty())
-                totalDuration += note.getNoteDurationEnum().getDuration();
+                totalDuration += note.getNoteDuration().getDuration();
         }
         return totalDuration / 4 == normalBar.getResolution();
     }
