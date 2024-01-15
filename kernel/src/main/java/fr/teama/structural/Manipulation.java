@@ -1,8 +1,5 @@
 package fr.teama.structural;
 
-import fr.teama.structural.Note;
-
-import java.util.List;
 
 public abstract class Manipulation {
 
