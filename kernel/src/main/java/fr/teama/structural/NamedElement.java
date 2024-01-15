@@ -1,14 +1,16 @@
 package fr.teama.structural;
 
+import java.util.Optional;
+
 public abstract class NamedElement {
 
-    String name;
+    Optional<String> name = Optional.empty();
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getName() {
+    public Optional<String> getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = Optional.of(name);
+    }
 }

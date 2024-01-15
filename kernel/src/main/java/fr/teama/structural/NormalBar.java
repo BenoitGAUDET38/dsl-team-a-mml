@@ -1,13 +1,14 @@
 package fr.teama.structural;
 
 import fr.teama.exceptions.InconsistentBarException;
+import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class NormalBar extends Bar implements Cloneable {
+public class NormalBar extends Bar implements Cloneable, Visitable {
 
     private int tempo;
     private int resolution;
@@ -20,23 +21,19 @@ public class NormalBar extends Bar implements Cloneable {
         this.notes = new ArrayList<>();
     }
 
-    @Override
     public void addNote(Note note) {
         this.notes.add(note);
     }
 
-    @Override
     public void addNote(int position, Note note) {
         this.notes.add(position, note);
     }
 
-    @Override
     public void modifyNote(int position, Note note) {
         this.notes.remove(position);
         this.notes.add(position, note);
     }
 
-    @Override
     public void removeNote(int start, Optional<Integer> end) {
         if (end.isEmpty()) {
             this.notes.remove(start);
@@ -48,32 +45,26 @@ public class NormalBar extends Bar implements Cloneable {
 
     }
 
-    @Override
     public int getTempo() {
         return tempo;
     }
 
-    @Override
     public void setTempo(int tempo) {
         this.tempo = tempo;
     }
 
-    @Override
     public int getResolution() {
         return resolution;
     }
 
-    @Override
     public void setResolution(int resolution) {
         this.resolution = resolution;
     }
 
-    @Override
     public List<Note> getNotes() {
         return notes;
     }
 
-    @Override
     public void setNotes(List<Note> notes) {
         this.notes = notes;
     }

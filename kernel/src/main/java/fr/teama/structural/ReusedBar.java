@@ -1,12 +1,50 @@
 package fr.teama.structural;
 
-public class ReusedBar extends Bar {
-    ReusedBar reusedBar;
-    int repetition;
+import fr.teama.exceptions.InconsistentBarException;
+import fr.teama.exceptions.NoRootNormalBarFoundException;
+import fr.teama.generator.Visitable;
+import fr.teama.generator.Visitor;
 
-    public ReusedBar(ReusedBar reusedBar, int repetition, int tempo, int resolution) {
+import java.util.List;
+
+public class ReusedBar extends Bar implements Visitable {
+    int repetition;
+    List<Manipulation> manipulations;
+    Bar bar;
+
+    public ReusedBar(int repetition, Bar bar, List<Manipulation> manipulations) {
         super();
-        this.reusedBar = reusedBar;
         this.repetition = repetition;
+        this.manipulations = manipulations;
+        this.bar = bar;
+    }
+
+    public int getRepetition() {
+        return repetition;
+    }
+
+    public void setRepetition(int repetition) {
+        this.repetition = repetition;
+    }
+
+    public List<Manipulation> getManipulations() {
+        return manipulations;
+    }
+
+    public void setManipulations(List<Manipulation> manipulations) {
+        this.manipulations = manipulations;
+    }
+
+    public Bar getBar() {
+        return bar;
+    }
+
+    public void setBar(Bar bar) {
+        this.bar = bar;
+    }
+
+    @Override
+    public void accept(Visitor visitor) throws InconsistentBarException, NoRootNormalBarFoundException, CloneNotSupportedException {
+        visitor.visit(this);
     }
 }

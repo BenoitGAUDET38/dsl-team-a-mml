@@ -3,19 +3,20 @@ package fr.teama.generator;
 import fr.teama.App;
 import fr.teama.behaviour.TempoEvent;
 import fr.teama.exceptions.InconsistentBarException;
-import fr.teama.structural.Bar;
-import fr.teama.structural.Note;
+import fr.teama.exceptions.NoRootNormalBarFoundException;
+import fr.teama.structural.*;
 import fr.teama.structural.Track;
 
 import javax.sound.midi.*;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.List;
 
 public class ToWiring extends Visitor<StringBuffer> {
     Sequence sequence;
     javax.sound.midi.Track currentTrack;
-    Bar currentBar;
+    NormalBar currentBar;
     int currentTick = 1;
 
     int currentBarTick=0;
@@ -26,8 +27,8 @@ public class ToWiring extends Visitor<StringBuffer> {
     int globalResolution = 0;
     int currentResolution = 4;
     int currentTempo = 120;
-
     int currentVolume = 60;
+    int tickMultiplier;
 
     @Override
     public void visit(App app) {
@@ -49,7 +50,11 @@ public class ToWiring extends Visitor<StringBuffer> {
 
             // Resolution management
             Set<Integer> resolutions = new HashSet<>();
-            app.getTracks().forEach(track -> track.getBars().forEach(bar -> resolutions.add(bar.getResolution())));
+            app.getTracks().forEach(track -> track.getBars().forEach(bar -> {
+                if (bar instanceof NormalBar) {
+                    resolutions.add(((NormalBar) bar).getResolution());
+                }
+            }));
             for (int r : resolutions) {
                 if (globalResolution == 0) {
                     globalResolution = r;
@@ -111,7 +116,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         track.getBars().forEach(bar -> {
             try {
                 bar.accept(this);
-            } catch (InconsistentBarException e) {
+            } catch (InconsistentBarException | CloneNotSupportedException | NoRootNormalBarFoundException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -126,43 +131,85 @@ public class ToWiring extends Visitor<StringBuffer> {
     }
 
     @Override
-    public void visit(Bar bar) throws InconsistentBarException {
+    public void visit(ReusedBar reusedBar) throws CloneNotSupportedException, NoRootNormalBarFoundException, InconsistentBarException {
+        NormalBar normalBar = applyManipulations(reusedBar);
+        normalBar.accept(this);
+    }
+
+    // Recursively apply manipulations to the reused bar
+    private NormalBar applyManipulations(ReusedBar reusedBar) throws CloneNotSupportedException, NoRootNormalBarFoundException {
+        if (reusedBar.getBar() instanceof NormalBar) {
+            NormalBar normalBar = (NormalBar) ((NormalBar) reusedBar.getBar()).clone();
+//            initializeBarNotesTick(normalBar.getNotes());
+            normalBar.setNotes(initializeBarNotesTick(normalBar.getNotes()));
+            reusedBar.getManipulations().forEach(manipulation -> manipulation.apply(normalBar));
+            return normalBar;
+        }
+
+        if (reusedBar.getBar() == null) {
+            throw new NoRootNormalBarFoundException("No bar to reuse");
+        }
+
+        NormalBar normalBar = applyManipulations((ReusedBar) reusedBar.getBar());
+        reusedBar.getManipulations().forEach(manipulation -> manipulation.apply(normalBar));
+        return normalBar;
+    }
+
+    private List<Note> initializeBarNotesTick(List<Note> notes){
+        int tick = 0;
+        for (Note note : notes) {
+            if (note.getTick().isEmpty()) {
+                note.setTick(Optional.of(tick));
+                tick += note.getNoteDurationEnum().getDuration();
+            }
+        }
+        return notes;
+    }
+
+    @Override
+    public void visit(NormalBar normalBar) throws InconsistentBarException {
         // Check if the tempo has changed
-        if (bar.getTempo() != currentTempo) {
-            currentTrack.add(TempoEvent.createTempoEvent(bar.getTempo(), currentTick));
-            currentTempo = bar.getTempo();
+        if (normalBar.getTempo() != currentTempo) {
+            currentTrack.add(TempoEvent.createTempoEvent(normalBar.getTempo(), currentTick));
+            currentTempo = normalBar.getTempo();
         }
 
         // Check if the resolution has changed
-        if (bar.getResolution() != currentResolution) {
-            currentResolution = bar.getResolution();
+        if (normalBar.getResolution() != currentResolution) {
+            currentResolution = normalBar.getResolution();
         }
 
-        if (!checkBarTotalDuration(bar)) {
-            throw new InconsistentBarException("Bar notes different from bar resolution : " + bar);
-        }
+//        if (!checkBarTotalDuration(normalBar)) {
+//            throw new InconsistentBarException("Bar notes different from bar resolution : " + normalBar);
+//        }
 
-        currentBar = bar;
-        bar.getNotes().forEach(note -> note.accept(this));
+        initializeBarNotesTick(normalBar.getNotes());
+
+        currentBar = normalBar;
+        tickMultiplier = globalResolution / currentBar.getResolution();
+        normalBar.getNotes().forEach(note -> note.accept(this));
+        currentBarTick += (normalBar.getResolution() * 4) * tickMultiplier;
     }
 
     @Override
     public void visit(Note note) {
         try {
-            int tickMultiplier = globalResolution / currentBar.getResolution();
+            System.out.println(note);
             int tick;
 
-            if (note.getTick().isPresent()){
-                tick = note.getTick().get() + currentBarTick + 1;
-            }
-            else{
+            if (note.getTick().isPresent()) {
                 if (note.getNoteNumber() == -1) {
-                    currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier) + 1;
+                    return;
+                }
+                tick = currentBarTick + note.getTick().get() * tickMultiplier;
+            }
+            else {
+                if (note.getNoteNumber() == -1) {
+                    currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier);
                     return;
                 }
                 tick=currentTick;
                 currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
-
             }
 
             ShortMessage noteOn = new ShortMessage();
@@ -181,16 +228,13 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
     }
 
-    private boolean checkBarTotalDuration(Bar bar) {
-        if (currentTick!=1){
-            currentBarTick+=bar.getResolution()*4 ;
-        }
+    private boolean checkBarTotalDuration(NormalBar normalBar) {
         float totalDuration = 0;
-        for (Note note : bar.getNotes()) {
+        for (Note note : normalBar.getNotes()) {
             if (note.getTick().isEmpty())
                 totalDuration += note.getNoteDurationEnum().getDuration();
         }
-        return totalDuration / 4 == bar.getResolution();
+        return totalDuration / 4 == normalBar.getResolution();
     }
 
 }

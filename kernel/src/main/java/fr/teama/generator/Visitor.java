@@ -2,9 +2,8 @@ package fr.teama.generator;
 
 import fr.teama.App;
 import fr.teama.exceptions.InconsistentBarException;
-import fr.teama.structural.Bar;
-import fr.teama.structural.Note;
-import fr.teama.structural.Track;
+import fr.teama.exceptions.NoRootNormalBarFoundException;
+import fr.teama.structural.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +12,9 @@ public abstract class Visitor<T> {
 
 	public abstract void visit(App app);
 	public abstract void visit(Track track);
-	public abstract void visit(Bar bar) throws InconsistentBarException;
+	public abstract void visit(NormalBar normalBar) throws InconsistentBarException;
+	public abstract void visit(ReusedBar reusedBar) throws InconsistentBarException, CloneNotSupportedException, NoRootNormalBarFoundException;
+
 	public abstract void visit(Note note);
 
 	/***********************

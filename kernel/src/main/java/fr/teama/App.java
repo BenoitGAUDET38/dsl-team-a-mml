@@ -9,8 +9,6 @@ import java.util.List;
 
 public class App extends NamedElement implements Visitable {
 
-	private String name;
-
 	List<Track> tracks;
 
 	public List<Track> getTracks() {
@@ -22,16 +20,6 @@ public class App extends NamedElement implements Visitable {
 	}
 
 	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
@@ -39,7 +27,7 @@ public class App extends NamedElement implements Visitable {
 	@Override
 	public String toString() {
 		return "App{" +
-				"\nname='" + name + '\'' +
+				"\nname='" + getName() + '\'' +
 				"\ntracks=" + tracks +
 				'}';
 	}

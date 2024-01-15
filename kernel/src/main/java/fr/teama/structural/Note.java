@@ -10,7 +10,7 @@ import fr.teama.structural.enums.NoteDurationEnum;
 import javax.swing.text.html.Option;
 import java.util.Optional;
 
-public class Note implements Visitable, Cloneable {
+public class Note extends NamedElement implements Visitable, Cloneable {
 
     NoteDurationEnum noteDurationEnum;
     int noteNumber;
@@ -20,6 +20,12 @@ public class Note implements Visitable, Cloneable {
     public Note(int noteNumber, NoteDurationEnum noteDurationEnum) {
         this.noteNumber = noteNumber;
         this.noteDurationEnum = noteDurationEnum;
+    }
+
+    public Note(int noteNumber, NoteDurationEnum noteDurationEnum, String name) {
+        this.noteNumber = noteNumber;
+        this.noteDurationEnum = noteDurationEnum;
+        setName(name);
     }
 
     public Note(int noteNumber, NoteDurationEnum noteDurationEnum, Double timing) throws InvalidTickException {
@@ -74,6 +80,7 @@ public class Note implements Visitable, Cloneable {
         return "Note{" +
                 "noteNumber=" + noteNumber +
                 ", duration=" + noteDurationEnum +
+                ", tick=" + tick +
                 '}';
     }
 }
