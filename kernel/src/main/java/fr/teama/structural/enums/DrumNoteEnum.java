@@ -1,6 +1,8 @@
 package fr.teama.structural.enums;
 
-public enum DrumNoteEnum {
+import fr.teama.structural.NoteNumber;
+
+public enum DrumNoteEnum implements NoteNumber {
     BD(35), // Bass Drum
     SD(38), // Snare Drum
     CH(42), // Closed Hi-Hat
@@ -18,6 +20,7 @@ public enum DrumNoteEnum {
         this.noteNumber = noteNumber;
     }
 
+    @Override
     public int getNoteNumber() {
         return noteNumber;
     }
