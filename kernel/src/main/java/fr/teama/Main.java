@@ -6,6 +6,7 @@ import fr.teama.structural.*;
 import fr.teama.structural.enums.ClassicNoteEnum;
 import fr.teama.structural.enums.InstrumentEnum;
 import fr.teama.structural.enums.NoteDurationEnum;
+import fr.teama.structural.manipulations.DeleteManipulation;
 import fr.teama.structural.manipulations.NoteNumberManipulation;
 
 import java.util.ArrayList;
@@ -46,12 +47,12 @@ public class Main {
 //        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3));
 
         List<Manipulation> manipulations = new ArrayList<>();
-        manipulations.add(new NoteNumberManipulation(ClassicNoteEnum.DO.getNoteNumber(), "fa1"));
+        manipulations.add(new NoteNumberManipulation("fa1", ClassicNoteEnum.DO.getNoteNumber()));
         ReusedBar reusedBar = new ReusedBar(1, bar, manipulations);
         bars.add(reusedBar);
 
         manipulations = new ArrayList<>();
-        manipulations.add(new NoteNumberManipulation(ClassicNoteEnum.RE.getNoteNumber(), "fa2"));
+        manipulations.add(new DeleteManipulation("fa2"));
         reusedBar = new ReusedBar(1, reusedBar, manipulations);
         bars.add(reusedBar);
 

@@ -3,23 +3,23 @@ package fr.teama.structural.manipulations;
 import fr.teama.structural.Manipulation;
 import fr.teama.structural.NormalBar;
 import fr.teama.structural.Note;
-import fr.teama.structural.PositionHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class NoteNumberManipulation extends Manipulation {
+public class DeleteManipulation extends Manipulation {
     String noteName;
-    int noteNumber;
 
-    public NoteNumberManipulation(String noteName, int noteNumber) {
+    public DeleteManipulation(String noteName) {
         this.noteName = noteName;
-        this.noteNumber = noteNumber;
     }
 
     @Override
     public void apply(NormalBar bar) {
+        List<Note> notesToDelete = new ArrayList<>();
         bar.getNotes().stream()
                 .filter(note -> note.getName().isPresent() && note.getName().get().equals(noteName))
-                .forEach(note -> note.setNoteNumber(noteNumber));
+                .forEach(notesToDelete::add);
+        bar.getNotes().removeAll(notesToDelete);
     }
 }
