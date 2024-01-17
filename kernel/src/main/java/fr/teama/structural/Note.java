@@ -28,18 +28,41 @@ public class Note extends NamedElement implements Visitable, Cloneable {
         setName(name);
     }
 
-    public Note(int noteNumber, NoteDurationEnum noteDurationEnum, Double timing) throws InvalidTickException {
+    public Note(int noteNumber, NoteDurationEnum noteDurationEnum, Double timing, int unityTimeValue) throws InvalidTickException {
         this.noteDurationEnum = noteDurationEnum;
         this.noteNumber = noteNumber;
-        if ((timing*4) % 1 == 0)
-            this.tick = Optional.of((int) (timing*4));
+        double tick;
+        try{
+            tick = (timing*(4/(Math.pow(2, unityTimeValue/4))));
+            //tick = timing * 4;
+        }
+        catch (Exception e){
+            throw new InvalidTickException("Invalid unity time value");
+        }
+        if (tick % 1 == 0)
+            this.tick = Optional.of((int) tick);
         else
             throw new InvalidTickException("Invalid tick for note");
     }
-    public Note(int noteNumber, NoteDurationEnum noteDurationEnum, int timing) throws InvalidTickException {
+    public Note(int noteNumber, NoteDurationEnum noteDurationEnum, int timing, int unityTimeValue) throws InvalidTickException {
         this.noteDurationEnum = noteDurationEnum;
         this.noteNumber = noteNumber;
-        this.tick = Optional.of(timing*4);
+        double tick;
+        int power = 8;
+        if (unityTimeValue==4)
+            power = 0;
+        try{
+            tick = (timing*(4/(Math.pow(2, unityTimeValue/8))));
+            //tick = timing * 4;
+            System.out.println(" tick : "+tick);
+        }
+        catch (Exception e){
+            throw new InvalidTickException("Invalid unity time value");
+        }
+        if (tick % 1 == 0)
+            this.tick = Optional.of((int) tick);
+        else
+            throw new InvalidTickException("Invalid tick for note");
     }
 
     public NoteDurationEnum getNoteDurationEnum() {

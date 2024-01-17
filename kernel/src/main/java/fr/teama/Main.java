@@ -30,15 +30,91 @@ public class Main {
         tracks.add(track);
         app.setTracks(tracks);
 
-        NormalBar bar = new NormalBar(120, 4);
-        bars.add(bar);
 
         // Partition de test du Titanic
-        // Ligne 1
-        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N_P));
-        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.C));
-        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N, "fa1"));
-        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N, "fa2"));
+//        // Ligne 1
+//        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N_P));
+//        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.C));
+//        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N, "fa1"));
+//        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N, "fa2"));
+
+
+
+
+
+
+
+//        NormalBar bar = new NormalBar(120, 4,4);
+//        bars.add(bar);
+//
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 0,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 1,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3,4));
+//
+//        bar = new NormalBar(120, 4,4);
+//        bars.add(bar);
+//
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 0,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 1,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3,4));
+//
+//        bar = new NormalBar(120, 4,4);
+//        bars.add(bar);
+//
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 0,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 1,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3,4));
+//
+//        bar = new NormalBar(120, 4,4);
+//        bars.add(bar);
+//
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 0,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 1,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2,4));
+//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3,4));
+
+        NormalBar bar = new NormalBar(120, 8,8);
+        bars.add(bar);
+
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 0,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 4,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 6,8));
+
+        bar = new NormalBar(120, 8,8);
+        bars.add(bar);
+
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 0,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 4,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 6,8));
+
+        bar = new NormalBar(120, 8,8);
+        bars.add(bar);
+
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 0,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 4,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 6,8));
+        bar = new NormalBar(120, 8,8);
+        bars.add(bar);
+
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 0,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 4,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 6,8));
+        bar = new NormalBar(120, 8,8);
+        bars.add(bar);
+
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 0,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 4,8));
+        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 6,8));
+
+
 
 //        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N_P, 0));
 //        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.C, 1.5));
@@ -61,11 +137,8 @@ public class Main {
 //        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.C));
 //        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
 //        bar.addNote(new Note(ClassicNoteEnum.FA.getNoteNumber(), NoteDurationEnum.N));
-//
-//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N_P, 0));
-//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.C, 1.5));
-//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 2));
-//        bar.addNote(new Note(ClassicNoteEnum.DO.getNoteNumber(), NoteDurationEnum.N, 3));
+
+
 
         app.accept(new ToWiring());
     }

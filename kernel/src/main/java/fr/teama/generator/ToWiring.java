@@ -17,7 +17,6 @@ public class ToWiring extends Visitor<StringBuffer> {
     Sequence sequence;
     javax.sound.midi.Track currentTrack;
     NormalBar currentBar;
-    int currentTick = 1;
 
     int currentBarTick=0;
     int currentChannelNumber;
@@ -62,7 +61,7 @@ public class ToWiring extends Visitor<StringBuffer> {
                     globalResolution *= r;
                 }
             }
-
+            System.out.println("Global resolution : " + globalResolution);
             sequence = new Sequence(Sequence.PPQ, globalResolution);
             app.getTracks().forEach(track -> track.accept(this));
 
@@ -84,7 +83,6 @@ public class ToWiring extends Visitor<StringBuffer> {
     @Override
     public void visit(Track track) {
 
-        currentTick = 1;
         currentTrack = sequence.createTrack();
         currentInstrumentNumber = track.getInstrument().getInstrumentNumber();
         currentVolume = track.getVolume();
@@ -102,7 +100,7 @@ public class ToWiring extends Visitor<StringBuffer> {
             try {
                 // .setMessage(ShortMessage.PROGRAM_CHANGE, channelToChange, instrumentNumber, idk so 0);
                 instrumentChange.setMessage(ShortMessage.PROGRAM_CHANGE, currentChannelNumber, currentInstrumentNumber, 0);
-                MidiEvent instrumentChangeEvent = new MidiEvent(instrumentChange, currentTick);
+                MidiEvent instrumentChangeEvent = new MidiEvent(instrumentChange, 0);
                 currentTrack.add(instrumentChangeEvent);
             } catch (InvalidMidiDataException e) {
                 throw new RuntimeException(e);
@@ -170,7 +168,7 @@ public class ToWiring extends Visitor<StringBuffer> {
     public void visit(NormalBar normalBar) throws InconsistentBarException {
         // Check if the tempo has changed
         if (normalBar.getTempo() != currentTempo) {
-            currentTrack.add(TempoEvent.createTempoEvent(normalBar.getTempo(), currentTick));
+            currentTrack.add(TempoEvent.createTempoEvent(normalBar.getTempo(), currentBarTick));
             currentTempo = normalBar.getTempo();
         }
 
@@ -184,11 +182,20 @@ public class ToWiring extends Visitor<StringBuffer> {
 //        }
 
         initializeBarNotesTick(normalBar.getNotes());
-
+        verifyValidityOfBar(normalBar);
         currentBar = normalBar;
         tickMultiplier = globalResolution / currentBar.getResolution();
         normalBar.getNotes().forEach(note -> note.accept(this));
-        currentBarTick += (normalBar.getResolution() * 4) * tickMultiplier;
+        currentBarTick += (normalBar.numberOfTicksInBar()) * tickMultiplier;
+    }
+
+    private void verifyValidityOfBar(NormalBar normalBar) throws InconsistentBarException {
+        for (Note note : normalBar.getNotes()) {
+            double currentTick= note.getTick().get();
+            if (currentTick + note.getNoteDurationEnum().getDuration() > normalBar.numberOfTicksInBar()) {
+                throw new InconsistentBarException("Note duration is too long for the bar : " + normalBar);
+            }
+        }
     }
 
     @Override
@@ -196,21 +203,10 @@ public class ToWiring extends Visitor<StringBuffer> {
         try {
             System.out.println(note);
             int tick;
-
-            if (note.getTick().isPresent()) {
-                if (note.getNoteNumber() == -1) {
-                    return;
-                }
-                tick = currentBarTick + note.getTick().get() * tickMultiplier;
+            if (note.getNoteNumber() == -1) {
+                return;
             }
-            else {
-                if (note.getNoteNumber() == -1) {
-                    currentTick += (note.getNoteDurationEnum().getDuration() * tickMultiplier);
-                    return;
-                }
-                tick=currentTick;
-                currentTick += note.getNoteDurationEnum().getDuration() * tickMultiplier;
-            }
+            tick = currentBarTick + note.getTick().get() * tickMultiplier;
 
             ShortMessage noteOn = new ShortMessage();
             noteOn.setMessage(ShortMessage.NOTE_ON, currentChannelNumber, note.getNoteNumber(), currentVolume);
@@ -227,14 +223,4 @@ public class ToWiring extends Visitor<StringBuffer> {
             throw new RuntimeException(e);
         }
     }
-
-    private boolean checkBarTotalDuration(NormalBar normalBar) {
-        float totalDuration = 0;
-        for (Note note : normalBar.getNotes()) {
-            if (note.getTick().isEmpty())
-                totalDuration += note.getNoteDurationEnum().getDuration();
-        }
-        return totalDuration / 4 == normalBar.getResolution();
-    }
-
 }

@@ -9,20 +9,25 @@ import java.util.List;
 import java.util.Optional;
 
 public class NormalBar extends Bar implements Cloneable, Visitable {
-
     private int tempo;
     private int resolution;
+    private int unityTimeValue;
     private List<Note> notes;
 
-    public NormalBar(int tempo, int resolution) {
+    public NormalBar(int tempo, int resolution,int unityTimeValue) {
         super();
         this.tempo = tempo;
         this.resolution = resolution;
         this.notes = new ArrayList<>();
+        this.unityTimeValue = unityTimeValue;
     }
 
     public void addNote(Note note) {
         this.notes.add(note);
+    }
+
+    public double numberOfTicksInBar(){
+        return resolution * (4/(Math.pow(2, unityTimeValue/4 - 1)));
     }
 
     public void addNote(int position, Note note) {
@@ -88,6 +93,14 @@ public class NormalBar extends Bar implements Cloneable, Visitable {
         }
 
         return clonedObject;
+    }
+
+    public int getUnityTimeValue() {
+        return unityTimeValue;
+    }
+
+    public void setUnityTimeValue(int unityTimeValue) {
+        this.unityTimeValue = unityTimeValue;
     }
 
     @Override
