@@ -5,9 +5,9 @@ grammar Midiml;
  ** Parser rules **
  ******************/
 
-root        :   title settings tracks EOF;
+root        :   title? settings tracks EOF;
 
-title       :   'titre :' name=TITRE;
+title       :   'titre ' name=TITRE;
 
 settings          :   (instrument|initialTempo|globalRythme)+;
     initialTempo :   'tempo' tempo=INT 'bpm';
@@ -16,15 +16,18 @@ settings          :   (instrument|initialTempo|globalRythme)+;
 tracks          :   instrument+;
     instrument  :   'instrument' name=INSTRUMENT volume? partition;
     volume      :   'volume' volumeVal=INT;
-    partition   :   '{'  (changeTempo|changeRythme|bar)+  '}';
+    partition   :   '{'  (changeTempo|changeRythme|bar|reusedBar)+  '}';
     changeTempo :   tempo=INT 'bpm';
     changeRythme:   rythme=RYTHME;
-    bar         :   '|' ('nom:' name=TITRE)? ( noteCh=noteChaine? | (reused=TITRE manipulation?));
-    manipulation:   ajout | remplacement | suppression;
-    ajout       :   '(AJOUT, ' position=VALUE ', ' noteModification=noteChaine ')';
-    remplacement:   '(REMPLACEMENT, ' position=VALUE ', ' noteModification=noteChaine ')';
-    suppression :   '(SUPPRESSION, ' debut=VALUE (', ' fin=VALUE)? ')';
-    noteChaine  :   note=(CLASSIQUENOTE|BATTERIENOTE) ':' duree=DUREE prochaineNote=noteChaine?;
+    bar         :   '|' (name=TITRE '-> ')? noteCh=noteChaine?;
+    reusedBar   :   '|' (name=TITRE '-> ')? name=TITRE manipulation?;
+    manipulation:   ajout | suppression | modifDuration | modifNumber;
+    ajout       :   '(AJOUT, ' position=VALUE ', ' noteToAdd=noteChaine ')';
+    suppression :   '(SUPPR ' noteName=TITRE ')';
+    modifDuration:  '(DUREE ' noteName=TITRE ' -> ' duration=noteSimple ')';
+    modifNumber  :  '(NOTE ' position=VALUE ' -> ' number=(CLASSIQUENOTE|BATTERIENOTE) ')';
+    noteChaine  :   noteSimple prochaineNote=noteChaine?;
+    noteSimple  :   note=(CLASSIQUENOTE|BATTERIENOTE) octave=OCTAVE? (':' duree=DUREE)? (':' timing=FLOAT)?;
 
 
 /*****************
@@ -39,10 +42,10 @@ DUREE           :   'N' | 'BL' | 'C' | 'D_C' | 'N_P' | 'BL_P' | 'C_P' | 'R';
 SILENCE         :   'SILENCE';
 RYTHME          :   '3/4' | '4/4';
 INT             :   NUMBER;
-TITRE           :   (LOWERCASE)+;
+TITRE           :   LOWERCASE(LOWERCASE | NUMBER)+;
 FLOAT               : '0'..'9'+ '.' ('0'|'25'|'5'|'75');
 VALUE           :   NUMBER;
-METHODE         :   'AJOUT' | 'SUPPRESSION' | 'REMPLACEMENT';
+METHODE         :   'AJOUT' | 'SUPPRESSION' | 'DUREE' | 'NOTE';
 
 
 

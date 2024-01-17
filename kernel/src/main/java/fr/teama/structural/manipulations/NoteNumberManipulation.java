@@ -1,18 +1,12 @@
 package fr.teama.structural.manipulations;
 
-import fr.teama.structural.Manipulation;
-import fr.teama.structural.NormalBar;
-import fr.teama.structural.Note;
-import fr.teama.structural.PositionHandler;
-
-import java.util.List;
+import fr.teama.structural.*;
 
 public class NoteNumberManipulation extends Manipulation {
     String noteName;
-    int noteNumber;
+    NoteNumber noteNumber;
 
-    public NoteNumberManipulation(int noteNumber, String noteName) {
-        super();
+    public NoteNumberManipulation(String noteName, NoteNumber noteNumber) {
         this.noteName = noteName;
         this.noteNumber = noteNumber;
     }

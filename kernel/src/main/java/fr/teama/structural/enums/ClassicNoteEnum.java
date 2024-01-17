@@ -1,6 +1,8 @@
 package fr.teama.structural.enums;
 
-public enum ClassicNoteEnum {
+import fr.teama.structural.NoteNumber;
+
+public enum ClassicNoteEnum implements NoteNumber {
     // Music note with associated number
     DO(60), // middle C, do3 in French notation, C4 in American notation
     DO_D(61),
@@ -16,15 +18,13 @@ public enum ClassicNoteEnum {
     SI(71),
     SILENCE(-1);
 
-
-
-
     private final int noteNumber;
 
     ClassicNoteEnum(int noteNumber) {
         this.noteNumber = noteNumber;
     }
 
+    @Override
     public int getNoteNumber() {
         return noteNumber;
     }
