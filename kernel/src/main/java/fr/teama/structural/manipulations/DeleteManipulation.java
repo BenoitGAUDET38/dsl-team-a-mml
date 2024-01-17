@@ -20,6 +20,12 @@ public class DeleteManipulation extends Manipulation {
         bar.getNotes().stream()
                 .filter(note -> note.getName().isPresent() && note.getName().get().equals(noteName))
                 .forEach(notesToDelete::add);
+
+        if (notesToDelete.isEmpty()) {
+            System.out.println("\033[33m" + "WARNING: Note " + noteName + " not found in bar " + bar.getName() + ", delete modification not applied" + "\033[0m");
+            return;
+        }
+
         bar.getNotes().removeAll(notesToDelete);
     }
 }

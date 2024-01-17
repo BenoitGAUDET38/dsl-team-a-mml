@@ -19,15 +19,15 @@ tracks          :   instrument+;
     partition   :   '{'  (changeTempo|changeRythme|bar|reusedBar)+  '}';
     changeTempo :   tempo=INT 'bpm';
     changeRythme:   rythme=RYTHME;
-    bar         :   '|' (name=TITRE '-> ')? noteCh=noteChaine?;
-    reusedBar   :   '|' (name=TITRE '-> ')? name=TITRE manipulation?;
-    manipulation:   ajout | suppression | modifDuration | modifNumber;
-    ajout       :   '(AJOUT, ' position=VALUE ', ' noteToAdd=noteChaine ')';
-    suppression :   '(SUPPR ' noteName=TITRE ')';
-    modifDuration:  '(DUREE ' noteName=TITRE ' -> ' duration=noteSimple ')';
-    modifNumber  :  '(NOTE ' position=VALUE ' -> ' number=(CLASSIQUENOTE|BATTERIENOTE) ')';
+    bar         :   '|' (name=TITRE '->')? noteCh=noteChaine?;
+    reusedBar   :   '|' (name=TITRE '->')? barNameToUse=TITRE ('(' manipulation ')')?;
+    manipulation:   (ajout | suppression | modifDuration | modifNumber) (('et' | 'ET') manipulation)?;
+    ajout       :   'MODIF AJOUT ' noteToAdd=noteSimple;
+    suppression :   'MODIF SUPPR ' noteName=TITRE;
+    modifDuration:  'MODIF DUREE ' noteName=TITRE '->' duration=DUREE;
+    modifNumber  :  'MODIF NOTE ' noteName=TITRE '->' number=(CLASSIQUENOTE|BATTERIENOTE);
     noteChaine  :   noteSimple prochaineNote=noteChaine?;
-    noteSimple  :   note=(CLASSIQUENOTE|BATTERIENOTE) octave=OCTAVE? (':' duree=DUREE)? (':' timing=FLOAT)?;
+    noteSimple  :   note=(CLASSIQUENOTE|BATTERIENOTE) octave=OCTAVE? (':' duree=DUREE)? (':' timing=FLOAT)? ('(' noteName=TITRE ')')?;
 
 
 /*****************

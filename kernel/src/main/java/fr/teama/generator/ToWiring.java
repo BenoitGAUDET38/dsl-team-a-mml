@@ -229,7 +229,7 @@ public class ToWiring extends Visitor<StringBuffer> {
             MidiEvent noteOnEvent = new MidiEvent(noteOn, tick);
             currentTrack.add(noteOnEvent);
 
-            tick += note.getNoteDuration().getDuration() * tickMultiplier-1;
+            tick += note.getNoteDuration().getDuration() * tickMultiplier;
 
             ShortMessage noteOff = new ShortMessage();
             noteOff.setMessage(ShortMessage.NOTE_OFF, currentChannelNumber, noteNumber, currentVolume);

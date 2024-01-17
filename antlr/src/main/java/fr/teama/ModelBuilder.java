@@ -8,6 +8,10 @@ import fr.teama.structural.enums.ClassicNoteEnum;
 import fr.teama.structural.enums.DrumNoteEnum;
 import fr.teama.structural.enums.InstrumentEnum;
 import fr.teama.structural.enums.NoteDurationEnum;
+import fr.teama.structural.manipulations.AddManipulation;
+import fr.teama.structural.manipulations.DeleteManipulation;
+import fr.teama.structural.manipulations.NoteDurationManipulation;
+import fr.teama.structural.manipulations.NoteNumberManipulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -171,134 +175,107 @@ public class ModelBuilder extends MidimlBaseListener {
         MidimlParser.NoteChaineContext noteChaineContext = ctx.noteChaine();
 
         while (noteChaineContext != null){
-            NoteNumber noteNumber;
-            int octaveToAdd = 0;
-            switch (instrument) {
-                case "BATTERIE":
-                    noteNumber = DrumNoteEnum.valueOf(noteChaineContext.noteSimple().note.getText());
-                    break;
-                default:
-                    noteNumber = ClassicNoteEnum.valueOf(noteChaineContext.noteSimple().note.getText());
-                    if (noteNumber.getNoteNumber() != -1 && noteChaineContext.noteSimple().octave != null) {
-                        octaveToAdd = (Integer.parseInt(noteChaineContext.noteSimple().octave.getText()));
-                    }
-                    break;
-            }
-            // Default value with NOIRE
-            NoteDurationEnum noteDuration;
-            if (noteChaineContext.noteSimple().duree == null) {
-                noteDuration = NoteDurationEnum.N;
-            } else {
-                noteDuration =  NoteDurationEnum.valueOf(noteChaineContext.noteSimple().duree.getText());
-            }
-
-            Note note;
-            if (noteChaineContext.noteSimple().timing !=null){
-                String timingChaine = noteChaineContext.noteSimple().timing.getText();
-                // Parse the timing (int or double) to double
-                double timing = Double.parseDouble(timingChaine);
-                try {
-                    note = new Note(noteNumber, noteDuration, timing);
-                } catch (InvalidTickException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            else {
-                note = new Note(noteNumber, noteDuration);
-            }
-
-            if (octaveToAdd != 0) {
-                note.setOctave(octaveToAdd);
-            }
-
+            Note note = createNoteFromContext(noteChaineContext.noteSimple());
             bar.addNote(note);
             noteChaineContext = noteChaineContext.noteChaine();
         }
-
-//        // Checking if we are reusing a previous bar, meaning that the 'while' did not loop once
-//        if (ctx.reused != null) {
-//            try {
-//                System.out.println("\n\n===================================================\n\n");
-//                bar = (ReusedBar) reusableBars.get(ctx.reused.getText()).clone();
-//            } catch (Exception e) {
-//                System.out.println("Cannot clone bar: " + e.getMessage());
-//            }
-//
-//            System.out.println("\n\nreusedbar: " + bar);
-//
-//            // Checking if there is any manipulation to do: add, replace, delete
-//            if (ctx.manipulation() != null) {
-//                // add to a specific position starting from 1 for the musician
-//                if (ctx.manipulation().ajout() != null) {
-//                    int position = Integer.parseInt(ctx.manipulation().ajout().position.getText()) - 1;
-//                    noteChaineContext = ctx.manipulation().ajout().noteChaine();
-//                    while (noteChaineContext != null ) {
-//                        int noteNumber;
-//                        switch (instrument) {
-//                            case "BATTERIE":
-//                                noteNumber = DrumNoteEnum.valueOf(noteChaineContext.note.getText()).getNoteNumber();
-//                                break;
-//                            default:
-//                                noteNumber = ClassicNoteEnum.valueOf(noteChaineContext.note.getText()).getNoteNumber();
-//                                break;
-//                        }
-//                        NoteDurationEnum noteDuration = NoteDurationEnum.valueOf(noteChaineContext.duree.getText());
-//                        Note note = new Note(noteNumber, noteDuration);
-//                        bar.addNote(position, note);
-//                        position++;
-//                        noteChaineContext = noteChaineContext.noteChaine();
-//                    }
-//                }
-//
-//
-//                // replace a note by another or a chain of notes
-//                else if (ctx.manipulation().remplacement() != null) {
-//                    int position = Integer.parseInt(ctx.manipulation().remplacement().position.getText()) - 1;
-//                    noteChaineContext = ctx.manipulation().remplacement().noteChaine();
-//                    while (noteChaineContext != null ) {
-//                        int noteNumber;
-//                        switch (instrument) {
-//                            case "BATTERIE":
-//                                noteNumber = DrumNoteEnum.valueOf(noteChaineContext.note.getText()).getNoteNumber();
-//                                break;
-//                            default:
-//                                noteNumber = ClassicNoteEnum.valueOf(noteChaineContext.note.getText()).getNoteNumber();
-//                                break;
-//                        }
-//                        NoteDurationEnum noteDuration = NoteDurationEnum.valueOf(noteChaineContext.duree.getText());
-//                        Note note = new Note(noteNumber, noteDuration);
-//                        System.out.println("\n\nBARS BEFORE MODIFY : " + bars);
-//                        bar.modifyNote(position, note);
-//                        System.out.println("\n\nBARS AFTER MODIFY : " + bars);
-//                        System.out.println("\n\nPOSITION: " + position);
-//                        position++;
-//                        noteChaineContext = noteChaineContext.noteChaine();
-//                    }
-//                }
-//                // remove a note or a chain of notes
-//                else if (ctx.manipulation().suppression() != null) {
-//                    int start = Integer.parseInt(ctx.manipulation().suppression().debut.getText());
-//                    String end = ctx.manipulation().suppression().fin.getText();
-//                    if (end == null) {
-//                        bar.removeNote(start, Optional.empty());
-//                    } else {
-//                        bar.removeNote(start, Optional.of(Integer.parseInt(end)));
-//                    }
-//                }
-//            }
-//        }
-//
-//        // Checking if the bar has a name, which implies that it might be reused
-//        if (ctx.name != null) {
-//            System.out.println("\n\ngetting the bar name: " + ctx.name.getText());
-//            bar.setName(ctx.name.getText());
-//            reusableBars.put(ctx.name.getText(), bar);
-//        }
 
         bars.add(bar);
         System.out.println("\n\nfin: " + bars);
     }
 
+    private Note createNoteFromContext(MidimlParser.NoteSimpleContext noteSimpleContext) {
+        NoteNumber noteNumber;
+        int octaveToAdd = 0;
+        switch (instrument) {
+            case "BATTERIE":
+                noteNumber = DrumNoteEnum.valueOf(noteSimpleContext.note.getText());
+                break;
+            default:
+                noteNumber = ClassicNoteEnum.valueOf(noteSimpleContext.note.getText());
+                if (noteNumber.getNoteNumber() != -1 && noteSimpleContext.octave != null) {
+                    octaveToAdd = (Integer.parseInt(noteSimpleContext.octave.getText()));
+                }
+                break;
+        }
+        // Default value with NOIRE
+        NoteDurationEnum noteDuration;
+        if (noteSimpleContext.duree == null) {
+            noteDuration = NoteDurationEnum.N;
+        } else {
+            noteDuration =  NoteDurationEnum.valueOf(noteSimpleContext.duree.getText());
+        }
 
+        Note note;
+        if (noteSimpleContext.timing !=null){
+            String timingChaine = noteSimpleContext.timing.getText();
+            // Parse the timing (int or double) to double
+            double timing = Double.parseDouble(timingChaine);
+
+            try {
+                note = new Note(noteNumber, noteDuration, timing);
+            } catch (InvalidTickException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            note = new Note(noteNumber, noteDuration);
+        }
+
+        if (octaveToAdd != 0) {
+            note.setOctave(octaveToAdd);
+        }
+
+        if (noteSimpleContext.noteName != null) {
+            note.setName(noteSimpleContext.noteName.getText());
+        }
+
+        return note;
+    }
+
+    @Override
+    public void enterReusedBar(MidimlParser.ReusedBarContext ctx) {
+        Bar bar = bars.stream()
+                .filter(b -> b.getName().isPresent())
+                .filter(b -> b.getName().get().equals(ctx.barNameToUse.getText()))
+                .findFirst().orElse(null);
+        if (bar == null) {
+            throw new RuntimeException("Bar " + ctx.barNameToUse.getText()   + " not found");
+        }
+        List<Manipulation> manipulations = new ArrayList<>();
+        ReusedBar reusedBar = new ReusedBar(1, bar, manipulations);
+
+        MidimlParser.ManipulationContext manipulationContext = ctx.manipulation();
+        while (manipulationContext != null) {
+            if (manipulationContext.ajout() != null) {
+                Note note = createNoteFromContext(manipulationContext.ajout().noteSimple());
+                if (!note.getTick().isPresent()) {
+                    throw new RuntimeException("Note without timing");
+                }
+
+                try {
+                    if (note.getName().isPresent()) {
+                        manipulations.add(new AddManipulation(note.getNoteNumber(), note.getNoteDuration(), note.getTick().get().doubleValue() / 4, note.getName().get()));
+                    } else {
+                        manipulations.add(new AddManipulation(note.getNoteNumber(), note.getNoteDuration(), note.getTick().get().doubleValue() / 4));
+                    }
+                } catch (InvalidTickException e) {
+                    throw new RuntimeException(e);
+                }
+            } else if (manipulationContext.suppression() != null) {
+                manipulations.add(new DeleteManipulation(manipulationContext.suppression().noteName.getText()));
+            } else if (manipulationContext.modifDuration() != null) {
+                manipulations.add(new NoteDurationManipulation(manipulationContext.modifDuration().noteName.getText(), NoteDurationEnum.valueOf(manipulationContext.modifDuration().duration.getText())));
+            } else if (manipulationContext.modifNumber() != null) {
+                manipulations.add(new NoteNumberManipulation(manipulationContext.modifNumber().noteName.getText(), ClassicNoteEnum.valueOf(manipulationContext.modifNumber().number.getText())));
+            }
+            manipulationContext = manipulationContext.manipulation();
+        }
+
+        if (ctx.name != null) {
+            reusedBar.setName(ctx.name.getText());
+        }
+
+        bars.add(reusedBar);
+    }
 }
 

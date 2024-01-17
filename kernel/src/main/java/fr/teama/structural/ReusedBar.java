@@ -47,4 +47,14 @@ public class ReusedBar extends Bar implements Visitable {
     public void accept(Visitor visitor) throws InconsistentBarException, NoRootNormalBarFoundException, CloneNotSupportedException {
         visitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return "ReusedBar{" +
+                "repetition=" + repetition +
+                ", manipulations=" + manipulations +
+                ", bar=" + bar +
+                "name=" + getName() +
+                '}';
+    }
 }

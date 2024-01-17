@@ -29,6 +29,7 @@ We consider here that the current directory is the `antlr` directory.
        * `mvn exec:java -Dexec.args="scenarios/testMultipleNotes.midiml"`
        * `mvn exec:java -Dexec.args="scenarios/testMultipleInstruments.midiml"`
        * `mvn exec:java -Dexec.args="scenarios/testOctave.midiml"`
+       * `mvn exec:java -Dexec.args="scenarios/reused-bars.midiml"`
     
 ## Code Description
 

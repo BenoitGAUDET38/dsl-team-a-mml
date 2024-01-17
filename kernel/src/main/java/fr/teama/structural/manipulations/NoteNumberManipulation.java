@@ -2,6 +2,8 @@ package fr.teama.structural.manipulations;
 
 import fr.teama.structural.*;
 
+import java.util.List;
+
 public class NoteNumberManipulation extends Manipulation {
     String noteName;
     NoteNumber noteNumber;
@@ -13,8 +15,15 @@ public class NoteNumberManipulation extends Manipulation {
 
     @Override
     public void apply(NormalBar bar) {
-        bar.getNotes().stream()
+        List<Note> notes = bar.getNotes().stream()
                 .filter(note -> note.getName().isPresent() && note.getName().get().equals(noteName))
-                .forEach(note -> note.setNoteNumber(noteNumber));
+                .toList();
+
+        if (notes.isEmpty()) {
+            System.out.println("\033[33m" + "WARNING: Note " + noteName + " not found in bar " + bar.getName() + ", note number modification not applied" + "\033[0m");
+            return;
+        }
+
+        notes.forEach(note -> note.setNoteNumber(noteNumber));
     }
 }

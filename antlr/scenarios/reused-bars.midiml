@@ -1,12 +1,13 @@
-titre : test
+titre test
 
 # Declaring settings
-instrument PIANO
-tempo 100 bpm
+tempo 120 bpm
 rythme 4/4
 
+instrument PIANO
 {
-    | nom:mabarre DO:N RE:N MI:N FA:N
-    | mabarre
-    | mabarre (REMPLACEMENT, 1, RE:N)
+    | bar1 -> DO:N(note1) DO:N(note2) DO:N(note3) DO:N(note4)
+    | bar2 -> bar1 (MODIF NOTE note4 -> RE et MODIF NOTE note1 -> MI)
+    | bar3 -> bar2 (MODIF SUPPR note2 et MODIF DUREE note1 -> BL)
+    | bar3 (MODIF SUPPR note1 et MODIF AJOUT FA:C:0.5)
 }
