@@ -193,7 +193,8 @@ public class ToWiring extends Visitor<StringBuffer> {
     private void verifyValidityOfBar(NormalBar normalBar) throws InconsistentBarException {
         for (Note note : normalBar.getNotes()) {
             double currentTick= note.getTick().get();
-            if (currentTick + note.getNoteDurationEnum().getDuration() > normalBar.numberOfTicksInBar()) {
+            System.out.println("tick to verify" + currentTick + note.getNoteDuration().getDuration());
+            if (currentTick + note.getNoteDuration().getDuration() > normalBar.numberOfTicksInBar()) {
                 throw new InconsistentBarException("Note duration is too long for the bar : " + normalBar);
             }
         }

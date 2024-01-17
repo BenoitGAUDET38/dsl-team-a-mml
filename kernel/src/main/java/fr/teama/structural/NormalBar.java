@@ -27,7 +27,7 @@ public class NormalBar extends Bar implements Cloneable, Visitable {
     }
 
     public double numberOfTicksInBar(){
-        return resolution * (4/(Math.pow(2, unityTimeValue/4 - 1)));
+        return resolution * 4;
     }
 
     public void addNote(int position, Note note) {

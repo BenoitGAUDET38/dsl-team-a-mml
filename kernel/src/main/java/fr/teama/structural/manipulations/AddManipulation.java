@@ -10,7 +10,7 @@ import fr.teama.structural.enums.NoteDurationEnum;
 public class AddManipulation extends Manipulation {
     Note note;
 
-    public AddManipulation(NoteNumber noteNumber, NoteDurationEnum noteDurationEnum, Double timing) throws InvalidTickException {
+    public AddManipulation(NoteNumber noteNumber, NoteDurationEnum noteDurationEnum, int timing) throws InvalidTickException {
         this.note = new Note(
                 noteNumber,
                 noteDurationEnum,
@@ -18,7 +18,7 @@ public class AddManipulation extends Manipulation {
         );
     }
 
-    public AddManipulation(NoteNumber noteNumber, NoteDurationEnum noteDurationEnum, Double timing, String noteName) throws InvalidTickException {
+    public AddManipulation(NoteNumber noteNumber, NoteDurationEnum noteDurationEnum, int timing, String noteName) throws InvalidTickException {
         this.note = new Note(
                 noteNumber,
                 noteDurationEnum,
