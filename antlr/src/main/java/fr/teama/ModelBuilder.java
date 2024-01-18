@@ -223,7 +223,7 @@ public class ModelBuilder extends MidimlBaseListener {
             // Parse the timing (int or double) to double
             double timing = Double.parseDouble(timingChaine);
             try {
-                note = new Note(noteNumber, noteDuration, (int) timing * 4);
+                note = new Note(noteNumber, noteDuration, (int) (timing * 4));
             } catch (InvalidTickException e) {
                 throw new RuntimeException(e);
             }
