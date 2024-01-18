@@ -2,7 +2,10 @@ package fr.teama.structural.manipulations;
 
 import fr.teama.structural.Manipulation;
 import fr.teama.structural.NormalBar;
+import fr.teama.structural.Note;
 import fr.teama.structural.enums.NoteDurationEnum;
+
+import java.util.List;
 
 public class NoteDurationManipulation extends Manipulation {
     String noteName;
@@ -15,8 +18,15 @@ public class NoteDurationManipulation extends Manipulation {
 
     @Override
     public void apply(NormalBar bar) {
-        bar.getNotes().stream()
+        List<Note> notes = bar.getNotes().stream()
                 .filter(note -> note.getName().isPresent() && note.getName().get().equals(noteName))
-                .forEach(note -> note.setNoteDuration(noteDuration));
+                .toList();
+
+        if (notes.isEmpty()) {
+            System.out.println("\033[33m" + "WARNING: Note " + noteName + " not found in bar " + bar.getName() + ", note duration modification not applied" + "\033[0m");
+            return;
+        }
+
+        notes.forEach(note -> note.setNoteDuration(noteDuration));
     }
 }

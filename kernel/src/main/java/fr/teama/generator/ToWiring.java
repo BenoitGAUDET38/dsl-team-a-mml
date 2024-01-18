@@ -19,7 +19,7 @@ public class ToWiring extends Visitor<StringBuffer> {
     javax.sound.midi.Track currentTrack;
     NormalBar currentBar;
 
-    int currentBarTick=0;
+    int currentBarTick=1;
     int currentChannelNumber;
     int currentClassicChannelNumber = 0;
     int currentDrumChannelNumber = 9;
@@ -85,7 +85,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
     @Override
     public void visit(Track track) {
-
+        currentBarTick = 1;
         currentTrack = sequence.createTrack();
         currentInstrumentNumber = track.getInstrument().getInstrumentNumber();
         currentVolume = track.getVolume();
@@ -134,7 +134,9 @@ public class ToWiring extends Visitor<StringBuffer> {
     @Override
     public void visit(ReusedBar reusedBar) throws CloneNotSupportedException, NoRootNormalBarFoundException, InconsistentBarException {
         NormalBar normalBar = applyManipulations(reusedBar);
-        normalBar.accept(this);
+        for (int i = 0; i < reusedBar.getRepetition(); i++) {
+            normalBar.accept(this);
+        }
     }
 
     // Recursively apply manipulations to the reused bar
@@ -179,9 +181,6 @@ public class ToWiring extends Visitor<StringBuffer> {
         currentUnityTimeValue = normalBar.getUnityTimeValue();
         currentResolution = normalBar.getResolution();
 
-//        if (!checkBarTotalDuration(normalBar)) {
-//            throw new InconsistentBarException("Bar notes different from bar resolution : " + normalBar);
-//        }
 
         initializeBarNotesTick(normalBar.getNotes());
         verifyValidityOfBar(normalBar);
@@ -206,6 +205,7 @@ public class ToWiring extends Visitor<StringBuffer> {
     public void visit(Note note) {
         try {
             System.out.println(note);
+
             int tick;
             if (note.getNoteNumber().getNoteNumber() == -1) {
                 return;
@@ -222,7 +222,6 @@ public class ToWiring extends Visitor<StringBuffer> {
             } else {
                 noteNumber = note.getNoteNumber().getNoteNumber() + (note.getOctave() - 2) * 12;
             }
-            System.out.println("Note number : " + noteNumber + " " + note);
 
 
             ShortMessage noteOn = new ShortMessage();
@@ -230,7 +229,7 @@ public class ToWiring extends Visitor<StringBuffer> {
             MidiEvent noteOnEvent = new MidiEvent(noteOn, tick);
             currentTrack.add(noteOnEvent);
 
-            tick += note.getNoteDuration().getDuration() * tickMultiplier-1;
+            tick += note.getNoteDuration().getDuration() * tickMultiplier;
 
             ShortMessage noteOff = new ShortMessage();
             noteOff.setMessage(ShortMessage.NOTE_OFF, currentChannelNumber, noteNumber, currentVolume);

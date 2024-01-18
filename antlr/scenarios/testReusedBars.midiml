@@ -1,0 +1,11 @@
+titre test
+
+# Declaring settings
+tempo 120 bpm
+rythme 4/4
+
+instrument PIANO
+{
+    | bar1 -> DO:N(note1) DO:N(note2) DO:N(note3) DO:N(note4)
+    | bar2 -> bar1 (MODIF NOTE note4 -> RE et MODIF NOTE note1 -> MI) x2
+}

@@ -109,6 +109,7 @@ public class NormalBar extends Bar implements Cloneable, Visitable {
                 "tempo=" + tempo +
                 ", resolution=" + resolution +
                 ", notes=" + notes +
+                ", name='" + name +
                 '}';
     }
 }
