@@ -1,0 +1,19 @@
+### Test scenario
+## Multiple notes
+
+titre multiplenotes
+
+# Declaring settings
+tempo 100 bpm
+rythme 7/8
+
+instrument PIANO
+{
+    | DO4:C RE:C MI:C FA:C DO4:C RE:C MI:C
+    | DO4:C RE:C MI:C FA:C DO4:C RE:C MI:C
+    | DO4:C RE:C MI:C FA:C DO4:C RE:C MI:C
+    | DO4:C RE:C MI:C FA:C DO4:C RE:C MI:C
+    | DO4:C:0.0 RE:C:1.0 MI:C:2.0 FA:C:3.0 DO4:C:4.0 RE:C:5.0 MI:C:6.0
+    |DO4:C:0.0 RE:C:1.0 MI:C:2.0 FA:C:3.0 DO4:C:4.0 RE:C:5.0 MI:C:6.0
+    |DO4:C:0.0 RE:C:1.0 MI:C:2.0 FA:C:3.0 DO4:C:4.0 RE:C:5.0 MI:C:6.0
+}

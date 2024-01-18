@@ -161,7 +161,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         for (Note note : notes) {
             if (note.getTick().isEmpty()) {
                 note.setTick(Optional.of(tick));
-                tick += note.getNoteDuration().getDuration();
+                tick += note.getNoteDuration().getDuration()*Math.pow(2, currentUnityTimeValue/4 - 1);
             }
         }
         return notes;

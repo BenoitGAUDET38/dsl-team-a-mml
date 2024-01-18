@@ -43,6 +43,7 @@ public class ModelBuilder extends MidimlBaseListener {
     private Map<String, Bar> reusableBars;
     private int currentTempo = 120;
     private int currentResolution = 4;
+    private int currentUnityTimeValue = 4;
 
 
 
@@ -76,6 +77,7 @@ public class ModelBuilder extends MidimlBaseListener {
     @Override
     public void enterGlobalRythme(MidimlParser.GlobalRythmeContext ctx) {
         currentResolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
+        currentUnityTimeValue = Integer.parseInt(ctx.rythme.getText().split("/")[1]);
     }
 
     @Override
@@ -159,12 +161,13 @@ public class ModelBuilder extends MidimlBaseListener {
     @Override
     public void enterChangeRythme(MidimlParser.ChangeRythmeContext ctx) {
         currentResolution = Integer.parseInt(ctx.rythme.getText().split("/")[0]);
+        currentUnityTimeValue = Integer.parseInt(ctx.rythme.getText().split("/")[1]);
     }
 
     @Override
     public void enterBar(MidimlParser.BarContext ctx) {
         //if track instanceof TrackPiano handle it like piano with note if it is drum handle it like drum with drumnote
-        NormalBar bar = new NormalBar(currentTempo, currentResolution);
+        NormalBar bar = new NormalBar(currentTempo, currentResolution, currentUnityTimeValue);
         if (ctx.name != null) {
             bar.setName(ctx.name.getText());
         }
@@ -199,8 +202,15 @@ public class ModelBuilder extends MidimlBaseListener {
                 String timingChaine = noteChaineContext.noteSimple().timing.getText();
                 // Parse the timing (int or double) to double
                 double timing = Double.parseDouble(timingChaine);
+                int tick;
+                try{
+                    tick = (int) timing * 4;
+                }
+                catch (Exception e) {
+                    throw new RuntimeException("Invalid timing");
+                }
                 try {
-                    note = new Note(noteNumber, noteDuration, timing);
+                    note = new Note(noteNumber, noteDuration, tick);
                 } catch (InvalidTickException e) {
                     throw new RuntimeException(e);
                 }

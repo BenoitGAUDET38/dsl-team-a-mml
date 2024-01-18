@@ -40,7 +40,7 @@ OCTAVE          :   '-2' | '-1' | '1' | '2' | '3' | '4' | '5' | '6' | '7';
 BATTERIENOTE    :   SILENCE | 'BD' | 'SD' | 'CH' | 'PH' | 'OH' | 'CC' | 'RC' | 'MA';
 DUREE           :   'N' | 'BL' | 'C' | 'D_C' | 'N_P' | 'BL_P' | 'C_P' | 'R';
 SILENCE         :   'SILENCE';
-RYTHME          :   '3/4' | '4/4';
+RYTHME          :   '3/4' | '4/4' | '8/8' | '7/8';
 INT             :   NUMBER;
 TITRE           :   LOWERCASE(LOWERCASE | NUMBER)+;
 FLOAT               : '0'..'9'+ '.' ('0'|'25'|'5'|'75');
