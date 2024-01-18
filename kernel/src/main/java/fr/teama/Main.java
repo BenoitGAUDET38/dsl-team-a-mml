@@ -30,7 +30,32 @@ public class Main {
         tracks.add(track);
         app.setTracks(tracks);
 
+        NormalBar bar = new NormalBar(120, 4,4);
+        bars.add(bar);
 
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 0));
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 4));
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 8));
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 12));
+
+        bar = new NormalBar(120, 4,4);
+        bars.add(bar);
+
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 0));
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 4));
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 8));
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 12));
+
+        bar = new NormalBar(120, 4,4);
+        bars.add(bar);
+
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 0));
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 4));
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 8));
+        bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 12));
+
+
+        /**
         NormalBar bar = new NormalBar(120, 8,8);
         bars.add(bar);
 
@@ -69,7 +94,7 @@ public class Main {
         bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 16));
         bar.addNote(new Note(ClassicNoteEnum.DO, NoteDurationEnum.N, 24));
 
-
+        **/
 
 
         app.accept(new ToWiring());

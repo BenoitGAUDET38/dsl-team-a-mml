@@ -24,8 +24,10 @@ public class ToWiring extends Visitor<StringBuffer> {
     int currentClassicChannelNumber = 0;
     int currentDrumChannelNumber = 9;
     int currentInstrumentNumber = 0;
-    int globalResolution = 0;
+    int globalUnityTimeValue = 0;
+
     int currentResolution = 4;
+    int currentUnityTimeValue = 4;
     int currentTempo = 120;
     int currentVolume = 60;
     int tickMultiplier;
@@ -49,21 +51,21 @@ public class ToWiring extends Visitor<StringBuffer> {
             sequencer.setTempoInBPM(currentTempo);
 
             // Resolution management
-            Set<Integer> resolutions = new HashSet<>();
+            Set<Integer> unityTimeValues= new HashSet<>();
             app.getTracks().forEach(track -> track.getBars().forEach(bar -> {
                 if (bar instanceof NormalBar) {
-                    resolutions.add(((NormalBar) bar).getResolution());
+                    unityTimeValues.add(((NormalBar) bar).getUnityTimeValue());
                 }
             }));
-            for (int r : resolutions) {
-                if (globalResolution == 0) {
-                    globalResolution = r;
+            for (int r : unityTimeValues) {
+                if (globalUnityTimeValue == 0) {
+                    globalUnityTimeValue = r;
                 } else {
-                    globalResolution *= r;
+                    globalUnityTimeValue *= r;
                 }
             }
 
-            sequence = new Sequence(Sequence.PPQ, globalResolution);
+            sequence = new Sequence(Sequence.PPQ, globalUnityTimeValue);
             app.getTracks().forEach(track -> track.accept(this));
 
             sequencer.setSequence(sequence);
@@ -174,9 +176,8 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         // Check if the resolution has changed
-        if (normalBar.getResolution() != currentResolution) {
-            currentResolution = normalBar.getResolution();
-        }
+        currentUnityTimeValue = normalBar.getUnityTimeValue();
+        currentResolution = normalBar.getResolution();
 
 //        if (!checkBarTotalDuration(normalBar)) {
 //            throw new InconsistentBarException("Bar notes different from bar resolution : " + normalBar);
@@ -185,7 +186,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         initializeBarNotesTick(normalBar.getNotes());
         verifyValidityOfBar(normalBar);
         currentBar = normalBar;
-        tickMultiplier = globalResolution / currentBar.getResolution();
+        tickMultiplier = globalUnityTimeValue / currentBar.getUnityTimeValue();
         normalBar.getNotes().forEach(note -> note.accept(this));
         currentBarTick += (normalBar.numberOfTicksInBar()) * tickMultiplier;
     }
@@ -197,6 +198,7 @@ public class ToWiring extends Visitor<StringBuffer> {
             if (currentTick + note.getNoteDuration().getDuration() > normalBar.numberOfTicksInBar()) {
                 throw new InconsistentBarException("Note duration is too long for the bar : " + normalBar);
             }
+
         }
     }
 
@@ -238,14 +240,4 @@ public class ToWiring extends Visitor<StringBuffer> {
             throw new RuntimeException(e);
         }
     }
-
-    private boolean checkBarTotalDuration(NormalBar normalBar) {
-        float totalDuration = 0;
-        for (Note note : normalBar.getNotes()) {
-            if (note.getTick().isEmpty())
-                totalDuration += note.getNoteDuration().getDuration();
-        }
-        return totalDuration / 4 == normalBar.getResolution();
-    }
-
 }
