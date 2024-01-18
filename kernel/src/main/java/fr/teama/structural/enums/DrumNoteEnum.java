@@ -9,6 +9,7 @@ public enum DrumNoteEnum implements NoteNumber {
     PH(44), // Pedal Hi-Hat
     OH(46), // Open Hi-Hat
     CC(49), // Crash Cymbal
+    HT(50), // High Tom
     RC(51), // Ride Cymbal
     MA(70), // Maracas
 
