@@ -74,9 +74,18 @@ export function activate(context: vscode.ExtensionContext) {
                     return rythmeOptions.map(rythme => new vscode.CompletionItem(rythme, vscode.CompletionItemKind.Method));
                 } else if (linePrefix.endsWith('tempo ')) {
                     return tempoOptions.map(tempo => new vscode.CompletionItem(tempo, vscode.CompletionItemKind.Method));
-                } else if (linePrefix.match(/.*[|][ ]([a-z][A-Z][0-9])+[ ]/)) {
+                } else if (linePrefix.match(/MODIF ((DUREE|NOTE) [a-zA-Z0-9]+[ ]?->[ ]?[A-Z_]+[ ]?|AJOUT [A-Z_:]+|SUPPR [a-zA-Z0-9]+)/)) {
                     const notesCompletion = [];
-                    notesCompletion.push(new vscode.CompletionItem('->', vscode.CompletionItemKind.Method));
+                    notesCompletion.push(new vscode.CompletionItem('et', vscode.CompletionItemKind.Method));
+                    notesCompletion.push(new vscode.CompletionItem(')', vscode.CompletionItemKind.Method));
+                    return notesCompletion;
+                } else if (linePrefix.match(/MODIF DUREE [a-zA-Z0-9]+[ ]?->[ ]?/)) {
+                    return noteDuration.map(note => new vscode.CompletionItem(note, vscode.CompletionItemKind.Method));
+                } else if (linePrefix.match(/MODIF NOTE [a-zA-Z0-9]+[ ]?->[ ]?/)) {
+                    return notes.map(note => new vscode.CompletionItem(note, vscode.CompletionItemKind.Method));
+                } else if (linePrefix.endsWith('MODIF AJOUT ')) {
+                    const notesCompletion = notes.map(note => new vscode.CompletionItem(note, vscode.CompletionItemKind.Method));
+                    notesCompletion.push(new vscode.CompletionItem('SILENCE', vscode.CompletionItemKind.Method));
                     return notesCompletion;
                 } else if (linePrefix.endsWith('| ') || linePrefix.endsWith('-> ') || linePrefix.match(/.*(DO|DO_D|RE|RE_D|MI|FA|FA_D|SOL|SOL_D|LA|LA_D|SI|SILENCE)(-2|-1|0|1|2|3|4|5|6|7)?[ ]/)) {
                     const notesCompletion = notes.map(note => new vscode.CompletionItem(note, vscode.CompletionItemKind.Method));
@@ -87,8 +96,18 @@ export function activate(context: vscode.ExtensionContext) {
                     notesCompletion.push(new vscode.CompletionItem('SILENCE', vscode.CompletionItemKind.Method));
                     notesCompletion.push(new vscode.CompletionItem('|', vscode.CompletionItemKind.Method));
                     return notesCompletion;
+                } else if (linePrefix.match(/MODIF (DUREE|NOTE)[ ][a-zA-Z0-9]+[ ]?/)) {
+                    const notesCompletion = [];
+                    notesCompletion.push(new vscode.CompletionItem('->', vscode.CompletionItemKind.Method));
+                    return notesCompletion;
+                } else if (linePrefix.match(/(.*[|]([ ][a-zA-Z0-9]+[ ]?(->)?)?[ ]?[a-zA-Z0-9]+[ ]?[(][ ]?)|(et|ET)/)) {
+                    const notesCompletion = modificationOptions.map(modif => new vscode.CompletionItem('MODIF ' + modif, vscode.CompletionItemKind.Method));
+                    return notesCompletion;
+                } else if (linePrefix.match(/.*[|][ ][a-zA-Z0-9]+[ ]/)) {
+                    const notesCompletion = [];
+                    notesCompletion.push(new vscode.CompletionItem('->', vscode.CompletionItemKind.Method));
+                    return notesCompletion;
                 }
-
 				return undefined;
 			}
 		},
