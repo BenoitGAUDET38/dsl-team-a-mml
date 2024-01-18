@@ -28,22 +28,22 @@ public class Note extends NamedElement implements Visitable, Cloneable {
         setName(name);
     }
 
-    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int timing, String name) throws InvalidTickException {
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int tick, String name) throws InvalidTickException {
         this.noteDuration = noteDuration;
         this.noteNumber = noteNumber;
-        this.tick = Optional.of(timing);
+        this.tick = Optional.of(tick);
         setName(name);
     }
-    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int timing) throws InvalidTickException {
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int tick) throws InvalidTickException {
         this.noteDuration = noteDuration;
         this.noteNumber = noteNumber;
-        this.tick = Optional.of(timing);
+        this.tick = Optional.of(tick);
     }
 
-    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int timing, int octave, String name) throws InvalidTickException {
+    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int tick, int octave, String name) throws InvalidTickException {
         this.noteDuration = noteDuration;
         this.noteNumber = noteNumber;
-        this.tick = Optional.of(timing);
+        this.tick = Optional.of(tick);
         this.octave = octave;
         setName(name);
     }

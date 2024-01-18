@@ -217,25 +217,18 @@ public class ModelBuilder extends MidimlBaseListener {
             noteDuration =  NoteDurationEnum.valueOf(noteSimpleContext.duree.getText());
         }
 
-            Note note;
-            if (noteSimpleContext.timing !=null){
-                String timingChaine = noteSimpleContext.timing.getText();
-                // Parse the timing (int or double) to double
-                double timing = Double.parseDouble(timingChaine);
-                int tick;
-                try{
-                    tick = (int) timing * 4;
-                }
-                catch (Exception e) {
-                    throw new RuntimeException("Invalid timing");
-                }
-                try {
-                    note = new Note(noteNumber, noteDuration, tick);
-                } catch (InvalidTickException e) {
-                    throw new RuntimeException(e);
-                }
+        Note note;
+        if (noteSimpleContext.timing !=null){
+            String timingChaine = noteSimpleContext.timing.getText();
+            // Parse the timing (int or double) to double
+            double timing = Double.parseDouble(timingChaine);
+            try {
+                note = new Note(noteNumber, noteDuration, (int) timing * 4);
+            } catch (InvalidTickException e) {
+                throw new RuntimeException(e);
             }
-        } else {
+        }
+         else {
             note = new Note(noteNumber, noteDuration);
         }
 
@@ -279,9 +272,9 @@ public class ModelBuilder extends MidimlBaseListener {
 
                 try {
                     if (note.getName().isPresent()) {
-                        manipulations.add(new AddManipulation(note.getNoteNumber(), note.getNoteDuration(), note.getTick().get().doubleValue() / 4, note.getName().get()));
+                        manipulations.add(new AddManipulation(note.getNoteNumber(), note.getNoteDuration(), note.getTick().get(), note.getName().get()));
                     } else {
-                        manipulations.add(new AddManipulation(note.getNoteNumber(), note.getNoteDuration(), note.getTick().get().doubleValue() / 4));
+                        manipulations.add(new AddManipulation(note.getNoteNumber(), note.getNoteDuration(), note.getTick().get()));
                     }
                 } catch (InvalidTickException e) {
                     throw new RuntimeException(e);
