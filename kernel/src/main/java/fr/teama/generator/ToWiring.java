@@ -198,6 +198,7 @@ public class ToWiring extends Visitor<StringBuffer> {
     public void visit(Note note) {
         try {
             System.out.println(note);
+
             int tick;
 
             if (note.getTick().isPresent()) {
@@ -224,7 +225,6 @@ public class ToWiring extends Visitor<StringBuffer> {
             } else {
                 noteNumber = note.getNoteNumber().getNoteNumber() + (note.getOctave() - 2) * 12;
             }
-            System.out.println("Note number : " + noteNumber + " " + note);
 
             ShortMessage noteOn = new ShortMessage();
             noteOn.setMessage(ShortMessage.NOTE_ON, currentChannelNumber, noteNumber, currentVolume);

@@ -145,7 +145,6 @@ public class ModelBuilder extends MidimlBaseListener {
             default:
                 throw new RuntimeException("Instrument not supported");
         }
-        System.out.println(track.getInstrument());
     }
 
     @Override
@@ -170,7 +169,6 @@ public class ModelBuilder extends MidimlBaseListener {
         if (ctx.name != null) {
             bar.setName(ctx.name.getText());
         }
-        System.out.println("\n\nbegining: " + bars);
 
         MidimlParser.NoteChaineContext noteChaineContext = ctx.noteChaine();
 
@@ -181,7 +179,6 @@ public class ModelBuilder extends MidimlBaseListener {
         }
 
         bars.add(bar);
-        System.out.println("\n\nfin: " + bars);
 
         if (ctx.REPETITION() != null) {
             int repetition = Integer.parseInt(ctx.REPETITION().getText().substring(1));
