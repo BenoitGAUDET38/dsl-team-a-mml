@@ -20,7 +20,7 @@ public class ToWiring extends Visitor<StringBuffer> {
     NormalBar currentBar;
     int currentTick = 1;
 
-    int currentBarTick=0;
+    int currentBarTick=1;
     int currentChannelNumber;
     int currentClassicChannelNumber = 0;
     int currentDrumChannelNumber = 9;
@@ -84,7 +84,7 @@ public class ToWiring extends Visitor<StringBuffer> {
 
     @Override
     public void visit(Track track) {
-
+        currentBarTick = 1;
         currentTick = 1;
         currentTrack = sequence.createTrack();
         currentInstrumentNumber = track.getInstrument().getInstrumentNumber();

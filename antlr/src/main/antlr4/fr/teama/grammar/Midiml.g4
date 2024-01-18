@@ -19,7 +19,7 @@ tracks          :   instrument+;
     partition   :   '{'  (changeTempo|changeRythme|bar|reusedBar)+  '}';
     changeTempo :   tempo=INT 'bpm';
     changeRythme:   rythme=RYTHME;
-    bar         :   '|' (name=TITRE '->')? noteCh=noteChaine?;
+    bar         :   '|' (name=TITRE '->')? noteCh=noteChaine? REPETITION?;
     reusedBar   :   '|' (name=TITRE '->')? barNameToUse=TITRE ('(' manipulation ')')? REPETITION?;
     manipulation:   (ajout | suppression | modifDuration | modifNumber) (('et' | 'ET') manipulation)?;
     ajout       :   'MODIF AJOUT ' noteToAdd=noteSimple;

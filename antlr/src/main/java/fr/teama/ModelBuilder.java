@@ -182,6 +182,15 @@ public class ModelBuilder extends MidimlBaseListener {
 
         bars.add(bar);
         System.out.println("\n\nfin: " + bars);
+
+        if (ctx.REPETITION() != null) {
+            int repetition = Integer.parseInt(ctx.REPETITION().getText().substring(1));
+            if (repetition < 1) {
+                throw new RuntimeException("Repetition must be greater than 0");
+            }
+            ReusedBar reusedBar = new ReusedBar(repetition-1, bar, new ArrayList<>());
+            bars.add(reusedBar);
+        }
     }
 
     private Note createNoteFromContext(MidimlParser.NoteSimpleContext noteSimpleContext) {
@@ -244,6 +253,9 @@ public class ModelBuilder extends MidimlBaseListener {
         int repetition = 1;
         if (ctx.REPETITION() != null) {
             repetition = Integer.parseInt(ctx.REPETITION().getText().substring(1));
+            if (repetition < 1) {
+                throw new RuntimeException("Repetition must be greater than 0");
+            }
         }
         List<Manipulation> manipulations = new ArrayList<>();
         ReusedBar reusedBar = new ReusedBar(repetition, bar, manipulations);
@@ -270,7 +282,16 @@ public class ModelBuilder extends MidimlBaseListener {
             } else if (manipulationContext.modifDuration() != null) {
                 manipulations.add(new NoteDurationManipulation(manipulationContext.modifDuration().noteName.getText(), NoteDurationEnum.valueOf(manipulationContext.modifDuration().duration.getText())));
             } else if (manipulationContext.modifNumber() != null) {
-                manipulations.add(new NoteNumberManipulation(manipulationContext.modifNumber().noteName.getText(), ClassicNoteEnum.valueOf(manipulationContext.modifNumber().number.getText())));
+                NoteNumber noteNumber;
+                switch (instrument) {
+                    case "BATTERIE":
+                        noteNumber = DrumNoteEnum.valueOf(manipulationContext.modifNumber().number.getText());
+                        break;
+                    default:
+                        noteNumber = ClassicNoteEnum.valueOf(manipulationContext.modifNumber().number.getText());
+                        break;
+                }
+                manipulations.add(new NoteNumberManipulation(manipulationContext.modifNumber().noteName.getText(), noteNumber));
             }
             manipulationContext = manipulationContext.manipulation();
         }

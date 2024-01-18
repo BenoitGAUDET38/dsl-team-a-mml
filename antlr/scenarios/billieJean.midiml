@@ -9,22 +9,22 @@ rythme 4/4
 
 instrument BATTERIE
 {
-    #Il en faut 2-> | CH:C CH:C CH:C CH:C CH:C CH:C CH:C CH:C BD:C:0.0 SD:C:1.0 BD:C:2.0 SD:C:3.0
-    #Il en faut 3-> | bar1 -> CH:C CH:C CH:C CH:C CH:C CH:C CH:C CH:C(note1) BD:C:0.0 SD:C:1.0 BD:C:2.0 SD:C:3.0 MA:C:0.0 MA:C:0.5 MA:C:1.0 MA:C:1.5 MA:C:2.0 MA:C:2.5 MA:C:3.0 MA:C:3.5
+    | CH:C CH:C CH:C CH:C CH:C CH:C CH:C CH:C BD:C:0.0 SD:C:1.0 BD:C:2.0 SD:C:3.0 x2
+    | bar1 -> CH:C CH:C CH:C CH:C CH:C CH:C CH:C CH:C(note1) BD:C:0.0 SD:C:1.0 BD:C:2.0 SD:C:3.0 MA:C:0.0 MA:C:0.5 MA:C:1.0 MA:C:1.5 MA:C:2.0 MA:C:2.5 MA:C:3.0 MA:C:3.5 x3
     | bar1 (MODIF AJOUT PH:D_C:3.5 et MODIF AJOUT PH:D_C:3.75)
     | bar1 (MODIF AJOUT PH:C:0.0)
-    #Il en faut 26-> | bar1
+    | bar1 x26
     | bar1 (MODIF NOTE note1 -> OH)
 }
 
 instrument GUITARE BASSE MEDIATOR
 {
-    #Il en faut 2-> | SILENCE:R
-    #Il en faut 16-> | bar1 -> MI1:C LA1:C RE2:C RE2:C RE2:C LA1:C LA1:C LA1:C
-    #Il en faut 2-> | bar2 -> SOL2:C RE2:C SOL2:C SOL2:C SILENCE:C RE2:C RE2:C RE2:C
-    #Il en faut 2-> | bar1
-    #Il en faut 2-> | bar2
-    #Il en faut 6-> | bar1
-    #Il en faut 2-> | bar2
-    #Il en faut 2-> | bar1
+    | SILENCE:R x2
+    | bar1 -> MI1:C LA1:C RE2:C RE2:C RE2:C LA1:C LA1:C LA1:C x16
+    | bar2 -> SOL2:C RE2:C SOL2:C SOL2:C SILENCE:C RE2:C RE2:C RE2:C x2
+    | bar1 x2
+    | bar2 x2
+    | bar1 x6
+    | bar2 x2
+    | bar1 x2
 }
