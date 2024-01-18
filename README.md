@@ -41,7 +41,7 @@ Follow the instructions in the [README](https://github.com/BenoitGAUDET38/dsl-te
 
 ---
 ## Scenarios
-- [X] Billie Jean, Mickael Jackson
+- [X] Billie Jean, Michael Jackson
 - [X] Love is All, Roger Glover
 
 ## Extensions
