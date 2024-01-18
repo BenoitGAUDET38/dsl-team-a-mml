@@ -1,12 +1,11 @@
 package fr.teama;
 
 import fr.teama.exceptions.InvalidTickException;
-import fr.teama.generator.ToWiring;
+import fr.teama.generator.ToSinging;
 import fr.teama.structural.*;
 import fr.teama.structural.enums.ClassicNoteEnum;
 import fr.teama.structural.enums.InstrumentEnum;
 import fr.teama.structural.enums.NoteDurationEnum;
-import fr.teama.structural.manipulations.NoteNumberManipulation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +96,7 @@ public class Main {
         **/
 
 
-        app.accept(new ToWiring());
+        app.accept(new ToSinging());
     }
 
 //    public static void simpleTest() throws InvalidTickException {

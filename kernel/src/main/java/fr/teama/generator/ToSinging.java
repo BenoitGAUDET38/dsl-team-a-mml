@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.List;
 
-public class ToWiring extends Visitor<StringBuffer> {
+public class ToSinging extends Visitor<StringBuffer> {
     Sequence sequence;
     javax.sound.midi.Track currentTrack;
     NormalBar currentBar;

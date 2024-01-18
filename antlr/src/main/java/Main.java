@@ -1,6 +1,6 @@
 import fr.teama.App;
 import fr.teama.ModelBuilder;
-import fr.teama.generator.ToWiring;
+import fr.teama.generator.ToSinging;
 import fr.teama.generator.Visitor;
 import fr.teama.StopErrorListener;
 import fr.teama.grammar.*;
@@ -50,7 +50,7 @@ public class Main {
     }
 
     private static void exportToCode(App theApp) {
-        Visitor codeGenerator = new ToWiring();
+        Visitor codeGenerator = new ToSinging();
         System.out.println("Generating music...");
         theApp.accept(codeGenerator);
         //System.out.println(codeGenerator.getResult());
