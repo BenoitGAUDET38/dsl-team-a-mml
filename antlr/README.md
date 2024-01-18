@@ -17,9 +17,11 @@
 We consider here that the current directory is the `antlr` directory.
 
   1. Make sure the MidiML JVM kernel is installed in your local maven repository
-    * `cd ../kernels; mvn clean install`
+     * `cd ../kernel`
+     * `mvn clean install`
   2. Then, compile the ANTLR code
-    * `mvn clean package`
+     * `cd ../antlr`
+     * `mvn clean package`
   3. Run the compiler using the `exec` plugin:
      * Basic scenarios:
        * `mvn exec:java -Dexec.args="scenarios/billieJean.midiml"`
@@ -29,7 +31,7 @@ We consider here that the current directory is the `antlr` directory.
        * `mvn exec:java -Dexec.args="scenarios/testMultipleNotes.midiml"`
        * `mvn exec:java -Dexec.args="scenarios/testMultipleInstruments.midiml"`
        * `mvn exec:java -Dexec.args="scenarios/testOctave.midiml"`
-       * `mvn exec:java -Dexec.args="scenarios/reused-bars.midiml"`
+       * `mvn exec:java -Dexec.args="scenarios/testReusedBars.midiml"`
     
 ## Code Description
 
