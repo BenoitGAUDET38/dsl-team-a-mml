@@ -20,7 +20,7 @@ tracks          :   instrument+;
     changeTempo :   tempo=INT 'bpm';
     changeRythme:   rythme=RYTHME;
     bar         :   '|' (name=TITRE '->')? noteCh=noteChaine?;
-    reusedBar   :   '|' (name=TITRE '->')? barNameToUse=TITRE ('(' manipulation ')')?;
+    reusedBar   :   '|' (name=TITRE '->')? barNameToUse=TITRE ('(' manipulation ')')? REPETITION?;
     manipulation:   (ajout | suppression | modifDuration | modifNumber) (('et' | 'ET') manipulation)?;
     ajout       :   'MODIF AJOUT ' noteToAdd=noteSimple;
     suppression :   'MODIF SUPPR ' noteName=TITRE;
@@ -41,6 +41,7 @@ BATTERIENOTE    :   SILENCE | 'BD' | 'SD' | 'CH' | 'PH' | 'OH' | 'CC' | 'RC' | '
 DUREE           :   'N' | 'BL' | 'C' | 'D_C' | 'N_P' | 'BL_P' | 'C_P' | 'R';
 SILENCE         :   'SILENCE';
 RYTHME          :   '3/4' | '4/4';
+REPETITION      :   'x' NUMBER;
 INT             :   NUMBER;
 TITRE           :   LOWERCASE(LOWERCASE | NUMBER)+;
 FLOAT               : '0'..'9'+ '.' ('0'|'25'|'5'|'75');

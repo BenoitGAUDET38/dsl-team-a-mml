@@ -5,8 +5,9 @@ import * as vscode from 'vscode';
 const notes = ['DO', 'DO_D', 'RE', 'RE_D', 'MI', 'FA', 'FA_D', 'SOL', 'SOL_D', 'LA', 'LA_D', 'SI'];
 const noteDuration = ['D_C', 'C', 'C_P', 'P', 'N', 'N_P', 'BL', 'BL_P', 'R'];
 const instrumentOptions = ['PIANO', 'BATTERIE', 'XYLOPHONE', 'ACCORDEON', 'HARMONICA', 'GUITARE', 'CONTREBASSE', 'VIOLON', 'TROMPETTE', 'TROMBONE', 'ALTO', 'CLARINETTE', 'FLUTE', 'WHISTLE', 'OCARINA', 'BANJO'];
-const rythmeOptions = ['3/4', '4/4', '6/8', '7/8'];
+const rythmeOptions = ['3/4', '4/4'];
 const tempoOptions = ['80 bpm', '100 bpm', '120 bpm'];
+const modificationOptions = ['NOTE', 'AJOUT', 'SUPPR', 'DUREE'];
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -22,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
             // Snippet that will be inserted
-			const snippetContent = `titre default-title\n\n# Declaring settings\ntempo \${1|${tempoOptions.join(',')}\|} rythme \${2|${rythmeOptions.join(',')}\|}\n\ninstrument \${3|${instrumentOptions.join(',')}\|}\n{\n    \n}\n`;
+			const snippetContent = `titre default-title\n\n# Declaring settings\ntempo \${1|${tempoOptions.join(',')}\|} rythme \${2|${rythmeOptions.join(',')}\|}\n\ninstrument \${3|${instrumentOptions.join(',')}\|}\n{\n    |\n}\n`;
 
 			const snippetCompletion = new vscode.CompletionItem('Template Midiml');
 			snippetCompletion.insertText = new vscode.SnippetString(snippetContent);
@@ -73,7 +74,11 @@ export function activate(context: vscode.ExtensionContext) {
                     return rythmeOptions.map(rythme => new vscode.CompletionItem(rythme, vscode.CompletionItemKind.Method));
                 } else if (linePrefix.endsWith('tempo ')) {
                     return tempoOptions.map(tempo => new vscode.CompletionItem(tempo, vscode.CompletionItemKind.Method));
-                } else if (linePrefix.endsWith('| ') || linePrefix.match(/.*(DO|DO_D|RE|RE_D|MI|FA|FA_D|SOL|SOL_D|LA|LA_D|SI|SILENCE)(-2|-1|0|1|2|3|4|5|6|7)?[ ]/)) {
+                } else if (linePrefix.match(/.*[|][ ]([a-z][A-Z][0-9])+[ ]/)) {
+                    const notesCompletion = [];
+                    notesCompletion.push(new vscode.CompletionItem('->', vscode.CompletionItemKind.Method));
+                    return notesCompletion;
+                } else if (linePrefix.endsWith('| ') || linePrefix.endsWith('-> ') || linePrefix.match(/.*(DO|DO_D|RE|RE_D|MI|FA|FA_D|SOL|SOL_D|LA|LA_D|SI|SILENCE)(-2|-1|0|1|2|3|4|5|6|7)?[ ]/)) {
                     const notesCompletion = notes.map(note => new vscode.CompletionItem(note, vscode.CompletionItemKind.Method));
                     notesCompletion.push(new vscode.CompletionItem('SILENCE', vscode.CompletionItemKind.Method));
                     return notesCompletion;
@@ -87,7 +92,7 @@ export function activate(context: vscode.ExtensionContext) {
 				return undefined;
 			}
 		},
-		' ' // triggered whenever a '.' is being typed
+		' ' // triggered whenever a 'space' is being typed
 	);
 
     const colonSeparator = vscode.languages.registerCompletionItemProvider(

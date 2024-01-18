@@ -241,8 +241,12 @@ public class ModelBuilder extends MidimlBaseListener {
         if (bar == null) {
             throw new RuntimeException("Bar " + ctx.barNameToUse.getText()   + " not found");
         }
+        int repetition = 1;
+        if (ctx.REPETITION() != null) {
+            repetition = Integer.parseInt(ctx.REPETITION().getText().substring(1));
+        }
         List<Manipulation> manipulations = new ArrayList<>();
-        ReusedBar reusedBar = new ReusedBar(1, bar, manipulations);
+        ReusedBar reusedBar = new ReusedBar(repetition, bar, manipulations);
 
         MidimlParser.ManipulationContext manipulationContext = ctx.manipulation();
         while (manipulationContext != null) {

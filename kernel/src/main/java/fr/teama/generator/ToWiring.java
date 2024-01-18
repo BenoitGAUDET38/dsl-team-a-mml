@@ -134,7 +134,9 @@ public class ToWiring extends Visitor<StringBuffer> {
     @Override
     public void visit(ReusedBar reusedBar) throws CloneNotSupportedException, NoRootNormalBarFoundException, InconsistentBarException {
         NormalBar normalBar = applyManipulations(reusedBar);
-        normalBar.accept(this);
+        for (int i = 0; i < reusedBar.getRepetition(); i++) {
+            normalBar.accept(this);
+        }
     }
 
     // Recursively apply manipulations to the reused bar
