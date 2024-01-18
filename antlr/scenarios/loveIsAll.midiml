@@ -7,8 +7,14 @@ titre loveisall
 tempo 110bpm
 rythme 4/4
 
-instrument BATTERIE
+
+instrument BATTERIE #bar faites : 40
 {
-    | SILENCE:BL SILENCE:N SD | bar1 -> OH OH OH OH x2 | SD:C SD:C SD:C SD:C SD:C SD:C SD:C SD:C OH:0.0 | SD CC:0.0 SD:3.0 HT:3.0
+    | SILENCE:BL SILENCE:N SD | bar1 -> OH(note1) OH OH OH x2 | SD:C SD:C SD:C SD:C SD:C SD:C SD:C SD:C OH:0.0 | bar5 -> SD CC:0.0 SD:3.0 HT:3.0
     | bar2 -> bar1 (MODIF AJOUT BD:0.0 et MODIF AJOUT SD:1.0 et MODIF AJOUT BD:2.0 et MODIF AJOUT SD:3.0) x7
+    | bar4 -> OH BD:0.0 OH SD:1.0 SD BD:C:2.0 SD:C:2.33 SD:C:2.66 SD BD:C:3.0 LMT:C:3.0 SD:C:3.33 LMT:C:3.0 SD:C:3.66 LMT:C:3.66 | bar2 x5
+    | bar2 x2 | SD:C BD:C:0.0 SD:C:0.33 SD:C:0.66 SD:C BD:C:1.0 SD:C:1.33 SD:C:1.66 LMT:C BD:C:2.0 LMT:C:2.33 LMT:C:2.66 HFT:C BD:C:3.0 HFT:C:3.33 HFT:C:3.66 | bar3 -> BD BD BD BD CC:0.0 OH:1.0 OH:2.0 OH:3.0 SD:1.0 SD:3.0 x2
+    | bar3 | bar4 | bar3 x3 | BD CC:0.0 SD OH:1.0 SD:C CC:C:2.0 BD:C:2.0 SD:C:2.5 SD:C BD:C:3.0 SD:C:3.5
+    | bar2 (MODIF SUPPR note1 et MODIF AJOUT CC:0.0) | bar2 x2 | bar5 | bar2 x2
+    | bar2 x5
 }
