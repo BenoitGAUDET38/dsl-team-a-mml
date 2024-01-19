@@ -18,6 +18,11 @@
 Follow the instructions in the [README](https://github.com/BenoitGAUDET38/dsl-team-a-mml/blob/main/antlr/README.md) of the `antlr` subfolder
 
 ---
+## Domain Model
+
+You will find the Domain Model as a class diagram int the [README](https://github.com/BenoitGAUDET38/dsl-team-a-mml/blob/main/kernel/README.md) of the `kernel/ressources` subfolder
+
+---
 ## External DSL (ANTLR) to play music with Java
 ### BNF
 ```java
