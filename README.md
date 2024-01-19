@@ -94,6 +94,7 @@ COMMENT             : '#' ~( '\r' | '\n' )*     -> skip;     // Single line comm
 |                  Alternation                  |    \|     |
 |      Optional repetition (once or more)       |     +     |
 |        Optional element (once or none)        |     ?     |
+|              Range of characters              |   [...]   |
 
 ### Script example
 ```java
