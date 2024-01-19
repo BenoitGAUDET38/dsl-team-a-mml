@@ -157,9 +157,9 @@ instrument VIOLON
 - [X] Billie Jean, Michael Jackson
 - [X] Love is All, Roger Glover
 
-## Extensions: Support for bar modifications
+## Extension: Support for bar modifications
 Frequently, certain bars exhibit variations from previously defined ones.
 Therefore, it is valuable to enable users to define a new bar based on an existing one.
 
-## Addon: autocompletion Visual Studio Code extension
+## Add-on: autocompletion Visual Studio Code extension
 This extension displays suggested options as users type, and facilitating the completion of entire terms by default or using just the initial letters.
