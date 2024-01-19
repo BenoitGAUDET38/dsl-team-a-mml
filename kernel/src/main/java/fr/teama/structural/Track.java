@@ -10,7 +10,7 @@ public class Track implements Visitable {
     private InstrumentEnum instrument;
     private List<Bar> bars;
 
-    private int volume = 60;
+    private int volume = 100;
 
     public InstrumentEnum getInstrument() {
         return instrument;

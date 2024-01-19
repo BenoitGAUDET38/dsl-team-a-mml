@@ -8,7 +8,6 @@ tempo 118bpm
 rythme 4/4
 
 instrument BATTERIE
-volume 70
 {
     | CH:C CH:C CH:C CH:C CH:C CH:C CH:C CH:C BD:C:0.0 SD:C:1.0 BD:C:2.0 SD:C:3.0 x2
     | bar1 -> CH:C CH:C CH:C CH:C CH:C CH:C CH:C CH:C(note1) BD:C:0.0 SD:C:1.0 BD:C:2.0 SD:C:3.0 MA:C:0.0 MA:C:0.5 MA:C:1.0 MA:C:1.5 MA:C:2.0 MA:C:2.5 MA:C:3.0 MA:C:3.5 x3
@@ -19,7 +18,6 @@ volume 70
 }
 
 instrument GUITARE BASSE MEDIATOR
-volume 50
 {
     | SILENCE:R x2
     | bar1 -> FA_D2:C DO_D2:C MI2:C FA_D2:C MI2:C DO_D2:C SI1:C DO_D2:C x16
@@ -32,18 +30,17 @@ volume 50
 }
 
 instrument GUITARE ELECTRIQUE DISTORSION
-volume 40
+volume 80
 {
     | SILENCE:R x10
-    | bar1 -> FA_D2:C_P DO_D2:C_P:0.0 LA2:C_P:0.0 SOL_D2:C_P:1.5 RE_D2:C_P:1.5 SI2:C_P:1.5
-    | bar2 -> LA2:C_P MI2:C_P:0.0 DO_D3:C_P:0.0 SOL_D2:C_P:1.5 RE_D2:C_P:1.5 SI2:C_P:1.5
+    | bar1 -> FA_D:C_P DO_D:C_P:0.0 LA2:C_P:0.0 SOL_D:C_P:1.5 RE_D:C_P:1.5 SI2:C_P:1.5
+    | bar2 -> LA:C_P MI:C_P:0.0 DO_D:C_P:0.0 SOL_D:C_P:1.5 RE_D:C_P:1.5 SI2:C_P:1.5
     | bar1 | bar2 | bar1 | bar2 | bar1 | bar2
-    | bar3 -> FA_D2:C_P RE2:C_P:0.0 SI1:C_P:0.0 FA_D2:C_P:1.5 RE2:C_P:1.5 SI1:C_P:1.5 x2
+    | bar3 -> FA_D:C_P RE:C_P:0.0 SI2:C_P:0.0 FA_D:C_P:1.5 RE:C_P:1.5 SI2:C_P:1.5 x2
     | bar1 | bar2 | bar3 x2 | bar1 | bar2 | bar1 | bar2 | bar1 | bar2 | bar3 x2 | bar1 | bar2
 }
 
 instrument VIOLON
-volume 40
 {
     | sil -> SILENCE:R x14
     | SILENCE DO_D:C DO_D:C DO_D:C SI2:C LA2:C SI2:C | SILENCE:C LA2:C DO_D:C SI2:D_C LA2:D_C SI2:C LA2:C DO_D
