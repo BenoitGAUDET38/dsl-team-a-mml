@@ -52,7 +52,7 @@ instrument GUITARE ELECTRIQUE DISTORSION
     | g55775 -> DO:N_P DO:C RE RE:C DO:C | g5777 -> SILENCE:N_P DO:C RE RE:C RE:C | g7 -> RE:3.0 | g5545497 -> DO DO:C SI:C DO:C SI:C MI:C RE:C | g55775 | g5777
     | g75 -> RE:C:3.0 DO:C:3.5 | silence x13 | g55775
     | g5777 | g7 | g5545497 | g55775 | g5777 | g75
-    | silence 3/4 75 bpm | silence | 70 bpm | silence x3 85 bpm | silence x4 100 bpm | silence x4 110 bpm
+    | silence 3/4 75 bpm | silence2 -> SILENCE:BL_P 70 bpm | silence2 x3 85 bpm | silence2 x4 100 bpm | silence2 x4 110 bpm | FA_D:D_C MI:D_C RE:D_C FA_D:D_C MI:D_C RE:D_C FA_D:D_C MI:D_C RE:D_C FA_D:D_C MI:D_C RE:D_C
 }
 
 
