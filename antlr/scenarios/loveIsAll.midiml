@@ -29,7 +29,7 @@ instrument BATTERIE
 
 instrument GUITARE BASSE FRETLESS
 {
-    | SILENCE:R | SI2 LA2 SOL_D2 FA_D2 | MI RE DO_D SI2 | LA SOL FA_D LA | a5 -> RE:R | a3355 -> DO DO RE RE | d223353 -> MI MI FA:C FA:C SOL:C FA:C
+    | | SI2 LA2 SOL_D2 FA_D2 | MI RE DO_D SI2 | LA SOL FA_D LA | a5 -> RE:R | a3355 -> DO DO RE RE | d223353 -> MI MI FA:C FA:C SOL:C FA:C
     | a3355 | d223353 | a3355 | d2233 -> MI MI FA FA | SOL2 SOL2 SOL2 SOL2 | SOL SOL SOL:C SOL:C SOL:C SOL:C
     | a3355 | d223353 | a3355 | d223353 | a3355 | d2233
     | d5555 -> SOL SOL SOL SOL x2 | e553a33 -> LA LA:C SOL:C LA:C LA:C DO:C DO:C | a5535355 -> RE RE:C DO:C RE:C DO:C RE:C RE:C | e332335a2 -> SOL SOL:C FA_D:C SOL:C SOL:C LA:C SI:C
@@ -48,8 +48,11 @@ instrument GUITARE BASSE FRETLESS
 
 instrument GUITARE ELECTRIQUE DISTORSION
 {
-    | SILENCE:R x21
-    | DO:N_P DO:C RE RE:C DO:C | SILENCE:N_P DO:C RE RE:C RE:C
+    | silence -> SILENCE:R x21
+    | g55775 -> DO:N_P DO:C RE RE:C DO:C | g5777 -> SILENCE:N_P DO:C RE RE:C RE:C | g7 -> RE:3.0 | g5545497 -> DO DO:C SI:C DO:C SI:C MI:C RE:C | g55775 | g5777
+    | g75 -> RE:C:3.0 DO:C:3.5 | silence x13 | g55775
+    | g5777 | g7 | g5545497 | g55775 | g5777 | g75
+    | silence 3/4 75 bpm | silence | 70 bpm | silence x3 85 bpm | silence x4 100 bpm | silence x4 110 bpm
 }
 
 
