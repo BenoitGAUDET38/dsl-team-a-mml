@@ -36,6 +36,9 @@ public class ToSinging extends Visitor<StringBuffer> {
 
     @Override
     public void visit(App app) {
+
+        System.out.println("Nombre de bar : " + app.getTracks().get(0).getBars().size());
+
         try {
             Sequencer sequencer = MidiSystem.getSequencer();
             sequencer.open();

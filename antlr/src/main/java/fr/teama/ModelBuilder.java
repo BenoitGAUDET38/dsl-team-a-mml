@@ -128,7 +128,7 @@ public class ModelBuilder extends MidimlBaseListener {
             case "TROMBONE":
                 track.setInstrument(InstrumentEnum.TROMBONE);
                 break;
-            case "ALTO":
+            case "SAXOPHONE ALTO":
                 track.setInstrument(InstrumentEnum.ALTO_SAX);
                 break;
             case "CLARINETTE":
@@ -245,13 +245,16 @@ public class ModelBuilder extends MidimlBaseListener {
 
     @Override
     public void enterReusedBar(MidimlParser.ReusedBarContext ctx) {
-        Bar bar = bars.stream()
+        List<Bar> barList = bars.stream()
                 .filter(b -> b.getName().isPresent())
-                .filter(b -> b.getName().get().equals(ctx.barNameToUse.getText()))
-                .findFirst().orElse(null);
-        if (bar == null) {
+                .filter(b -> b.getName().get().equals(ctx.barNameToUse.getText())).collect(java.util.stream.Collectors.toList());
+
+        if (barList.isEmpty()) {
             throw new RuntimeException("Bar " + ctx.barNameToUse.getText()   + " not found");
         }
+
+        Bar bar = barList.get(barList.size() - 1);
+
         int repetition = 1;
         if (ctx.REPETITION() != null) {
             repetition = Integer.parseInt(ctx.REPETITION().getText().substring(1));
