@@ -18,6 +18,11 @@
 Follow the instructions in the [README](https://github.com/BenoitGAUDET38/dsl-team-a-mml/blob/main/antlr/README.md) of the `antlr` subfolder
 
 ---
+## Domain Model
+
+You will find the Domain Model as a class diagram int the [README](https://github.com/BenoitGAUDET38/dsl-team-a-mml/blob/main/kernel/README.md) of the `kernel/ressources` subfolder
+
+---
 ## External DSL (ANTLR) to play music with Java
 ### BNF
 ```java
@@ -79,7 +84,7 @@ VALUE           :   NUMBER;
 fragment LOWERCASE  : [a-z];                                 // abstract rule, does not really exists
 fragment UPPERCASE  : [A-Z];
 ZERO                : '0';
-NUMBER              : [1-9]([0-9]+)?;
+NUMBER              : [0-9]([0-9]+)?;
 NEWLINE             : ('\r'? '\n' | '\r')+      -> skip;
 WS                  : ((' ' | '\t')+)           -> skip;     // who cares about whitespaces?
 COMMENT             : '#' ~( '\r' | '\n' )*     -> skip;     // Single line comments, starting with a #
@@ -157,9 +162,11 @@ instrument VIOLON
 - [X] Billie Jean, Michael Jackson
 - [X] Love is All, Roger Glover
 
-## Extensions: Support for bar modifications
+## Extension: Support for bar modifications
 Frequently, certain bars exhibit variations from previously defined ones.
 Therefore, it is valuable to enable users to define a new bar based on an existing one.
 
-## Addon
+## Add-on: autocompletion Visual Studio Code extension
+This extension displays suggested options as users type, and facilitating the completion of entire terms by default or using just the initial letters.
 
+You will find in the `completion-midiml` subfolder a [README](https://github.com/BenoitGAUDET38/dsl-team-a-mml/blob/main/completion-midiml/README.md) explaining how to install and how to use this extension.
