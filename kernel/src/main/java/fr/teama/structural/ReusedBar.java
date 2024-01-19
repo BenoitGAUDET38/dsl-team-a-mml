@@ -12,8 +12,8 @@ public class ReusedBar extends Bar implements Visitable {
     List<Manipulation> manipulations;
     Bar bar;
 
-    public ReusedBar(int repetition, Bar bar, List<Manipulation> manipulations) {
-        super();
+    public ReusedBar(int repetition, Bar bar, List<Manipulation> manipulations, int tempo, int resolution, int unityTimeValue) {
+        super(tempo, resolution, unityTimeValue);
         this.repetition = repetition;
         this.manipulations = manipulations;
         this.bar = bar;

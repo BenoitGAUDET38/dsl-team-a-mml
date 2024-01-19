@@ -9,17 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class NormalBar extends Bar implements Cloneable, Visitable {
-    private int tempo;
-    private int resolution;
-    private int unityTimeValue;
     private List<Note> notes;
 
     public NormalBar(int tempo, int resolution,int unityTimeValue) {
-        super();
-        this.tempo = tempo;
-        this.resolution = resolution;
+        super(tempo, resolution, unityTimeValue);
         this.notes = new ArrayList<>();
-        this.unityTimeValue = unityTimeValue;
     }
 
     public void addNote(Note note) {

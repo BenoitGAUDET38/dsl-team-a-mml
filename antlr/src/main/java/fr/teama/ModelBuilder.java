@@ -193,7 +193,7 @@ public class ModelBuilder extends MidimlBaseListener {
             if (repetition < 1) {
                 throw new RuntimeException("Repetition must be greater than 0");
             }
-            ReusedBar reusedBar = new ReusedBar(repetition-1, bar, new ArrayList<>());
+            ReusedBar reusedBar = new ReusedBar(repetition-1, bar, new ArrayList<>(), currentTempo, currentResolution, currentUnityTimeValue);
             bars.add(reusedBar);
         }
     }
@@ -266,7 +266,7 @@ public class ModelBuilder extends MidimlBaseListener {
             }
         }
         List<Manipulation> manipulations = new ArrayList<>();
-        ReusedBar reusedBar = new ReusedBar(repetition, bar, manipulations);
+        ReusedBar reusedBar = new ReusedBar(repetition, bar, manipulations, currentTempo, currentResolution, currentUnityTimeValue);
 
         MidimlParser.ManipulationContext manipulationContext = ctx.manipulation();
         while (manipulationContext != null) {
