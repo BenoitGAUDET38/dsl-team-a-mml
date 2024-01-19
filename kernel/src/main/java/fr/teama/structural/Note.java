@@ -94,6 +94,7 @@ public class Note extends NamedElement implements Visitable, Cloneable {
     public String toString() {
         return "Note{" +
                 "noteNumber=" + noteNumber +
+                ", noteName=" + name +
                 ", duration=" + noteDuration +
                 ", tick=" + tick +
                 ", octave=" + octave +

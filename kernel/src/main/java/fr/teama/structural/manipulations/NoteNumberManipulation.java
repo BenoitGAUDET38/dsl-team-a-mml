@@ -20,7 +20,7 @@ public class NoteNumberManipulation extends Manipulation {
                 .toList();
 
         if (notes.isEmpty()) {
-            System.out.println("\033[33m" + "WARNING: Note " + noteName + " not found in bar " + bar.getName() + ", note number modification not applied" + "\033[0m");
+            System.out.println("\033[33m" + "WARNING: Note " + noteName + " not found in bar " + bar + ", note number modification not applied" + "\033[0m");
             return;
         }
 
