@@ -157,11 +157,9 @@ instrument VIOLON
 - [X] Billie Jean, Michael Jackson
 - [X] Love is All, Roger Glover
 
-## Extensions
-- [X] Support for bar modifications
-- [ ] Support for human like errors
-- [ ] Support for user interactive input
-- [ ] Support for user defined sounds
+## Extensions: Support for bar modifications
+Frequently, certain bars exhibit variations from previously defined ones.
+Therefore, it is valuable to enable users to define a new bar based on an existing one.
 
 ## Addon
 
