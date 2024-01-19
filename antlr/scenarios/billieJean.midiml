@@ -8,7 +8,6 @@ tempo 118bpm
 rythme 4/4
 
 instrument BATTERIE
-volume 70
 {
     | CH:C CH:C CH:C CH:C CH:C CH:C CH:C CH:C BD:C:0.0 SD:C:1.0 BD:C:2.0 SD:C:3.0 x2
     | bar1 -> CH:C CH:C CH:C CH:C CH:C CH:C CH:C CH:C(note1) BD:C:0.0 SD:C:1.0 BD:C:2.0 SD:C:3.0 MA:C:0.0 MA:C:0.5 MA:C:1.0 MA:C:1.5 MA:C:2.0 MA:C:2.5 MA:C:3.0 MA:C:3.5 x3
@@ -19,10 +18,9 @@ volume 70
 }
 
 instrument GUITARE BASSE MEDIATOR
-volume 50
 {
     | SILENCE:R x2
-    | bar1 -> FA_D:C DO_D:C MI:C FA_D:C MI:C DO_D:C SI2:C DO_D:C x16
+    | bar1 -> FA_D2:C DO_D2:C MI2:C FA_D2:C MI2:C DO_D2:C SI1:C DO_D2:C x16
     | bar2 -> SI:C FA_D:C LA:C SI:C SILENCE:C FA_D:C MI:C FA_D:C x2
     | bar1 x2
     | bar2 x2
@@ -32,24 +30,23 @@ volume 50
 }
 
 instrument GUITARE ELECTRIQUE DISTORSION
-volume 40
+volume 80
 {
     | SILENCE:R x10
-    | bar1 -> SOL:C_P RE:C_P:0.0 LA_D:C_P:0.0 LA:C_P:1.5 MI:C_P:1.5 DO:C_P:1.5
-    | bar2 -> LA_D:C_P FA:C_P:0.0 RE:C_P:0.0 LA:C_P:1.5 MI:C_P:1.5 DO:C_P:1.5
+    | bar1 -> FA_D:C_P DO_D:C_P:0.0 LA2:C_P:0.0 SOL_D:C_P:1.5 RE_D:C_P:1.5 SI2:C_P:1.5
+    | bar2 -> LA:C_P MI:C_P:0.0 DO_D:C_P:0.0 SOL_D:C_P:1.5 RE_D:C_P:1.5 SI2:C_P:1.5
     | bar1 | bar2 | bar1 | bar2 | bar1 | bar2
-    | bar3 -> SOL:C_P RE_D:C_P:0.0 DO:C_P:0.0 SOL:C_P:1.5 RE_D:C_P:1.5 DO:C_P:1.5 x2
+    | bar3 -> FA_D:C_P RE:C_P:0.0 SI2:C_P:0.0 FA_D:C_P:1.5 RE:C_P:1.5 SI2:C_P:1.5 x2
     | bar1 | bar2 | bar3 x2 | bar1 | bar2 | bar1 | bar2 | bar1 | bar2 | bar3 x2 | bar1 | bar2
 }
 
 instrument VIOLON
-volume 50
 {
     | sil -> SILENCE:R x14
-    | SILENCE DO_D4:C DO_D4:C DO_D4:C SI:C LA:C SI:C | SILENCE:C LA:C DO_D4:C SI:D_C LA:D_C SI:C LA:C DO_D4
-    | bar3 -> SILENCE:C DO_D4:C DO_D4:C DO_D4:C DO_D4:C SI:C LA:C SI:C | SILENCE:C LA:C DO_D4:C SI LA:C SOL_D:C FA_D:C
+    | SILENCE DO_D:C DO_D:C DO_D:C SI2:C LA2:C SI2:C | SILENCE:C LA2:C DO_D:C SI2:D_C LA2:D_C SI2:C LA2:C DO_D
+    | bar3 -> SILENCE:C DO_D:C DO_D:C DO_D:C DO_D:C SI2:C LA2:C SI2:C | SILENCE:C LA2:C DO_D:C SI2 LA2:C SOL_D2:C FA_D2:C
     | bar1 -> SILENCE SILENCE:BL FA_D:D_C SOL_D:D_C FA_D:C | bar2 -> SILENCE FA_D:D_C SOL_D:D_C FA_D SILENCE:C FA_D:D_C SOL_D:D_C FA_D:C | sil
-    | SILENCE:C FA_D:C LA:C SI LA:C SOL_D:C FA_D:C | bar1 | bar2 | sil x2 | bar3
-    | SILENCE:C LA:C DO_D4:C SI:D_C LA:D_C SI:C LA:D_C DO_D4 | bar3
-    | SILENCE:C LA:C DO_D4:C SI:C SI:C LA:C SOL_D:C FA_D:C | bar1 | bar2
+    | SILENCE:C FA_D2:C LA2:C SI2 LA2:C SOL_D2:C FA_D2:C | bar1 | bar2 | sil x2 | bar3
+    | SILENCE:C LA2:C DO_D:C SI2:D_C LA2:D_C SI2:C LA2:D_C DO_D | bar3
+    | SILENCE:C LA2:C DO_D:C SI2:C SI2:C LA2:C SOL_D2:C FA_D2:C | bar1 | bar2
 }
