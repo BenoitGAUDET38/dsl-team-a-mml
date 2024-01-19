@@ -163,3 +163,5 @@ Therefore, it is valuable to enable users to define a new bar based on an existi
 
 ## Add-on: autocompletion Visual Studio Code extension
 This extension displays suggested options as users type, and facilitating the completion of entire terms by default or using just the initial letters.
+
+You will find in the `completion-midiml` subfolder a [README](https://github.com/BenoitGAUDET38/dsl-team-a-mml/blob/main/completion-midiml/README.md) explaining how to install and how to use this extension.
