@@ -56,7 +56,7 @@ VALUE           :   NUMBER;
 fragment LOWERCASE  : [a-z];                                 // abstract rule, does not really exists
 fragment UPPERCASE  : [A-Z];
 ZERO                : '0';
-NUMBER              : [1-9]([0-9]+)?;
+NUMBER              : [0-9]([0-9]+)?;
 NEWLINE             : ('\r'? '\n' | '\r')+      -> skip;
 WS                  : ((' ' | '\t')+)           -> skip;     // who cares about whitespaces?
 COMMENT             : '#' ~( '\r' | '\n' )*     -> skip;     // Single line comments, starting with a #
