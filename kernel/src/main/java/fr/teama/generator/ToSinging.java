@@ -9,6 +9,8 @@ import fr.teama.structural.*;
 import fr.teama.structural.Track;
 
 import javax.sound.midi.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -67,7 +69,18 @@ public class ToSinging extends Visitor<StringBuffer> {
 
             sequence = new Sequence(Sequence.PPQ, globalUnityTimeValue);
             app.getTracks().forEach(track -> track.accept(this));
+            Optional<String> appName = app.getName();
+            String outputDirectory = "output-midi";
 
+            // Create the output directory if it doesn't exist
+            File outputDir = new File(outputDirectory);
+            if (!outputDir.exists()) {
+                outputDir.mkdirs();
+            }
+
+            String filename = appName.isPresent() ? appName.get() + ".mid" : "default.mid";
+            File midiFile = new File(outputDirectory, filename);
+            MidiSystem.write(sequence, 1, midiFile);
             sequencer.setSequence(sequence);
             sequencer.start();
 
@@ -78,6 +91,8 @@ public class ToSinging extends Visitor<StringBuffer> {
             sequencer.stop();
             sequencer.close();
         } catch (InvalidMidiDataException | MidiUnavailableException | InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
