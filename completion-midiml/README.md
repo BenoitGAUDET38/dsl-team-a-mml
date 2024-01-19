@@ -25,15 +25,5 @@ In visual studio :
 
 ## Features
 
-Completion helper to write midiml files.
-
-## Build extension
-
-`vsce package`
-
-## Release Notes
-
-### 0.0.1
-
-- Template for midiml files partitions
-- Completion for midiml files partitions
+- Completion helper to write midiml files.
+- Provides a template for new midiml files.
