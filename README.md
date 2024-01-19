@@ -38,24 +38,24 @@ root        :   title? settings tracks EOF;
 title       :   'titre ' name=TITRE;
 
 settings          :   (instrument|initialTempo|globalRythme)+;
-    initialTempo :   'tempo' tempo=INT 'bpm';
-    globalRythme:   'rythme' rythme=RYTHME;
+initialTempo :   'tempo' tempo=INT 'bpm';
+globalRythme:   'rythme' rythme=RYTHME;
 
 tracks          :   instrument+;
-    instrument  :   'instrument' name=INSTRUMENT volume? partition;
-    volume      :   'volume' volumeVal=INT;
-    partition   :   '{'  (changeTempo|changeRythme|bar|reusedBar)+  '}';
-    changeTempo :   tempo=INT 'bpm';
-    changeRythme:   rythme=RYTHME;
-    bar         :   '|' (name=TITRE '->')? noteCh=noteChaine? REPETITION?;
-    reusedBar   :   '|' (name=TITRE '->')? barNameToUse=TITRE ('(' manipulation ')')? REPETITION?;
-    manipulation:   (ajout | suppression | modifDuration | modifNumber) (('et' | 'ET') manipulation)?;
-    ajout       :   'MODIF AJOUT ' noteToAdd=noteSimple;
-    suppression :   'MODIF SUPPR ' noteName=TITRE;
-    modifDuration:  'MODIF DUREE ' noteName=TITRE '->' duration=DUREE;
-    modifNumber  :  'MODIF NOTE ' noteName=TITRE '->' number=(CLASSIQUENOTE|BATTERIENOTE);
-    noteChaine  :   noteSimple prochaineNote=noteChaine?;
-    noteSimple  :   note=(CLASSIQUENOTE|BATTERIENOTE) octave=OCTAVE? (':' duree=DUREE)? (':' timing=FLOAT)? ('(' noteName=TITRE ')')?;
+instrument  :   'instrument' name=INSTRUMENT volume? partition;
+volume      :   'volume' volumeVal=INT;
+partition   :   '{'  (changeTempo|changeRythme|bar|reusedBar)+  '}';
+changeTempo :   tempo=INT 'bpm';
+changeRythme:   rythme=RYTHME;
+bar         :   '|' (name=TITRE '->')? noteCh=noteChaine? REPETITION?;
+reusedBar   :   '|' (name=TITRE '->')? barNameToUse=TITRE ('(' manipulation ')')? REPETITION?;
+manipulation:   (ajout | suppression | modifDuration | modifNumber) (('et' | 'ET') manipulation)?;
+ajout       :   'MODIF AJOUT ' noteToAdd=noteSimple;
+suppression :   'MODIF SUPPR ' noteName=TITRE;
+modifDuration:  'MODIF DUREE ' noteName=TITRE '->' duration=DUREE;
+modifNumber :   'MODIF NOTE ' noteName=TITRE '->' number=(CLASSIQUENOTE|BATTERIENOTE);
+noteChaine  :   noteSimple prochaineNote=noteChaine?;
+noteSimple  :   note=(CLASSIQUENOTE|BATTERIENOTE) octave=OCTAVE? (':' duree=DUREE)? (':' timing=FLOAT)? ('(' noteName=TITRE ')')?;
 
 
 /*****************
@@ -72,7 +72,7 @@ RYTHME          :   '3/4' | '4/4' | '8/8' | '7/8';
 REPETITION      :   'x' NUMBER;
 INT             :   NUMBER;
 TITRE           :   LOWERCASE(LOWERCASE | NUMBER)+;
-FLOAT               : '0'..'9'+ '.' [0-9] [0-9]?;
+FLOAT           :   '0'..'9'+ '.' [0-9] [0-9]?;
 VALUE           :   NUMBER;
 
 
@@ -159,8 +159,8 @@ instrument VIOLON
 
 ---
 ## Scenarios
-- [X] Billie Jean, Michael Jackson
-- [X] Love is All, Roger Glover
+- [X] Billie Jean, *Michael Jackson*
+- [X] Love is All, *Roger Glover*
 
 ## Extension: Support for bar modifications
 Frequently, certain bars exhibit variations from previously defined ones.

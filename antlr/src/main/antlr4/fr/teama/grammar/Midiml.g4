@@ -25,7 +25,7 @@ tracks          :   instrument+;
     ajout       :   'MODIF AJOUT ' noteToAdd=noteSimple;
     suppression :   'MODIF SUPPR ' noteName=TITRE;
     modifDuration:  'MODIF DUREE ' noteName=TITRE '->' duration=DUREE;
-    modifNumber  :  'MODIF NOTE ' noteName=TITRE '->' number=(CLASSIQUENOTE|BATTERIENOTE);
+    modifNumber :   'MODIF NOTE ' noteName=TITRE '->' number=(CLASSIQUENOTE|BATTERIENOTE);
     noteChaine  :   noteSimple prochaineNote=noteChaine?;
     noteSimple  :   note=(CLASSIQUENOTE|BATTERIENOTE) octave=OCTAVE? (':' duree=DUREE)? (':' timing=FLOAT)? ('(' noteName=TITRE ')')?;
 
@@ -44,7 +44,7 @@ RYTHME          :   '3/4' | '4/4' | '8/8' | '7/8';
 REPETITION      :   'x' NUMBER;
 INT             :   NUMBER;
 TITRE           :   LOWERCASE(LOWERCASE | NUMBER)+;
-FLOAT               : '0'..'9'+ '.' [0-9] [0-9]?;
+FLOAT           :   '0'..'9'+ '.' [0-9] [0-9]?;
 VALUE           :   NUMBER;
 
 
