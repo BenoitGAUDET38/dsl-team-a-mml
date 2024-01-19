@@ -37,30 +37,17 @@ We consider here that the current directory is the `antlr` directory.
      * ```
        mvn clean package
        ```
-  3. Run the compiler using the `exec` plugin:
+  3. Run the compiler using the `exec` plugin in a bash terminal:
      * Basic scenarios:
-       * ```
-         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/billieJean.midiml"
-         ```
-       * ```
-         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/loveIsAll.midiml"
-         ```
+       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/billieJean.midiml"`
+       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/loveIsAll.midiml"`
      * Test scenarios:
-       * ```
-         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testChangeTempoAndRythme.midiml"
-         ```
-       * ```
-         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testMultipleNotes.midiml"
-         ```
-       * ```
-         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testMultipleInstruments.midiml"
-         ```
-       * ```
-         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testOctave.midiml"
-         ```
-       * ```
-         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testReusedBars.midiml"
-         ```
+       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/travelers.midiml"`
+       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testChangeTempoAndRythme.midiml"`
+       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testMultipleNotes.midiml"`
+       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testOctave.midiml"`
+       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testOtherRythme.midiml"`
+       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testReusedBars.midiml"`
    4. Once the compiler ran, the `.mid` file will be generated in the `output-midi` [folder](https://github.com/BenoitGAUDET38/dsl-team-a-mml/tree/main/antlr/output-midi).
 ## Code Description
 
