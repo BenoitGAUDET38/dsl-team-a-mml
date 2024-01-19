@@ -2,6 +2,15 @@
 
 Welcome to the README for your extension "completion-midiml".
 
+---
+## Team A
+### Authors
+- [Antoine BUQUET](https://github.com/antoinebqt)
+- [Benoit GAUDET](https://github.com/BenoitGAUDET38)
+- [Ayoub IMAMI](https://github.com/AyoubIMAMI)
+- [Mourad KARRAKCHOU](https://github.com/MouradKarrakchou)
+---
+
 ## Requirements
 
 - Visual Studio Code
