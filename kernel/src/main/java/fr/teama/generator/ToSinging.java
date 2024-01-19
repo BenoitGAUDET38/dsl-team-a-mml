@@ -162,9 +162,14 @@ public class ToSinging extends Visitor<StringBuffer> {
     private NormalBar applyManipulations(ReusedBar reusedBar) throws CloneNotSupportedException, NoRootNormalBarFoundException {
         if (reusedBar.getBar() instanceof NormalBar) {
             NormalBar normalBar = (NormalBar) ((NormalBar) reusedBar.getBar()).clone();
-//            initializeBarNotesTick(normalBar.getNotes());
-            normalBar.setNotes(initializeBarNotesTick(normalBar.getNotes()));
+            initializeBarNotesTick(normalBar.getNotes());
+//            normalBar.setNotes(initializeBarNotesTick(normalBar.getNotes()));
             reusedBar.getManipulations().forEach(manipulation -> manipulation.apply(normalBar));
+
+            normalBar.setTempo(reusedBar.getTempo());
+            normalBar.setResolution(reusedBar.getResolution());
+            normalBar.setUnityTimeValue(reusedBar.getUnityTimeValue());
+
             return normalBar;
         }
 
@@ -215,7 +220,6 @@ public class ToSinging extends Visitor<StringBuffer> {
             if (currentTick + note.getNoteDuration().getDuration() > normalBar.numberOfTicksInBar()) {
                 throw new InconsistentBarException("Note duration is too long for the bar : " + normalBar);
             }
-
         }
     }
 
