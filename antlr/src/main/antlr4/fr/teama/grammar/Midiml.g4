@@ -9,7 +9,7 @@ root        :   title? settings tracks EOF;
 
 title       :   'titre ' name=TITRE;
 
-settings          :   (instrument|initialTempo|globalRythme)+;
+settings          :   (initialTempo|globalRythme)+;
     initialTempo :   'tempo' tempo=INT 'bpm';
     globalRythme:   'rythme' rythme=RYTHME;
 
