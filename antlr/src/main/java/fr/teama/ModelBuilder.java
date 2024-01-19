@@ -119,6 +119,9 @@ public class ModelBuilder extends MidimlBaseListener {
             case "GUITARE BASSE MEDIATOR":
                 track.setInstrument(InstrumentEnum.ELECTRIC_BASS_PICKED);
                 break;
+            case "GUITARE BASSE FRETLESS":
+                track.setInstrument(InstrumentEnum.ELECTRIC_BASS_FRETLESS);
+                break;
             case "VIOLON":
                 track.setInstrument(InstrumentEnum.VIOLIN);
                 break;

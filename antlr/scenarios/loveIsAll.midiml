@@ -7,7 +7,6 @@ titre loveisall
 tempo 110bpm
 rythme 4/4
 
-
 instrument BATTERIE
 {
     | SILENCE:BL SILENCE:N SD | bar1 -> OH(note1) OH OH OH x2 | SD:C SD:C SD:C SD:C SD:C SD:C SD:C SD:C OH:0.0 | bar5 -> SD:N_P CC:N_P:0.0 SD:3.0 HT:3.0
@@ -27,3 +26,52 @@ instrument BATTERIE
     | bar3 x2 | bar4 | bar3 x3
     | bar6
 }
+
+instrument GUITARE BASSE FRETLESS
+{
+    | SILENCE:R | SI2 LA2 SOL_D2 FA_D2 | MI RE DO_D SI2 | LA SOL FA_D LA | a5 -> RE:R | a3355 -> DO DO RE RE | d223353 -> MI MI FA:C FA:C SOL:C FA:C
+    | a3355 | d223353 | a3355 | d2233 -> MI MI FA FA | SOL2 SOL2 SOL2 SOL2 | SOL SOL SOL:C SOL:C SOL:C SOL:C
+    | a3355 | d223353 | a3355 | d223353 | a3355 | d2233
+    | d5555 -> SOL SOL SOL SOL x2 | e553a33 -> LA LA:C SOL:C LA:C LA:C DO:C DO:C | a5535355 -> RE RE:C DO:C RE:C DO:C RE:C RE:C | e332335a2 -> SOL SOL:C FA_D:C SOL:C SOL:C LA:C SI:C
+    | a3303032 -> DO DO:C LA:C DO:C LA:C DO:C(n1) SI:C(n2) | e553a33 | a5535355 | e332335a2 | a330303 -> a3303032 (MODIF SUPPR n2 et MODIF DUREE n1 -> N)
+    | SI2 LA2 SOL_D2:C SOL_D2:C FA_D2:C FA_D2:C | MI RE DO_D:C DO_D:C SI:C SI:C | LA SOL FA_D:C FA_D:C LA:C LA:C | a5 | a3355 | d223353
+    | a3355 | d223353 | a3355 | d2233 | d5555 x2
+    | e553a33 | a5535355 | e332335a2 | a3303032 | e553a33
+    | a5535355 | e332335a2 | a330303 3/4 75 bpm | a2e2 -> SI:N_P SOL:N_P 70 bpm | e0a2 -> MI:N_P SI:N_P | a0e0 -> LA:N_P MI:N_P
+    | d0a0 -> RE:N_P LA:N_P 85 bpm | a2e2 | e0a2 | a0e0 | d0a0 100 bpm | a2e2 | e0a2 | a0e0 | d0a0
+    110 bpm | a2e2 | e0a2 | a0e0 4/4 | SOL SOL:C:0.66 SOL SOL:C:1.66 SOL:BL | a3355 | d223353 | a3355
+    | d223353 | a3355 | d2233 | d5555 x2 | e553a33
+    | a5535355 | e332335a2 | a3303032 | e553a33 | a5535355
+    | e332335a2 | a330303 | e553a33 | a5535355 | e332335a2
+    | a3303032 | e553a33 | a5535355 | e332335a2 | a330303
+}
+
+instrument GUITARE ELECTRIQUE DISTORSION
+{
+    | SILENCE:R x21
+    | DO:N_P DO:C RE RE:C DO:C
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

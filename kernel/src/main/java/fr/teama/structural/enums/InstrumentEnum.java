@@ -10,6 +10,7 @@ public enum InstrumentEnum {
     ELECTRIC_GUITAR_OVERDRIVE(29),
     BASS(32),
     ELECTRIC_BASS_PICKED(34),
+    ELECTRIC_BASS_FRETLESS(35),
     VIOLIN(40),
     TRUMPET(56),
     TROMBONE(57),

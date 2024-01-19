@@ -24,15 +24,15 @@ Follow the instructions in the [README](https://github.com/BenoitGAUDET38/dsl-te
 
 ```
 ### Table of symbols
-| Usage | Notation |
-|:-----:|:--------:|
-|   Definition between an element and its syntax    |    :      |
-|   Termination                                     |     ;     |
-|   Definition between a variable and its value     |     =     |
-|   Grouping                                        |  (...)    |
-|    Alternation                                    |     \|    |
-|    Optional repetition (once or more)             |    +      |
-|    Optional element (once or none)                |    ?      |
+|                     Usage                     | Notation  |
+|:---------------------------------------------:|:---------:|
+|  Definition between an element and its syntax |     :     |
+|                  Termination                  |     ;     |
+|  Definition between a variable and its value  |     =     |
+|                   Grouping                    |   (...)   |
+|                  Alternation                  |    \|     |
+|      Optional repetition (once or more)       |     +     |
+|        Optional element (once or none)        |     ?     |
 
 ### Script example
 ```java
