@@ -1,6 +1,13 @@
 # MidiML ANTLR4 implementation
 
-  * Author: Ayoub IMAMI, Benoit GAUDET, Antoine BUQUET, Mourad KARRAKCHOU
+---
+## Team A
+### Authors
+- [Antoine BUQUET](https://github.com/antoinebqt)
+- [Benoit GAUDET](https://github.com/BenoitGAUDET38)
+- [Ayoub IMAMI](https://github.com/AyoubIMAMI)
+- [Mourad KARRAKCHOU](https://github.com/MouradKarrakchou)
+---
   * Version: 1.0
 
 ## Organization
@@ -16,23 +23,45 @@
 
 We consider here that the current directory is the `antlr` directory.
 
-  1. Make sure the MidiML JVM kernel is installed in your local maven repository
-     * `cd ../kernel`
-     * `mvn clean install`
-  2. Then, compile the ANTLR code
-     * `cd ../antlr`
-     * `mvn clean package`
+  1. Make sure the MidiML JVM kernel is installed in your local maven repository:
+     * ```
+       cd ../kernel
+       ```
+     * ```
+       mvn clean install
+       ```
+  2. Then, compile the ANTLR code:
+     * ```
+       cd ../antlr
+       ```
+     * ```
+       mvn clean package
+       ```
   3. Run the compiler using the `exec` plugin:
      * Basic scenarios:
-       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/billieJean.midiml"`
-       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/loveIsAll.midiml"`
+       * ```
+         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/billieJean.midiml"
+         ```
+       * ```
+         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/loveIsAll.midiml"
+         ```
      * Test scenarios:
-       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testChangeTempoAndRythme.midiml"`
-       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testMultipleNotes.midiml"`
-       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testMultipleInstruments.midiml"`
-       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testOctave.midiml"`
-       * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testReusedBars.midiml"`
-    
+       * ```
+         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testChangeTempoAndRythme.midiml"
+         ```
+       * ```
+         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testMultipleNotes.midiml"
+         ```
+       * ```
+         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testMultipleInstruments.midiml"
+         ```
+       * ```
+         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testOctave.midiml"
+         ```
+       * ```
+         mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/testReusedBars.midiml"
+         ```
+   4. Once the compiler ran, the `.mid` file will be generated in the `output-midi` [folder](https://github.com/BenoitGAUDET38/dsl-team-a-mml/tree/main/antlr/output-midi).
 ## Code Description
 
 ### The G4 Grammar
