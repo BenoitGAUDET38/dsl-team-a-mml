@@ -52,7 +52,8 @@ instrument GUITARE ELECTRIQUE DISTORSION
     | g55775 -> DO:N_P DO:C RE RE:C DO:C | g55777 -> DO:N_P DO:C RE RE:C RE:C | g77 -> RE:BL_P RE:3.0 | g5545497 -> DO DO:C SI2:C DO:C SI2:C MI:C RE:C | g55775 | g55777
     | g775 -> RE:BL_P RE:C:3.0 DO:C:3.5 | g5 -> DO:R | silence x12 | g55775
     | g55777 | g77 | g5545497 | g55775 | g55777 | g775
-    | g5 3/4 75 bpm | silence2 -> SILENCE:BL_P 70 bpm | silence2 x3 85 bpm | silence2 x4 100 bpm | silence2 x4 110 bpm | FA_D:D_C(n1) MI:D_C RE:D_C FA_D:D_C(n1) MI:D_C RE:D_C FA_D:D_C(n1) MI:D_C RE:D_C FA_D:D_C(n1) MI:D_C RE:D_C
+    | g5 3/4 75 bpm | silence2 -> SILENCE:BL_P 70 bpm | silence2 x3 85 bpm | silence2 x4 100 bpm | silence2 x4 110 bpm | bridge -> FA_D:D_C(n1) MI:D_C(n2) RE:D_C(n3) FA_D:D_C(n1) MI:D_C(n2) RE:D_C(n3) FA_D:D_C(n1) MI:D_C(n2) RE:D_C(n3) FA_D:D_C(n1) MI:D_C(n2) RE:D_C(n3)
+    | bridge (MODIF NOTE n1 -> SOL_D et MODIF NOTE n2 -> FA_D et MODIF NOTE n3 -> MI) | bridge (MODIF NOTE n1 -> LA et MODIF NOTE n2 -> SOL et MODIF NOTE n3 -> FA_D) 4/4 | RE:R | silence x8
 }
 
 
