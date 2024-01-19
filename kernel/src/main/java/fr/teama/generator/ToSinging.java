@@ -81,6 +81,7 @@ public class ToSinging extends Visitor<StringBuffer> {
             String filename = appName.isPresent() ? appName.get() + ".mid" : "default.mid";
             File midiFile = new File(outputDirectory, filename);
             MidiSystem.write(sequence, 1, midiFile);
+            System.out.println("File generated successfully: \n"+midiFile.getAbsolutePath());
             sequencer.setSequence(sequence);
             sequencer.start();
 
@@ -90,6 +91,8 @@ public class ToSinging extends Visitor<StringBuffer> {
 
             sequencer.stop();
             sequencer.close();
+
+
         } catch (InvalidMidiDataException | MidiUnavailableException | InterruptedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

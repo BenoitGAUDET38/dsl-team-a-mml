@@ -53,6 +53,8 @@ public class Main {
         Visitor codeGenerator = new ToSinging();
         System.out.println("Generating music...");
         theApp.accept(codeGenerator);
+        System.out.println("Successful");
+
         //System.out.println(codeGenerator.getResult());
     }
 
