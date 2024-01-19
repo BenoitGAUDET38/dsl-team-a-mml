@@ -13,5 +13,20 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <dependencies>
+        <!-- JLayer for MP3 decoding -->
+        <dependency>
+            <groupId>javazoom</groupId>
+            <artifactId>jlayer</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <!-- JFugue for MIDI processing -->
+        <dependency>
+            <groupId>jfugue</groupId>
+            <artifactId>jfugue</artifactId>
+            <version>5.0.9</version>
+        </dependency>
+    </dependencies>
 
 </project>
