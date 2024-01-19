@@ -161,5 +161,5 @@ instrument VIOLON
 Frequently, certain bars exhibit variations from previously defined ones.
 Therefore, it is valuable to enable users to define a new bar based on an existing one.
 
-## Addon
-
+## Addon: autocompletion Visual Studio Code extension
+This extension displays suggested options as users type, and facilitating the completion of entire terms by default or using just the initial letters.
