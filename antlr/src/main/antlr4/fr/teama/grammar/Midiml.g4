@@ -35,7 +35,7 @@ tracks          :   instrument+;
  *****************/
 
 INSTRUMENT      :   'BATTERIE' | 'PIANO' | 'XYLOPHONE' | 'ACCORDEON' | 'HARMONICA' | 'GUITARE' | 'GUITARE ELECTRIQUE DISTORSION' | 'CONTREBASSE' | 'GUITARE BASSE MEDIATOR' | 'VIOLON' | 'TROMPETTE' | 'TROMBONE' | 'SAXOPHONE ALTO' | 'CLARINETTE' | 'FLUTE' | 'WHISTLE' | 'OCARINA' | 'BANJO';
-CLASSIQUENOTE   :   SILENCE | 'DO' | 'DO_D'| 'RE' | 'RE_D' | 'MI' | 'FA' | 'FA_D' | 'SOL' | 'SOL_D' | 'LA' | 'LA_D' | 'SI';
+CLASSIQUENOTE   :   SILENCE | 'DO' | 'DO_D'| 'RE' | 'RE_D' | 'RE_B' | 'MI' | 'MI_B' | 'FA' | 'FA_D' | 'SOL' | 'SOL_B' | 'SOL_D' | 'LA' | 'LA_B' | 'LA_D' | 'SI' | 'SI_B' |;
 OCTAVE          :   '-2' | '-1' | '1' | '2' | '3' | '4' | '5' | '6' | '7';
 BATTERIENOTE    :   SILENCE | 'BD' | 'SD' | 'CH' | 'HFT' | 'PH' | 'LT' | 'OH' | 'LMT' | 'HMT' | 'CC' | 'HT' | 'RC' | 'MA';
 DUREE           :   'N' | 'BL' | 'C' | 'D_C' | 'N_P' | 'BL_P' | 'C_P' | 'R';
