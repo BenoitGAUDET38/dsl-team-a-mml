@@ -57,7 +57,7 @@ public class ToSinging extends Visitor<StringBuffer> {
             Set<Integer> unityTimeValues= new HashSet<>();
             app.getTracks().forEach(track -> track.getBars().forEach(bar -> {
                 if (bar instanceof NormalBar) {
-                    unityTimeValues.add(((NormalBar) bar).getUnityTimeValue());
+                    unityTimeValues.add(bar.getUnityTimeValue());
                 }
             }));
             for (int r : unityTimeValues) {
@@ -79,7 +79,7 @@ public class ToSinging extends Visitor<StringBuffer> {
                 outputDir.mkdirs();
             }
 
-            String filename = appName.isPresent() ? appName.get() + ".mid" : "default.mid";
+            String filename = appName.map(s -> s + ".mid").orElse("default.mid");
             File midiFile = new File(outputDirectory, filename);
             MidiSystem.write(sequence, 1, midiFile);
             System.out.println("File generated successfully: \n"+midiFile.getAbsolutePath());
@@ -94,9 +94,7 @@ public class ToSinging extends Visitor<StringBuffer> {
             sequencer.close();
 
 
-        } catch (InvalidMidiDataException | MidiUnavailableException | InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (InvalidMidiDataException | MidiUnavailableException | InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -163,7 +161,6 @@ public class ToSinging extends Visitor<StringBuffer> {
         if (reusedBar.getBar() instanceof NormalBar) {
             NormalBar normalBar = (NormalBar) ((NormalBar) reusedBar.getBar()).clone();
             initializeBarNotesTick(normalBar.getNotes());
-//            normalBar.setNotes(initializeBarNotesTick(normalBar.getNotes()));
             reusedBar.getManipulations().forEach(manipulation -> manipulation.apply(normalBar));
 
             normalBar.setTempo(reusedBar.getTempo());
@@ -182,15 +179,14 @@ public class ToSinging extends Visitor<StringBuffer> {
         return normalBar;
     }
 
-    private List<Note> initializeBarNotesTick(List<Note> notes){
+    private void initializeBarNotesTick(List<Note> notes){
         int tick = 0;
         for (Note note : notes) {
             if (note.getTick().isEmpty()) {
                 note.setTick(Optional.of(tick));
-                tick += note.getNoteDuration().getDuration()*Math.pow(2, currentUnityTimeValue/4 - 1);
+                tick += (int) (note.getNoteDuration().getDuration()*Math.pow(2, (double) currentUnityTimeValue /4 - 1));
             }
         }
-        return notes;
     }
 
     @Override
@@ -211,7 +207,7 @@ public class ToSinging extends Visitor<StringBuffer> {
         currentBar = normalBar;
         tickMultiplier = globalUnityTimeValue / currentBar.getUnityTimeValue();
         normalBar.getNotes().forEach(note -> note.accept(this));
-        currentBarTick += (normalBar.numberOfTicksInBar()) * tickMultiplier;
+        currentBarTick += (int) ((normalBar.numberOfTicksInBar()) * tickMultiplier);
     }
 
     private void verifyValidityOfBar(NormalBar normalBar) throws InconsistentBarException {

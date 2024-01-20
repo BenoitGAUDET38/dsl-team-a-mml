@@ -19,24 +19,14 @@
   * The `src/main/java` directory contains the compiler code
 
 
-## Running the example
+## Running the scenarios
 
 We consider here that the current directory is the `antlr` directory.
 
   1. Make sure the MidiML JVM kernel is installed in your local maven repository:
-     * ```
-       cd ../kernel
-       ```
-     * ```
-       mvn clean install
-       ```
+     * `cd ../kernel; mvn clean install`
   2. Then, compile the ANTLR code:
-     * ```
-       cd ../antlr
-       ```
-     * ```
-       mvn clean package
-       ```
+     * `cd ../antlr; mvn clean package`
   3. Run the compiler using the `exec` plugin in a bash terminal:
      * Basic scenarios:
        * `mvn exec:java -Dexec.cleanupDaemonThreads=false -Dexec.args="scenarios/billieJean.midiml"`

@@ -3,7 +3,6 @@ package fr.teama.structural;
 import fr.teama.exceptions.InvalidTickException;
 import fr.teama.generator.Visitable;
 import fr.teama.generator.Visitor;
-import fr.teama.structural.enums.ClassicNoteEnum;
 import fr.teama.structural.enums.NoteDurationEnum;
 
 import java.util.Optional;
@@ -21,33 +20,11 @@ public class Note extends NamedElement implements Visitable, Cloneable {
         this.noteDuration = noteDuration;
     }
 
-
-    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, String name) {
-        this.noteNumber = noteNumber;
-        this.noteDuration = noteDuration;
-        setName(name);
-    }
-
-    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int tick, String name) throws InvalidTickException {
-        this.noteDuration = noteDuration;
-        this.noteNumber = noteNumber;
-        this.tick = Optional.of(tick);
-        setName(name);
-    }
     public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int tick) throws InvalidTickException {
         this.noteDuration = noteDuration;
         this.noteNumber = noteNumber;
         this.tick = Optional.of(tick);
     }
-
-    public Note(NoteNumber noteNumber, NoteDurationEnum noteDuration, int tick, int octave, String name) throws InvalidTickException {
-        this.noteDuration = noteDuration;
-        this.noteNumber = noteNumber;
-        this.tick = Optional.of(tick);
-        this.octave = octave;
-        setName(name);
-    }
-
 
     public NoteDurationEnum getNoteDuration() {
         return this.noteDuration;

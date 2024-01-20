@@ -14,10 +14,7 @@ import fr.teama.structural.manipulations.NoteDurationManipulation;
 import fr.teama.structural.manipulations.NoteNumberManipulation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 public class ModelBuilder extends MidimlBaseListener {
 
@@ -44,7 +41,6 @@ public class ModelBuilder extends MidimlBaseListener {
 
     private List<Track> tracks;
     private List<Bar> bars;
-    private Map<String, Bar> reusableBars;
     private int currentTempo = 120;
     private int currentResolution = 4;
     private int currentUnityTimeValue = 4;
@@ -60,7 +56,6 @@ public class ModelBuilder extends MidimlBaseListener {
         built = false;
         theApp = new App();
         tracks = new ArrayList<>();
-        reusableBars = new HashMap<>();
     }
     @Override
     public void exitRoot(MidimlParser.RootContext ctx) {
@@ -172,7 +167,6 @@ public class ModelBuilder extends MidimlBaseListener {
 
     @Override
     public void enterBar(MidimlParser.BarContext ctx) {
-        //if track instanceof TrackPiano handle it like piano with note if it is drum handle it like drum with drumnote
         NormalBar bar = new NormalBar(currentTempo, currentResolution, currentUnityTimeValue);
         if (ctx.name != null) {
             bar.setName(ctx.name.getText());
@@ -201,16 +195,13 @@ public class ModelBuilder extends MidimlBaseListener {
     private Note createNoteFromContext(MidimlParser.NoteSimpleContext noteSimpleContext) {
         NoteNumber noteNumber;
         int octaveToAdd = 0;
-        switch (instrument) {
-            case "BATTERIE":
-                noteNumber = DrumNoteEnum.valueOf(noteSimpleContext.note.getText());
-                break;
-            default:
-                noteNumber = ClassicNoteEnum.valueOf(noteSimpleContext.note.getText());
-                if (noteNumber.getNoteNumber() != -1 && noteSimpleContext.octave != null) {
-                    octaveToAdd = (Integer.parseInt(noteSimpleContext.octave.getText()));
-                }
-                break;
+        if (instrument.equals("BATTERIE")) {
+            noteNumber = DrumNoteEnum.valueOf(noteSimpleContext.note.getText());
+        } else {
+            noteNumber = ClassicNoteEnum.valueOf(noteSimpleContext.note.getText());
+            if (noteNumber.getNoteNumber() != -1 && noteSimpleContext.octave != null) {
+                octaveToAdd = (Integer.parseInt(noteSimpleContext.octave.getText()));
+            }
         }
         // Default value with NOIRE
         NoteDurationEnum noteDuration;
@@ -291,13 +282,10 @@ public class ModelBuilder extends MidimlBaseListener {
                 manipulations.add(new NoteDurationManipulation(manipulationContext.modifDuration().noteName.getText(), NoteDurationEnum.valueOf(manipulationContext.modifDuration().duration.getText())));
             } else if (manipulationContext.modifNumber() != null) {
                 NoteNumber noteNumber;
-                switch (instrument) {
-                    case "BATTERIE":
-                        noteNumber = DrumNoteEnum.valueOf(manipulationContext.modifNumber().number.getText());
-                        break;
-                    default:
-                        noteNumber = ClassicNoteEnum.valueOf(manipulationContext.modifNumber().number.getText());
-                        break;
+                if (instrument.equals("BATTERIE")) {
+                    noteNumber = DrumNoteEnum.valueOf(manipulationContext.modifNumber().number.getText());
+                } else {
+                    noteNumber = ClassicNoteEnum.valueOf(manipulationContext.modifNumber().number.getText());
                 }
                 manipulations.add(new NoteNumberManipulation(manipulationContext.modifNumber().noteName.getText(), noteNumber));
             }
