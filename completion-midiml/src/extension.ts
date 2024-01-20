@@ -2,10 +2,10 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-const notes = ['DO', 'DO_D', 'RE', 'RE_D', 'MI', 'FA', 'FA_D', 'SOL', 'SOL_D', 'LA', 'LA_D', 'SI'];
+const notes = ['DO', 'DO_D', 'RE', 'RE_D', 'RE_B', 'MI', 'MI_B', 'FA', 'FA_D', 'SOL', 'SOL_B', 'SOL_D', 'LA', 'LA_B', 'LA_D', 'SI', 'SI_B', 'BD', 'SD', 'CH', 'HFT', 'PH', 'LT', 'OH', 'LTM', 'HTML', 'CC', 'HT', 'RC', 'MA'];
 const noteDuration = ['D_C', 'C', 'C_P', 'P', 'N', 'N_P', 'BL', 'BL_P', 'R'];
-const instrumentOptions = ['PIANO', 'BATTERIE', 'XYLOPHONE', 'ACCORDEON', 'HARMONICA', 'GUITARE', 'CONTREBASSE', 'VIOLON', 'TROMPETTE', 'TROMBONE', 'ALTO', 'CLARINETTE', 'FLUTE', 'WHISTLE', 'OCARINA', 'BANJO'];
-const rythmeOptions = ['3/4', '4/4'];
+const instrumentOptions = ['PIANO', 'BATTERIE', 'XYLOPHONE', 'ACCORDEON', 'HARMONICA', 'GUITARE', 'GUITARE ELECTRIQUE DISTORSION', 'CONTREBASSE', 'GUITARE BASSE MEDIATOR', 'GUITARE BASSE FRETLESS', 'VIOLON', 'TROMPETTE', 'TROMBONE', 'SAXOPHONE ALTO', 'CLARINETTE', 'FLUTE', 'WHISTLE', 'OCARINA', 'BANJO'];
+const rythmeOptions = ['3/4', '4/4', '7/8', '8/8'];
 const tempoOptions = ['80 bpm', '100 bpm', '120 bpm'];
 const modificationOptions = ['NOTE', 'AJOUT', 'SUPPR', 'DUREE'];
 
